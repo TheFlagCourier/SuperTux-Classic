@@ -1,7 +1,7 @@
 extends Area2D
 
 onready var hitbox = $CollisionShape2D
-onready var tween = $Tween
+onready var tween = create_tween()
 
 export var master_pull_strength = 1.0
 export var pull_strength = Vector2(300, 150)
@@ -15,7 +15,9 @@ export var appear_time = 3.0
 
 func appear(time = appear_time, size = appear_size):
 	shockwave_anim.play("appear")
-	tween.interpolate_property(hitbox.shape, "radius", 42, size, time, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.tween_property(hitbox.shape, "radius", size, time)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
 	tween.start()
 	hitbox.shape.radius = 42
 	update_sprite()
@@ -24,7 +26,9 @@ func dissipate():
 	shockwave_anim.stop()
 	shockwave_anim.play("stop")
 	tween.stop_all()
-	tween.interpolate_property(hitbox.shape, "radius", hitbox.shape.radius, 1, 0.25, Tween.TRANS_SINE, Tween.EASE_IN)
+	tween.tween_property(hitbox.shape, "radius", 1, 0.25)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN)
 	tween.start()
 	yield(tween, "tween_completed")
 	queue_free()

@@ -24,7 +24,7 @@ var current_song_node = null
 var songs = []
 var custom_song_loop_offset = 0.0
 
-onready var tween = $Tween
+onready var pitch = create_tween()
 onready var custom_song = $Custom
 
 func _ready():
@@ -129,15 +129,19 @@ func speed_up():
 
 func pitch_slide_down():
 	if current_song_node != null:
-		tween.stop_all()
-		tween.interpolate_property(current_song_node, "pitch_scale", 1, 0.1, 2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.start()
+		pitch.stop_all()
+		pitch.set_trans(Tween.TRANS_LINEAR)
+		pitch.set_ease(Tween.EASE_IN_OUT)
+		pitch.tween_property(current_song_node, "pitch_scale", 0.1, 2)
+		pitch.start()
 
 func pitch_slide_up():
 	if current_song_node != null:
-		tween.stop_all()
-		tween.interpolate_property(current_song_node, "pitch_scale", 0.1, 1, 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.start()
+		pitch.stop_all()
+		pitch.set_trans(Tween.TRANS_LINEAR)
+		pitch.set_ease(Tween.EASE_IN_OUT)
+		pitch.tween_property(current_song_node, "pitch_scale", 1, 0.5)
+		pitch.start()
 
 # If true, applies filters to the music. Used for Edit Mode in the level editor.
 func set_editor_music(enabled : bool):

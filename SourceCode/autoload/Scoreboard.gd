@@ -32,7 +32,6 @@ onready var player_initial_state = initial_state # What powerup state Tux has wh
 
 onready var level_timer = $LEVELTIMER
 onready var hud_node = $Control
-onready var tween = $Tween
 onready var coins_text = $Control/CoinCounter/Coins
 onready var lives_counter = $Control/LifeCounter
 onready var lives_text = $Control/LifeCounter/Lives
@@ -158,29 +157,22 @@ func game_over():
 	var screen_center = get_viewport().size * 0.5 / shrink
 	screen_center += Vector2(-50, 30) / shrink
 	
-	tween.interpolate_property(lives_counter,
-	"rect_position",
-	lives_counter.rect_position,
-	screen_center,
-	0.75,
-	Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	
-	tween.start()
-	
-	yield(tween, "tween_completed")
+	var lives_tween = create_tween()
+	lives_tween.set_ease(Tween.EASE_IN_OUT)
+	lives_tween.set_trans(Tween.TRANS_SINE)
+	lives_tween.tween_property(lives_counter, "rect_position", screen_center, 0.75)
+	yield(lives_tween, "finished")
 	yield(get_tree().create_timer(0.5), "timeout")
 	
 	# ============================================================
 	# Then, make the life value increase to 10
 	# while playing the 1up sound effect
 	sfx.play("1up")
-	tween.interpolate_property(self, "lives", 0, game_over_lives,
-	0.5,
-	Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	
-	tween.start()
-	
-	yield(tween, "tween_completed")
+	var one_up_tween = create_tween()
+	one_up_tween.set_ease(Tween.EASE_OUT)
+	one_up_tween.set_trans(Tween.TRANS_LINEAR)
+	one_up_tween.tween_property(self, "lives", game_over_lives, 0.5)
+	yield(one_up_tween, "finished")
 	yield(get_tree().create_timer(1), "timeout")
 	
 	# ============================================================

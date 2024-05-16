@@ -35,7 +35,7 @@ onready var attack_timer = $AttackTimer
 onready var chomp_hitbox = $ChompHitbox
 
 onready var health = max_health
-onready var tween = $Tween
+onready var tween = create_tween()
 
 onready var rng = RandomNumberGenerator.new()
 onready var sprite = $Control
@@ -161,8 +161,9 @@ func chomp():
 	if state_machine.state != "chomp": return
 	
 	var chomp_time = 1 - anger * 0.4 - int(phase == 2) * 0.25
-	
-	tween.interpolate_property(self, "position", position, player.position, chomp_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.tween_property(self, "position", player.position, chomp_time)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.start()
 	yield(get_tree().create_timer(chomp_time * 0.75, false), "timeout")
 	
@@ -390,7 +391,9 @@ func phase_two_transition():
 	
 	anim_player.play("angry")
 	var pos_y = _initial_position.y - Global.TILE_SIZE * 4
-	tween.interpolate_property(self, "position:y", position.y, pos_y, 6, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.tween_property(self, "position:y", pos_y, 6)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
 	tween.start()
 
 func _on_AttackTimer_timeout():

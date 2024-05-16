@@ -425,7 +425,9 @@ static func copy_directory_recursively(p_from : String, p_to : String) -> int:
 		var file_name = directory.get_next()
 		while (file_name != "" && file_name != "." && file_name != ".."):
 			if directory.current_is_dir():
-				copy_directory_recursively(p_from + "/" + file_name, p_to + "/" + file_name)
+				if !copy_directory_recursively(p_from + "/" + file_name, p_to + "/" + file_name) == OK:
+					push_error("Error copying recursively from " + p_from + " to " + p_to)
+					return -5
 			else:
 				directory.copy(p_from + "/" + file_name, p_to + "/" + file_name)
 			file_name = directory.get_next()

@@ -19,7 +19,7 @@ extends Camera2D
 
 onready var host = get_parent()
 onready var noise = OpenSimplexNoise.new()
-onready var tween = $Tween
+onready var tween = create_tween()
 var noise_y = 0
 
 var intensity = 0
@@ -71,5 +71,7 @@ func camera_shake(new_value, dampening = shake_dampen_default):
 
 func smooth_zoom(zoom_level : float, zoom_duration : float):
 	var zoom_vec = Vector2.ONE * zoom_level
-	tween.interpolate_property(self, "zoom", zoom, zoom_vec, zoom_duration, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.tween_property(self, "zoom", zoom_vec, zoom_duration)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
 	tween.start()

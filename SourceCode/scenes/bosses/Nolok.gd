@@ -44,7 +44,7 @@ onready var sfx = $SFX
 onready var state_machine = $StateMachine
 onready var attack_timer = $AttackCooldown # Nolok will do an attack once this timer depletes.
 onready var ai = $AI
-onready var tween = $Tween
+onready var tween = create_tween()
 onready var invulnerable_timer = $InvulnerableTimer
 onready var health = initial_health
 
@@ -127,9 +127,9 @@ func single_homing_jump(jump_duration, to_nearest_corner = false):
 	sprite.play("jump")
 	jump(8, jump_duration)
 	
-	tween.interpolate_property(self, "position:x",
-	null, jump_target_position,
-	jump_duration - 0.025, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.tween_property(self, "position:x", jump_target_position, jump_duration - 0.025)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
 	
 	tween.start()
 	
