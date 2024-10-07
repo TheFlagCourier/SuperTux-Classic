@@ -18,8 +18,8 @@
 extends Area2D
 
 var collectable = true
-onready var destroy_timer = $DestroyTimer
-onready var sfx = $SFX
+@onready var destroy_timer = $DestroyTimer
+@onready var sfx = $SFX
 
 func _on_Coin_body_entered(body):
 	if body.is_in_group("players"):

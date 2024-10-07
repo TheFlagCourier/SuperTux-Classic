@@ -4,18 +4,18 @@ var parameter_owner_object : Node = null # Base object which CONTAINS the desire
 var parameter_name = null
 var parameter_type = null
 
-onready var label = $Label
-onready var number_edit = $SpinBox
-onready var string_edit = $LineEdit
-onready var color_edit = $ColorPickerButton
-onready var bool_edit = $CheckBox
-onready var dropdown_edit = $OptionButton
-onready var level_path_edit = $SelectLevel
-onready var dialog_select_level = $SelectLevelDialog
+@onready var label = $Label
+@onready var number_edit = $SpinBox
+@onready var string_edit = $LineEdit
+@onready var color_edit = $ColorPickerButton
+@onready var bool_edit = $CheckBox
+@onready var dropdown_edit = $OptionButton
+@onready var level_path_edit = $SelectLevel
+@onready var dialog_select_level = $SelectLevelDialog
 
 var dropdown_values : Dictionary = {}
 
-onready var editor_nodes = [
+@onready var editor_nodes = [
 	number_edit,
 	string_edit,
 	color_edit,
@@ -34,7 +34,7 @@ func init(owner_object : Node, param_name : String, param_type : int):
 	parameter_type = param_type
 
 func _ready():
-	dialog_select_level.connect("level_opened", self, "level_selected")
+	dialog_select_level.connect("level_opened", Callable(self, "level_selected"))
 	
 	if !parameter_name or !parameter_type or !parameter_owner_object:
 		push_error("Error creating Parameter Editor. Missing parameter name, type, or owner object.")
@@ -62,7 +62,7 @@ func _update_parameter_value():
 			number_edit.step = 1
 			param_editor_ui_node = number_edit
 			
-		TYPE_REAL: # Float data type
+		TYPE_FLOAT: # Float data type
 			number_edit.rounded = false
 			number_edit.value = p_value
 			param_editor_ui_node = number_edit
@@ -80,7 +80,7 @@ func _update_parameter_value():
 				param_editor_ui_node = string_edit
 			
 		TYPE_BOOL:
-			bool_edit.pressed = p_value
+			bool_edit.button_pressed = p_value
 			param_editor_ui_node = bool_edit
 			
 		TYPE_COLOR:
@@ -125,7 +125,7 @@ func _get_parameter_value():
 func _set_parameter_value(new_value):
 	parameter_owner_object.set(parameter_name, new_value)
 	
-	if [TYPE_INT, TYPE_REAL].has(parameter_type):
+	if [TYPE_INT, TYPE_FLOAT].has(parameter_type):
 		_update_parameter_value()
 
 # ==================================================

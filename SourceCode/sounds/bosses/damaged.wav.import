@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/damaged.wav-8a7e564b0adc82bc7e89dd6c2f406350.sample"
+type="AudioStreamWAV"
+uid="uid://pk7fyvbgu6tg"
+path="res://.godot/imported/damaged.wav-8a7e564b0adc82bc7e89dd6c2f406350.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/damaged.wav"
-dest_files=[ "res://.import/damaged.wav-8a7e564b0adc82bc7e89dd6c2f406350.sample" ]
+dest_files=["res://.godot/imported/damaged.wav-8a7e564b0adc82bc7e89dd6c2f406350.sample"]
 
 [params]
 

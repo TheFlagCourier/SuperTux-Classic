@@ -17,14 +17,14 @@ extends Control
 
 enum IGNORE_BUTTON {Key,Pad,None}
 
-export var show_button_type_names = false
-export var action_to_remap = "move_left"
+@export var show_button_type_names = false
+@export var action_to_remap = "move_left"
 var being_changed = Global.REBIND_TYPE.None
 
-onready var keyrebind = $ButContainer/RemapButtonKey
-onready var gamepadrebind = $ButContainer/RemapButtonGamepad
-onready var label = $ButContainer/Label
-onready var button_type_text = [$ButContainer/RemapButtonKey/KeyboardText, $ButContainer/RemapButtonGamepad/ControllerText]
+@onready var keyrebind = $ButContainer/RemapButtonKey
+@onready var gamepadrebind = $ButContainer/RemapButtonGamepad
+@onready var label = $ButContainer/Label
+@onready var button_type_text = [$ButContainer/RemapButtonKey/KeyboardText, $ButContainer/RemapButtonGamepad/ControllerText]
 
 func _ready():
 	for label in button_type_text:
@@ -36,7 +36,7 @@ func _ready():
 func _set_button_text_to_control_action(ignore_which: int = IGNORE_BUTTON.None):
 	var keyact: InputEventKey = null
 	var padact: InputEventJoypadButton = null
-	var act_list = InputMap.get_action_list(action_to_remap)
+	var act_list = InputMap.action_get_events(action_to_remap)
 	
 	for i in act_list:
 		if i is InputEventKey:
@@ -46,7 +46,7 @@ func _set_button_text_to_control_action(ignore_which: int = IGNORE_BUTTON.None):
 	if ignore_which != IGNORE_BUTTON.Key:
 		keyrebind.flat = false
 		keyrebind.disabled = false
-		keyrebind.text = OS.get_scancode_string(keyact.scancode).to_upper()
+		keyrebind.text = OS.get_keycode_string(keyact.keycode).to_upper()
 	if ignore_which != IGNORE_BUTTON.Pad:
 		gamepadrebind.flat = false
 		gamepadrebind.disabled = false
@@ -67,7 +67,7 @@ func _input(event):
 			if event is InputEventKey:
 				self.being_changed = Global.REBIND_TYPE.None
 				var del_event: InputEvent
-				var list = InputMap.get_action_list(action_to_remap)
+				var list = InputMap.action_get_events(action_to_remap)
 				
 				for i in list:
 					if i is InputEventKey:
@@ -82,7 +82,7 @@ func _input(event):
 				if not Input.is_joy_button_pressed(0, event.button_index): return
 				self.being_changed = Global.REBIND_TYPE.None
 				var del_event: InputEvent
-				var list = InputMap.get_action_list(action_to_remap)
+				var list = InputMap.action_get_events(action_to_remap)
 				
 				for i in list:
 					if i is InputEventJoypadButton:

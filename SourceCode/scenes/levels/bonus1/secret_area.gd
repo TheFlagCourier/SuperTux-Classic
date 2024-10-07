@@ -1,6 +1,6 @@
 extends Area2D
 
-onready var anim_player = get_node_or_null("AnimationPlayer")
+@onready var anim_player = get_node_or_null("AnimationPlayer")
 
 func _on_SecretArea_body_entered(body):
 	if !anim_player: return

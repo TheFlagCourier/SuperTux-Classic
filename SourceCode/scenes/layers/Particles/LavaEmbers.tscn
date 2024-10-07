@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/particles/LavaEmbers.tres" type="Material" id=1]
-[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture" id=2]
+[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture2D" id=2]
 [ext_resource path="res://sounds/ambience_loops/AmbienceLava.mp3" type="AudioStream" id=3]
 [ext_resource path="res://scenes/layers/Ambience.tscn" type="PackedScene" id=4]
 
@@ -17,7 +17,7 @@ transform = Transform2D( 1, 0, 0, 1, 0, 128 )
 motion_scale = Vector2( 1.25, 1 )
 motion_mirroring = Vector2( 2048, 0 )
 
-[node name="Particles2D" type="Particles2D" parent="ParallaxLayer"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParallaxLayer"]
 material = SubResource( 5 )
 position = Vector2( 256, 720 )
 scale = Vector2( 0.2, 0.2 )
@@ -29,7 +29,7 @@ visibility_rect = Rect2( -7000, 0, 9000, -3000 )
 process_material = ExtResource( 1 )
 texture = ExtResource( 2 )
 
-[node name="Particles2D2" type="Particles2D" parent="ParallaxLayer"]
+[node name="Particles2D2" type="GPUParticles2D" parent="ParallaxLayer"]
 material = SubResource( 5 )
 position = Vector2( 1280, 720 )
 scale = Vector2( 0.2, 0.2 )
@@ -44,7 +44,7 @@ texture = ExtResource( 2 )
 motion_scale = Vector2( 1.5, 1 )
 motion_mirroring = Vector2( 2048, 0 )
 
-[node name="Particles2D" type="Particles2D" parent="ParallaxLayer2"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParallaxLayer2"]
 material = SubResource( 5 )
 position = Vector2( 256, 720 )
 scale = Vector2( 0.2, 0.2 )
@@ -56,7 +56,7 @@ visibility_rect = Rect2( -7000, 0, 9000, -3000 )
 process_material = ExtResource( 1 )
 texture = ExtResource( 2 )
 
-[node name="Particles2D2" type="Particles2D" parent="ParallaxLayer2"]
+[node name="Particles2D2" type="GPUParticles2D" parent="ParallaxLayer2"]
 material = SubResource( 5 )
 position = Vector2( 1280, 720 )
 scale = Vector2( 0.2, 0.2 )

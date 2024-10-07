@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/powerup_appear.wav-98f4e45ceafcbd6f565c2ada7962d956.sample"
+type="AudioStreamWAV"
+uid="uid://cmlcfwuw74t7a"
+path="res://.godot/imported/powerup_appear.wav-98f4e45ceafcbd6f565c2ada7962d956.sample"
 
 [deps]
 
 source_file="res://sounds/objects/powerup_appear.wav"
-dest_files=[ "res://.import/powerup_appear.wav-98f4e45ceafcbd6f565c2ada7962d956.sample" ]
+dest_files=["res://.godot/imported/powerup_appear.wav-98f4e45ceafcbd6f565c2ada7962d956.sample"]
 
 [params]
 

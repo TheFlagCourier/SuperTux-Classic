@@ -9,7 +9,7 @@ extends ParallaxLayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for child in get_children():
-		if child is Particles2D:
+		if child is GPUParticles2D:
 			child.emitting = true
 
 

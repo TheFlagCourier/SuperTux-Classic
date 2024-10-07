@@ -1,20 +1,20 @@
 extends Node2D
 
-export var editor_params = ["type"]
+@export var editor_params = ["type"]
 
-export var child_editor_params = {
+@export var child_editor_params = {
 	#"var1" : 10,
 	#"var2" : true,
 	#"var3" : "String",
 }
 
-onready var scene_node = null if get_child_count() == 0 else get_child(0)
-export var current_scene = "Snow" setget _update_current_scene
+@onready var scene_node = null if get_child_count() == 0 else get_child(0)
+@export var current_scene = "Snow": set = _update_current_scene
 
 var swappable_scenes = []
 var folder_of_swappable_scenes = null
 
-onready var type = [] setget _set_type, _get_type
+@onready var type = []: get = _get_type, set = _set_type
 
 func _ready():
 	if !is_in_group("swappables"):
@@ -30,7 +30,7 @@ func _get_swappable_scenes():
 	
 	if !folder_name: return
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	if dir.dir_exists(folder_name):
 		folder_of_swappable_scenes = folder_name
@@ -52,20 +52,20 @@ func swap_to_scene(scene_name : String):
 func _deferred_swap_to_scene(scene_name : String):
 	if !swappable_scenes.has(scene_name): return
 	
-	if !child_editor_params.empty():
+	if !child_editor_params.is_empty():
 		_load_child_editor_parameters()
 	
 	var scene_file = folder_of_swappable_scenes + scene_name + ".tscn"
 	if scene_node: scene_node.free()
 	scene_node = null
 	
-	var new_scene = load(scene_file).instance()
+	var new_scene = load(scene_file).instantiate()
 	add_child(new_scene)
 	new_scene.set_owner(self)
 	
 	scene_node = new_scene
 	
-	if child_editor_params.empty():
+	if child_editor_params.is_empty():
 		_load_child_editor_parameters()
 	else: _set_child_editor_parameters()
 
@@ -94,7 +94,7 @@ func _add_child_editor_parameters_into_list():
 	# Add the child editor parameters into the main editor parameters
 	# if they aren't already there yet.
 
-	if !child_editor_params.empty():
+	if !child_editor_params.is_empty():
 		
 		var first_item = child_editor_params.keys().front()
 		
@@ -139,11 +139,11 @@ func get(variable_name : String):
 	if child_editor_params.has(variable_name):
 		return _get_child_editor_param(variable_name)
 	
-	return .get(variable_name)
+	return super.get(variable_name)
 
 func set(variable_name : String, value):
 	if child_editor_params.has(variable_name):
 		_set_child_editor_param(variable_name, value)
 		return
 	
-	.set(variable_name, value)
+	super.set(variable_name, value)

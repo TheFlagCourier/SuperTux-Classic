@@ -1,19 +1,19 @@
 extends Button
 
-export var is_level = false
+@export var is_level = false
 
-export var world_folder_name = "" setget _update_world_folder
-export var level_filepath = "" setget _update_level_filepath
-export var deleteable = true
+@export var world_folder_name = "": set = _update_world_folder
+@export var level_filepath = "": set = _update_level_filepath
+@export var deleteable = true
 
 var world_name = ""
 var world_author = ""
 var world_levels = []
 var number_of_levels = 0
 
-onready var title = $Title
-onready var subtitle = $Subtitle
-onready var delete_button = get_node_or_null("Delete")
+@onready var title = $Title
+@onready var subtitle = $Subtitle
+@onready var delete_button = get_node_or_null("Delete")
 
 signal world_selected
 signal world_opened

@@ -17,7 +17,7 @@
 
 extends Node2D
 
-onready var host = get_parent()
+@onready var host = get_parent()
 
 func play(sound_to_play):
 	# If the player object is playing this sound,

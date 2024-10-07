@@ -2,14 +2,14 @@
 
 [ext_resource path="res://autoload/MobileControls.gd" type="Script" id=1]
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=2]
-[ext_resource path="res://images/touchscreen/joystick_base.png" type="Texture" id=3]
-[ext_resource path="res://images/touchscreen/pause_button.png" type="Texture" id=4]
-[ext_resource path="res://images/touchscreen/jump_button.png" type="Texture" id=5]
-[ext_resource path="res://images/touchscreen/joystick_stick_unpressed.png" type="Texture" id=6]
-[ext_resource path="res://images/touchscreen/joystick_stick_pressed.png" type="Texture" id=7]
-[ext_resource path="res://images/touchscreen/jump_button_down.png" type="Texture" id=8]
-[ext_resource path="res://images/touchscreen/action_button.png" type="Texture" id=9]
-[ext_resource path="res://images/touchscreen/action_button_down.png" type="Texture" id=10]
+[ext_resource path="res://images/touchscreen/joystick_base.png" type="Texture2D" id=3]
+[ext_resource path="res://images/touchscreen/pause_button.png" type="Texture2D" id=4]
+[ext_resource path="res://images/touchscreen/jump_button.png" type="Texture2D" id=5]
+[ext_resource path="res://images/touchscreen/joystick_stick_unpressed.png" type="Texture2D" id=6]
+[ext_resource path="res://images/touchscreen/joystick_stick_pressed.png" type="Texture2D" id=7]
+[ext_resource path="res://images/touchscreen/jump_button_down.png" type="Texture2D" id=8]
+[ext_resource path="res://images/touchscreen/action_button.png" type="Texture2D" id=9]
+[ext_resource path="res://images/touchscreen/action_button_down.png" type="Texture2D" id=10]
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 128.0
@@ -34,7 +34,7 @@ radius = 64.0
 extents = Vector2( 80, 24 )
 
 [node name="MobileControls" type="CanvasLayer"]
-pause_mode = 2
+process_mode = 3
 layer = 128
 script = ExtResource( 1 )
 
@@ -52,24 +52,24 @@ anchor_bottom = 1.0
 [node name="JoystickArea" type="Control" parent="Control/JoystickScale"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -176.0
-margin_right = 192.0
+offset_top = -176.0
+offset_right = 192.0
 
 [node name="Joystick" type="Control" parent="Control/JoystickScale/JoystickArea"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -64.0
-margin_top = -64.0
-margin_right = 64.0
-margin_bottom = 64.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
 
 [node name="JoystickButton" type="TouchScreenButton" parent="Control/JoystickScale/JoystickArea/Joystick"]
 normal = ExtResource( 3 )
 shape = SubResource( 4 )
 
-[node name="Stick" type="AnimatedSprite" parent="Control/JoystickScale/JoystickArea/Joystick"]
+[node name="Stick" type="AnimatedSprite2D" parent="Control/JoystickScale/JoystickArea/Joystick"]
 position = Vector2( 64, 64 )
 frames = SubResource( 3 )
 
@@ -86,18 +86,18 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -192.0
-margin_top = -320.0
+offset_left = -192.0
+offset_top = -320.0
 
 [node name="Jump" type="Control" parent="Control/ButtonsScale/ButtonsArea"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -160.0
-margin_top = -160.0
-margin_right = -32.0
-margin_bottom = -32.0
+offset_left = -160.0
+offset_top = -160.0
+offset_right = -32.0
+offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
 
@@ -111,10 +111,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -160.0
-margin_top = -288.0
-margin_right = -32.0
-margin_bottom = -160.0
+offset_left = -160.0
+offset_top = -288.0
+offset_right = -32.0
+offset_bottom = -160.0
 
 [node name="ActionButton" type="TouchScreenButton" parent="Control/ButtonsScale/ButtonsArea/Action"]
 normal = ExtResource( 9 )
@@ -124,18 +124,18 @@ shape = SubResource( 1 )
 [node name="PauseArea" type="Control" parent="Control"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -112.0
-margin_top = -17.0
-margin_right = 112.0
-margin_bottom = 89.0
+offset_left = -112.0
+offset_top = -17.0
+offset_right = 112.0
+offset_bottom = 89.0
 
 [node name="Pause" type="Control" parent="Control/PauseArea"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -80.0
-margin_top = 32.0
-margin_right = 80.0
-margin_bottom = 74.0
+offset_left = -80.0
+offset_top = 32.0
+offset_right = 80.0
+offset_bottom = 74.0
 
 [node name="PauseButton" type="TouchScreenButton" parent="Control/PauseArea/Pause"]
 normal = ExtResource( 4 )

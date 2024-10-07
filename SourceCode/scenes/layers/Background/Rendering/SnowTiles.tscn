@@ -3,7 +3,7 @@
 [ext_resource path="res://scenes/tilesets/LevelTiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scenes/layers/Background/Rendering/TileMapToImage.gd" type="Script" id=2]
 
-[node name="Renderer" type="Viewport"]
+[node name="Renderer" type="SubViewport"]
 size = Vector2( 999, 999 )
 transparent_bg = true
 render_target_v_flip = true

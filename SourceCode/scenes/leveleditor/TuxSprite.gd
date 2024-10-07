@@ -1,12 +1,12 @@
 extends Node2D
 
-onready var sprite_small = $TuxSmall
-onready var sprite_big = $TuxBig
-onready var sprite_worldmap_small = $TuxWorldmapSmall
-onready var sprite_worldmap_big = $TuxWorldmapBig
-onready var tux_sprites = [sprite_big, sprite_small, sprite_worldmap_small, sprite_worldmap_big]
+@onready var sprite_small = $TuxSmall
+@onready var sprite_big = $TuxBig
+@onready var sprite_worldmap_small = $TuxWorldmapSmall
+@onready var sprite_worldmap_big = $TuxWorldmapBig
+@onready var tux_sprites = [sprite_big, sprite_small, sprite_worldmap_small, sprite_worldmap_big]
 
-onready var sprite_colour = $SpriteColour
+@onready var sprite_colour = $SpriteColour
 
 var tux_state = 0
 

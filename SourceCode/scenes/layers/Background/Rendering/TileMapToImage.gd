@@ -1,6 +1,6 @@
-extends Viewport
+extends SubViewport
 
-onready var tilemap = $TileMap
+@onready var tilemap = $TileMap
 
 func _ready():
 	size = tilemap.get_used_rect().size * 32
@@ -12,7 +12,7 @@ func _process(delta):
 
 func takePhoto():
 	print("Snap")
-	yield(VisualServer,"frame_post_draw")
+	await RenderingServer.frame_post_draw
 	
 	var img2=get_viewport().get_texture().get_data()
 

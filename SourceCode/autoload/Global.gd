@@ -34,12 +34,12 @@ var current_scene = null
 var current_level = null
 var current_level_path = null
 
-var player = null setget player_set
+var player = null: set = player_set
 var spawn_position = null
 var TILE_SIZE = 32
 var base_gravity = 1 * pow(60, 2) / 3
-var gravity = 1 setget _update_gravity
-var fireballs_on_screen = 0 setget _change_fireball_count
+var gravity = 1: set = _update_gravity
+var fireballs_on_screen = 0: set = _change_fireball_count
 var auto_run = true
 
 var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]
@@ -50,7 +50,7 @@ var privacy_policy_url = "https://github.com/Alzter/SuperTux-Classic/blob/main/P
 
 var level_attributes_cache = {}
 
-var is_in_editor = false setget , _get_is_in_editor
+var is_in_editor = false: get = _get_is_in_editor
 
 var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 
@@ -82,7 +82,7 @@ func _ready():
 	
 	if !SaveManager.does_options_data_exist():
 		create_options_data()
-		yield(self, "options_data_created")
+		await self.options_data_created
 	
 	var options_data : Dictionary = SaveManager.get_options_data()
 	apply_options(options_data)
@@ -112,7 +112,7 @@ func goto_level_editor_main_menu():
 	goto_scene(level_editor_menu_scene)
 
 func goto_level_editor_world_menu(world_folder_name : String):
-	yield(call("goto_scene", level_editor_menu_scene), "completed")
+	await call("goto_scene", level_editor_menu_scene).completed
 	
 	emit_signal("open_world_menu", world_folder_name)
 
@@ -122,7 +122,7 @@ func goto_scene(path, loading_level = false):
 		return
 	
 	call_deferred("_deferred_goto_scene", path, loading_level)
-	yield(self, "scene_loaded")
+	await self.scene_loaded
 
 func _deferred_goto_scene(path, loading_level = false):
 	get_tree().paused = true
@@ -136,7 +136,7 @@ func _deferred_goto_scene(path, loading_level = false):
 	var s = ResourceLoader.load(path)
 	
 	# Instance the new scene.
-	current_scene = s.instance()
+	current_scene = s.instantiate()
 	
 	# Add it to the active scene, as child of root.
 	get_tree().get_root().add_child(current_scene)
@@ -169,7 +169,7 @@ func hitstop(time, shake_intensity = 0, shake_damping = 0.8):
 	if time > 0:
 		Global.can_pause = false
 		get_tree().paused = true
-		yield(get_tree().create_timer(time, true), "timeout")
+		await get_tree().create_timer(time, true).timeout
 		get_tree().paused = false
 		if pause_enabled: Global.can_pause = true
 
@@ -203,7 +203,7 @@ func create_options_data():
 		"auto_run" : true,
 	}
 	SaveManager.save_options_data(options_data)
-	yield(SaveManager, "save_completed")
+	await SaveManager.save_completed
 	print("Created Options Data")
 	emit_signal("options_data_created")
 
@@ -269,9 +269,9 @@ func get_all_children(node, array := []):
 
 func list_files_in_directory(path):
 	var files = []
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.open(path)
-	dir.list_dir_begin()
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 
 	while true:
 		var file = dir.get_next()
@@ -290,7 +290,7 @@ func load_level_editor_with_level(filepath_of_level_to_edit : String):
 		push_error("Level not found at path: " + filepath_of_level_to_edit)
 		return
 	
-	yield(call("goto_scene", level_editor_scene), "completed")
+	await call("goto_scene", level_editor_scene).completed
 	
 	UserLevels.current_level = filepath_of_level_to_edit
 	var editor = current_scene
@@ -400,7 +400,7 @@ func get_all_scene_files_in_folder(folder_name : String):
 	if !folder_name.ends_with("/"): folder_name = folder_name + "/"
 	
 	var object_file_list = []
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	if !dir.dir_exists(folder_name): return null
 	else:
@@ -414,14 +414,14 @@ func get_all_scene_files_in_folder(folder_name : String):
 	return object_file_list
 
 static func copy_directory_recursively(p_from : String, p_to : String) -> int:
-	var directory = Directory.new()
+	var directory = DirAccess.new()
 	if not directory.dir_exists(p_to):
 		directory.make_dir_recursive(p_to)
 	
 	var open_status = directory.open(p_from)
 	
 	if open_status == OK:
-		directory.list_dir_begin(true)
+		directory.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = directory.get_next()
 		while (file_name != "" && file_name != "." && file_name != ".."):
 			if directory.current_is_dir():
@@ -533,11 +533,11 @@ func sort_alphabetically(a, b):
 		
 		# If string A has a number at the end (e.g. "level27"),
 		# Store that number in string str_num_a (e.g. "27")
-		for character in a: if character.is_valid_integer(): end_num_a += character
+		for character in a: if character.is_valid_int(): end_num_a += character
 		
 		if end_num_a != "": a = a.trim_suffix(end_num_a)
 		
-		for character in b: if character.is_valid_integer(): end_num_b += character
+		for character in b: if character.is_valid_int(): end_num_b += character
 		if end_num_b != "": b = b.trim_suffix(end_num_b)
 		
 		# If both strings are the same with end numbers removed:
@@ -582,7 +582,7 @@ func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : boo
 		if [".mp3", ".ogg"].has(file_type):
 			
 			f.open(audio_file_path, f.READ)
-			buffer = f.get_buffer(f.get_len())
+			buffer = f.get_buffer(f.get_length())
 			f.close()
 		
 			if !buffer:
@@ -598,7 +598,7 @@ func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : boo
 				stream.set_data(buffer)
 			".ogg":
 				
-				stream = AudioStreamOGGVorbis.new()
+				stream = AudioStreamOggVorbis.new()
 				stream.set_data(buffer)
 			
 			# We have to do an entirely different method to load audio

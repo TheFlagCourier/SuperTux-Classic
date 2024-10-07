@@ -19,7 +19,7 @@
 
 extends Node
 
-export var music = {
+@export var music = {
 	"theme.mod" : "Title",
 	"Mortimers_chipdisko.mod" : "ChipDisko",
 	"cave.mod" : "Cave",

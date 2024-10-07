@@ -1,13 +1,13 @@
 extends Button
 
 #onready var control = $Control
-onready var sprite = $Control/Sprite
+@onready var sprite = $Control/Sprite2D
 
-var object_resource : Resource = null setget update_object_resource
+var object_resource : Resource = null: set = update_object_resource
 signal object_button_pressed(object_resource)
 signal update_tile_preview_texture(texture)
 
-export var object_icons_dir = "res://images/editor/object_icons/"
+@export var object_icons_dir = "res://images/editor/object_icons/"
 
 func update_object_resource(new_value):
 	object_resource = new_value
@@ -32,7 +32,7 @@ func update_object_resource(new_value):
 	#object.set_process_input(false)
 	#object.pause_mode = PAUSE_MODE_STOP
 
-func _get_object_icon(path : String, texture : Texture, user_data):
+func _get_object_icon(path : String, texture : Texture2D, user_data):
 	sprite.texture = texture
 
 func _on_TileButton_pressed():

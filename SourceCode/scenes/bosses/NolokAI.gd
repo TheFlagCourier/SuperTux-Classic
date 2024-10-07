@@ -17,8 +17,8 @@
 
 extends Node
 
-onready var host = get_parent()
-onready var state_machine = host.get_node("StateMachine")
+@onready var host = get_parent()
+@onready var state_machine = host.get_node("StateMachine")
 
 const ATTACKS = [
 	"iceblock_kick",
@@ -43,7 +43,7 @@ func execute_random_attack():
 		current_attack = "iceblock_kick"
 	else:
 		randomize()
-		current_attack = rand_range(0, movelist.size())
+		current_attack = randf_range(0, movelist.size())
 		current_attack = movelist[current_attack]
 	
 	# Then remove it from the array so we can't use it again

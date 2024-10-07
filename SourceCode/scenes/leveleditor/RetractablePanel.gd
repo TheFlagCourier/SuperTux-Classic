@@ -1,9 +1,9 @@
 extends Control
 
-onready var anim_player = $RetractAnimation
-onready var add_layer_dialog = get_node_or_null("AddLayerDialog")
+@onready var anim_player = $RetractAnimation
+@onready var add_layer_dialog = get_node_or_null("AddLayerDialog")
 
-export var retracted = false
+@export var retracted = false
 
 func _on_RetractTab_pressed():
 	if retracted: anim_player.play("expand")
@@ -22,7 +22,7 @@ func add_layer_dialog():
 	add_layer_dialog.popup()
 
 func _input(event):
-	if Input.is_key_pressed(KEY_CONTROL):
+	if Input.is_key_pressed(KEY_CTRL):
 		if Input.is_key_pressed(KEY_A):
 			if !Global.is_popup_visible():
 				add_layer_dialog()

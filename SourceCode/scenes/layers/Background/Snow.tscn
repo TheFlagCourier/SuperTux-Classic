@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://images/background/gradient.png" type="Texture" id=2]
-[ext_resource path="res://images/background/arcticmountains-sky.png" type="Texture" id=3]
+[ext_resource path="res://images/background/gradient.png" type="Texture2D" id=2]
+[ext_resource path="res://images/background/arcticmountains-sky.png" type="Texture2D" id=3]
 [ext_resource path="res://scenes/layers/Background/assets/TilemapSnow.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Shader" id=5]
@@ -45,7 +45,7 @@ motion_scale = Vector2( 0, 0 )
 motion_offset = Vector2( 0, -800 )
 motion_mirroring = Vector2( 1700, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxLayer2"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer2"]
 scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 centered = false
@@ -58,7 +58,7 @@ motion_mirroring = Vector2( 1065.6, 0 )
 [node name="SnowTiles" parent="SnowTilesBG" instance=ExtResource( 4 )]
 modulate = Color( 0.611765, 0.823529, 1, 0.509804 )
 material = SubResource( 2 )
-rect_scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.3, 0.3 )
 
 [node name="Gradients" type="Control" parent="."]
 anchor_right = 1.0
@@ -80,15 +80,15 @@ motion_mirroring = Vector2( 1776, 0 )
 [node name="SnowTiles" parent="SnowTilesFG" instance=ExtResource( 4 )]
 modulate = Color( 0.709804, 0.937255, 0.952941, 1 )
 material = SubResource( 2 )
-rect_scale = Vector2( 0.5, 0.5 )
+scale = Vector2( 0.5, 0.5 )
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="ParallaxLayer4"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 99.0
-rect_min_size = Vector2( 99999, 99999 )
+offset_right = 99.0
+custom_minimum_size = Vector2( 99999, 99999 )
 color = Color( 0.576471, 0.992157, 1, 0.32549 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -102,8 +102,8 @@ mouse_filter = 2
 material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 99359.0
-margin_bottom = 99519.0
-rect_min_size = Vector2( 99999, 99999 )
+offset_right = 99359.0
+offset_bottom = 99519.0
+custom_minimum_size = Vector2( 99999, 99999 )
 mouse_filter = 2
 color = Color( 0.27451, 0, 0.4, 0.160784 )

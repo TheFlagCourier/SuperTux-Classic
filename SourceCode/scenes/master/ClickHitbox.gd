@@ -4,15 +4,15 @@ signal left_clicked
 signal right_clicked
 signal middle_clicked
 
-onready var hitbox = get_node_or_null("CollisionShape2D")
+@onready var hitbox = get_node_or_null("CollisionShape2D")
 
-onready var debug_rect_start = $CanvasLayer/Sprite
-onready var debug_rect_end = $CanvasLayer/Sprite2
+@onready var debug_rect_start = $CanvasLayer/Sprite2D
+@onready var debug_rect_end = $CanvasLayer/Sprite2
 
 var mouse_over_hitbox = false # Is the mouse hovering over this click hitbox?
-export var clickable = true # Can the hitbox be clicked?
+@export var clickable = true # Can the hitbox be clicked?
 
-onready var object = get_parent()
+@onready var object = get_parent()
 
 func _input(event):
 	if event is InputEventMouseMotion or event is InputEventMouseButton:
@@ -26,9 +26,9 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if clickable and mouse_over_hitbox:
 			match event.button_index:
-				BUTTON_LEFT: emit_signal("left_clicked")
-				BUTTON_RIGHT: emit_signal("right_clicked")
-				BUTTON_MIDDLE: emit_signal("middle_clicked")
+				MOUSE_BUTTON_LEFT: emit_signal("left_clicked")
+				MOUSE_BUTTON_RIGHT: emit_signal("right_clicked")
+				MOUSE_BUTTON_MIDDLE: emit_signal("middle_clicked")
 
 # Returns a Rect2 which encloses the click hitbox's area on the screen.
 
@@ -55,10 +55,10 @@ func _get_hitbox_screen_area():
 	return screen_area
 
 func _on_ClickHitbox_left_clicked():
-	Global.object_clicked(object, BUTTON_LEFT)
+	Global.object_clicked(object, MOUSE_BUTTON_LEFT)
 
 func _on_ClickHitbox_middle_clicked():
-	Global.object_clicked(object, BUTTON_MIDDLE)
+	Global.object_clicked(object, MOUSE_BUTTON_MIDDLE)
 
 func _on_ClickHitbox_right_clicked():
-	Global.object_clicked(object, BUTTON_RIGHT)
+	Global.object_clicked(object, MOUSE_BUTTON_RIGHT)

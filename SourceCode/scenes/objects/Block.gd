@@ -20,23 +20,23 @@
 
 extends StaticBody2D
 
-export var type = ""
-export var invisible = false
-export var initial_animation = "default"
-export var contains_powerup = false
-export var contains_coin = false
-export (PackedScene) var contents_small
-export (PackedScene) var contents_big
-onready var animation_player = $AnimationPlayer
-onready var sprite = $AnimatedSprite
-onready var sfx = $SFX
-onready var collision_shapes = [$Hitbox, $AboveHitbox, $CollisionShape2D]
-onready var above_hitbox = $AboveHitbox
-onready var destroy_timer = $DestroyTimer
+@export var type = ""
+@export var invisible = false
+@export var initial_animation = "default"
+@export var contains_powerup = false
+@export var contains_coin = false
+@export var contents_small: PackedScene
+@export var contents_big: PackedScene
+@onready var animation_player = $AnimationPlayer
+@onready var sprite = $AnimatedSprite2D
+@onready var sfx = $SFX
+@onready var collision_shapes = [$Hitbox, $AboveHitbox, $CollisionShape2D]
+@onready var above_hitbox = $AboveHitbox
+@onready var destroy_timer = $DestroyTimer
 
-onready var invisible_max_distance = $InvisibleShimmer/CollisionShape2D.shape.radius
+@onready var invisible_max_distance = $InvisibleShimmer/CollisionShape2D.shape.radius
 
-onready var initial_position = global_position
+@onready var initial_position = global_position
 
 var velocity = Vector2()
 var hit = false
@@ -122,7 +122,7 @@ func _spawn_contents(body, small = true):
 	
 	var pos = global_position - Vector2(0, Global.TILE_SIZE)
 	var object_to_spawn = contents_small if small else contents_big
-	var o = object_to_spawn.instance()
+	var o = object_to_spawn.instantiate()
 	Global.add_child_to_level(o, self)
 	o.global_position = pos
 	o.facing = facing

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/warp.wav-245ee05ee00ce9cf7cfb5beab1df7228.sample"
+type="AudioStreamWAV"
+uid="uid://cnghw1240371t"
+path="res://.godot/imported/warp.wav-245ee05ee00ce9cf7cfb5beab1df7228.sample"
 
 [deps]
 
 source_file="res://sounds/worldmap/warp.wav"
-dest_files=[ "res://.import/warp.wav-245ee05ee00ce9cf7cfb5beab1df7228.sample" ]
+dest_files=["res://.godot/imported/warp.wav-245ee05ee00ce9cf7cfb5beab1df7228.sample"]
 
 [params]
 

@@ -16,10 +16,10 @@
 
 
 extends TileMap
-onready var level = get_parent()
-onready var tile_ids = tile_set.get_tiles_ids()
+@onready var level = get_parent()
+@onready var tile_ids = tile_set.get_tiles_ids()
 
-export var enabled = true
+@export var enabled = true
 
 # Some entites (i.e. Tux) should only be spawned once.
 var one_only_entities = [
@@ -87,7 +87,7 @@ func set_spawn_point():
 		if tile_name == "!!Tux":
 			var spawn = get_used_cells_by_id(id)
 			
-			if spawn.empty(): return
+			if spawn.is_empty(): return
 			spawn = spawn.front()
 			
 			owner.set("spawn_position", spawn)
@@ -118,8 +118,8 @@ func tiles_to_objects():
 				elif one_only_entities.has(tile_name):
 					once_only_entity_list.append(tile_name)
 				
-				var entity = entity_scene.instance()
-				var entity_position = map_to_world(tile) + entity_offset + position
+				var entity = entity_scene.instantiate()
+				var entity_position = map_to_local(tile) + entity_offset + position
 				
 				# Rotate the objects based on their tile rotation / flipping.
 				if "facing" in entity: # Handle this differently if it is an enemy (hence the facing variable)

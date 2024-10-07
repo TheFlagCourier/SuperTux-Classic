@@ -30,12 +30,12 @@ func _ready():
 	add_state("black_hole")
 	
 	# Don't do anything until the level title card is gone
-	yield(Global, "level_ready")
+	await Global.level_ready
 	
 	host.player = Global.player
 	call_deferred("set_state", "waiting")
 	
-	yield(get_tree().create_timer(1), "timeout")
+	await get_tree().create_timer(1).timeout
 	
 	if host.enabled:
 		host.enable()
@@ -64,7 +64,7 @@ func _enter_state(new_state, old_state):
 		# IF Grumbel is in an attacking state,
 		
 		# Execute the attack and wait until it finishes
-		yield( host.call(new_state), "completed" )
+		await host.call(new_state).completed
 		
 		# Then if he's still in the same state, set his state to idle again
 		if state == new_state:

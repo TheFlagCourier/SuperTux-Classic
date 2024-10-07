@@ -30,7 +30,7 @@ func _ready(): # Make all of the game's particles emit once so they stay loaded
 	for particle_file in particle_files:
 		var path = particles_dir + particle_file
 		var particle = load(path)
-		var particles_instance = Particles2D.new()
+		var particles_instance = GPUParticles2D.new()
 		particles_instance.set_process_material(particle)
 		particles_instance.set_one_shot(true)
 		particles_instance.set_emitting(true)

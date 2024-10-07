@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/add_layer_dialog.wav-589fb338733c32db723ee0e01d13657b.sample"
+type="AudioStreamWAV"
+uid="uid://bsvuewtlhx52g"
+path="res://.godot/imported/add_layer_dialog.wav-589fb338733c32db723ee0e01d13657b.sample"
 
 [deps]
 
 source_file="res://sounds/editor/add_layer_dialog.wav"
-dest_files=[ "res://.import/add_layer_dialog.wav-589fb338733c32db723ee0e01d13657b.sample" ]
+dest_files=["res://.godot/imported/add_layer_dialog.wav-589fb338733c32db723ee0e01d13657b.sample"]
 
 [params]
 

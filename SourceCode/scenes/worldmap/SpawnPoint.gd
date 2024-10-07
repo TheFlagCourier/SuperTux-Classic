@@ -1,11 +1,11 @@
 extends Node2D
 
-onready var sprite = $Sprite
+@onready var sprite = $Sprite2D
 
 func _ready():
 	sprite.visible = true
 	
-	Global.connect("level_ready", self, "start_level")
+	Global.connect("level_ready", Callable(self, "start_level"))
 	
 	set_spawn_position()
 

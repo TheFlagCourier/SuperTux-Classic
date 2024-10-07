@@ -1,11 +1,11 @@
 extends Button
 
 var tileset : TileSet = null
-var tile_id : int = -1 setget update_current_tile_id
+var tile_id : int = -1: set = update_current_tile_id
 signal tile_button_pressed(tile_id)
 signal update_tile_preview_texture(texture)
 
-onready var sprite = $Control/Sprite
+@onready var sprite = $Control/Sprite2D
 
 func update_current_tile_id(new_value):
 	if !tileset:
@@ -30,8 +30,8 @@ func update_current_tile_id(new_value):
 		sprite.region_rect = tileset.tile_get_region(tile_id)
 		
 		# Scale down the tile sprite if the tile is larger than 32x32
-		var rect_size = max(sprite.region_rect.size.x, sprite.region_rect.size.y)
-		sprite.scale = Vector2.ONE * (Global.TILE_SIZE / rect_size)
+		var size = max(sprite.region_rect.size.x, sprite.region_rect.size.y)
+		sprite.scale = Vector2.ONE * (Global.TILE_SIZE / size)
 
 func _on_TileButton_pressed():
 	emit_signal("tile_button_pressed", tile_id)

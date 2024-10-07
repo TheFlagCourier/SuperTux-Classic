@@ -17,8 +17,8 @@
 
 extends Node2D
 
-onready var host = get_parent()
-onready var particles = [$InvincibleBig, $InvincibleSmall, $InvincibleTrail]
+@onready var host = get_parent()
+@onready var particles = [$InvincibleBig, $InvincibleSmall, $InvincibleTrail]
 
 func _process(delta):
 	var invincible = host.invincible and host.invincible_type == host.invincible_types.STAR

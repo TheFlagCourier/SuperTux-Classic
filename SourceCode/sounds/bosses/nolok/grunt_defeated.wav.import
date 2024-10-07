@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/grunt_defeated.wav-1ecf078a8652334ad091c2cc240fc2fa.sample"
+type="AudioStreamWAV"
+uid="uid://dqonk76pcsfny"
+path="res://.godot/imported/grunt_defeated.wav-1ecf078a8652334ad091c2cc240fc2fa.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/nolok/grunt_defeated.wav"
-dest_files=[ "res://.import/grunt_defeated.wav-1ecf078a8652334ad091c2cc240fc2fa.sample" ]
+dest_files=["res://.godot/imported/grunt_defeated.wav-1ecf078a8652334ad091c2cc240fc2fa.sample"]
 
 [params]
 

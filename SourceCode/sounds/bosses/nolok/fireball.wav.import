@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/fireball.wav-cf562b4c0e5194073dfb2ab24c261e5e.sample"
+type="AudioStreamWAV"
+uid="uid://b6ra4miqwum36"
+path="res://.godot/imported/fireball.wav-cf562b4c0e5194073dfb2ab24c261e5e.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/nolok/fireball.wav"
-dest_files=[ "res://.import/fireball.wav-cf562b4c0e5194073dfb2ab24c261e5e.sample" ]
+dest_files=["res://.godot/imported/fireball.wav-cf562b4c0e5194073dfb2ab24c261e5e.sample"]
 
 [params]
 

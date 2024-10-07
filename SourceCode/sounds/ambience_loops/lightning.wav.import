@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/lightning.wav-f72904fb18eb08ecab9d721cc6f94d62.sample"
+type="AudioStreamWAV"
+uid="uid://dlbfsm1a3tfdh"
+path="res://.godot/imported/lightning.wav-f72904fb18eb08ecab9d721cc6f94d62.sample"
 
 [deps]
 
 source_file="res://sounds/ambience_loops/lightning.wav"
-dest_files=[ "res://.import/lightning.wav-f72904fb18eb08ecab9d721cc6f94d62.sample" ]
+dest_files=["res://.godot/imported/lightning.wav-f72904fb18eb08ecab9d721cc6f94d62.sample"]
 
 [params]
 

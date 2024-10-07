@@ -1,15 +1,15 @@
-extends PopupDialog
+extends Popup
 
-onready var layer_name = $VBoxContainer/PanelContainer/LayerProperties/NameEntry/Name
-onready var layer_type = $VBoxContainer/PanelContainer/LayerProperties/TypeEntry/LayerTypes
+@onready var layer_name = $VBoxContainer/PanelContainer/LayerProperties/NameEntry/Name
+@onready var layer_type = $VBoxContainer/PanelContainer/LayerProperties/TypeEntry/LayerTypes
 
-export var default_layer_type = "TileMap"
+@export var default_layer_type = "TileMap"
 
 # Don't show these layers in the Add layer dialog when editing levels
-export var level_exclude_layers = ["ObjectContainer"]
+@export var level_exclude_layers = ["ObjectContainer"]
 
 # Don't show these layers in the Add layer dialog when editing worldmaps
-export var worldmap_exclude_layers = ["ObjectMap"]
+@export var worldmap_exclude_layers = ["ObjectMap"]
 
 var current_layer_type = null
 
@@ -67,5 +67,5 @@ func _on_LayerTypes_item_selected(index):
 func _input(event):
 	if !visible: return
 	if Input.is_action_pressed("ui_accept"):
-		yield(get_tree(), "idle_frame") # This has to be here or else the play level input registers too
+		await get_tree().idle_frame # This has to be here or else the play level input registers too
 		_on_AddLayerButton_pressed()

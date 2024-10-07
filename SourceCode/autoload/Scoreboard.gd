@@ -21,30 +21,30 @@ extends CanvasLayer
 
 # It also acts as the HUD to display the coins and lives counter in levels.
 
-export var initial_coins = 0
-export var initial_lives = 3
-export var initial_state = 0
-export var game_over_lives = 10 # How many lives we grant the player after getting a game over.
+@export var initial_coins = 0
+@export var initial_lives = 3
+@export var initial_state = 0
+@export var game_over_lives = 10 # How many lives we grant the player after getting a game over.
 
-onready var coins = initial_coins setget _set_coin_count
-onready var lives : int = initial_lives setget _set_lives_count
-onready var player_initial_state = initial_state # What powerup state Tux has when spawning into the level.
+@onready var coins = initial_coins: set = _set_coin_count
+@onready var lives : int = initial_lives: set = _set_lives_count
+@onready var player_initial_state = initial_state # What powerup state Tux has when spawning into the level.
 
-onready var level_timer = $LEVELTIMER
-onready var hud_node = $Control
-onready var coins_text = $Control/CoinCounter/Coins
-onready var lives_counter = $Control/LifeCounter
-onready var lives_text = $Control/LifeCounter/Lives
-onready var timer_ui = $Control/ClockCounter
-onready var timer_text = $Control/ClockCounter/Timer
-onready var game_over_screen = $Control/GameOverScreen
-onready var sfx = $SFX
-onready var message_text_object = $Message
+@onready var level_timer = $LEVELTIMER
+@onready var hud_node = $Control
+@onready var coins_text = $Control/CoinCounter/Coins
+@onready var lives_counter = $Control/LifeCounter
+@onready var lives_text = $Control/LifeCounter/Lives
+@onready var timer_ui = $Control/ClockCounter
+@onready var timer_text = $Control/ClockCounter/Timer
+@onready var game_over_screen = $Control/GameOverScreen
+@onready var sfx = $SFX
+@onready var message_text_object = $Message
 
 var number_of_deaths = 0
 var level_timer_enabled = false
 var tick_time = 999
-var message_text = "" setget update_message_text
+var message_text = "": set = update_message_text
 
 var score_visible = true
 
@@ -135,7 +135,7 @@ func game_over():
 	
 	# We need the music node to process so it can play the game over song
 	# even while the world is paused.
-	Music.pause_mode = PAUSE_MODE_PROCESS
+	Music.process_mode = PROCESS_MODE_ALWAYS
 	
 	# Pause the game so that wild shennanigans don't occur
 	# while the game over screen is happening
@@ -146,7 +146,7 @@ func game_over():
 	Music.play("GameOver")
 	
 	# Wait five seconds
-	yield(get_tree().create_timer(4.5), "timeout")
+	await get_tree().create_timer(4.5).timeout
 	
 	game_over_screen.hide_text()
 	
@@ -160,9 +160,9 @@ func game_over():
 	var lives_tween = create_tween()
 	lives_tween.set_ease(Tween.EASE_IN_OUT)
 	lives_tween.set_trans(Tween.TRANS_SINE)
-	lives_tween.tween_property(lives_counter, "rect_position", screen_center, 0.75)
-	yield(lives_tween, "finished")
-	yield(get_tree().create_timer(0.5), "timeout")
+	lives_tween.tween_property(lives_counter, "position", screen_center, 0.75)
+	await lives_tween.finished
+	await get_tree().create_timer(0.5).timeout
 	
 	# ============================================================
 	# Then, make the life value increase to 10
@@ -172,8 +172,8 @@ func game_over():
 	one_up_tween.set_ease(Tween.EASE_OUT)
 	one_up_tween.set_trans(Tween.TRANS_LINEAR)
 	one_up_tween.tween_property(self, "lives", game_over_lives, 0.5)
-	yield(one_up_tween, "finished")
-	yield(get_tree().create_timer(1), "timeout")
+	await one_up_tween.finished
+	await get_tree().create_timer(1).timeout
 	
 	# ============================================================
 	# We are now done playing the "Game Over" animation and
@@ -188,7 +188,7 @@ func game_over():
 	
 	# Reset the position of the life counter to the bottom right
 	shrink = ResolutionManager.screen_shrink
-	lives_counter.rect_position = Vector2(0, get_viewport().size.y / shrink)
+	lives_counter.position = Vector2(0, get_viewport().size.y / shrink)
 	
 	# Remove the player's checkpoint progress and reload the current level.
 	Global.spawn_position = null
@@ -206,7 +206,7 @@ func update_message_text(new_value):
 		message_text_object.hide()
 	else:
 		message_text_object.show()
-		message_text_object.bbcode_text = "[center][wave]" + "\n" + new_value
+		message_text_object.text = "[center][wave]" + "\n" + new_value
 
 func display_message(message_text):
 	update_message_text(message_text)

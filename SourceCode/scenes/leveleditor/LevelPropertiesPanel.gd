@@ -1,21 +1,21 @@
-extends PopupDialog
+extends Popup
 
 const ADD_CUSTOM_SONG_TEXT = "Add custom track..."
 
-onready var level_properties = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties")
+@onready var level_properties = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties")
 
-onready var level_name = level_properties.get_node("EditLevelName/Name")
-onready var level_author = level_properties.get_node("EditLevelAuthor/Author")
-onready var level_music = level_properties.get_node("EditLevelMusic/Music")
-onready var level_timer_enabled = level_properties.get_node("EditLevelTimer/TimerEnabled")
-onready var level_time = level_properties.get_node("EditLevelTimer/Time")
-onready var level_gravity = level_properties.get_node("EditLevelGravity/Gravity")
-onready var level_autoscroll_speed = level_properties.get_node("EditLevelAutoscroll/AutoscrollSpeed")
+@onready var level_name = level_properties.get_node("EditLevelName/Name")
+@onready var level_author = level_properties.get_node("EditLevelAuthor/Author")
+@onready var level_music = level_properties.get_node("EditLevelMusic/Music")
+@onready var level_timer_enabled = level_properties.get_node("EditLevelTimer/TimerEnabled")
+@onready var level_time = level_properties.get_node("EditLevelTimer/Time")
+@onready var level_gravity = level_properties.get_node("EditLevelGravity/Gravity")
+@onready var level_autoscroll_speed = level_properties.get_node("EditLevelAutoscroll/AutoscrollSpeed")
 
-onready var custom_music_controls = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls")
-onready var custom_music_loop_offset = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls/EditLevelMusicLoopOffset/CustomMusicLoopOffset")
+@onready var custom_music_controls = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls")
+@onready var custom_music_loop_offset = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls/EditLevelMusicLoopOffset/CustomMusicLoopOffset")
 
-var using_custom_music = false setget _set_using_custom_music
+var using_custom_music = false: set = _set_using_custom_music
 
 var custom_music_files := {}
 
@@ -28,7 +28,7 @@ func _on_LevelPropertiesDialog_about_to_show():
 		level_author.text = level.level_author
 		_update_music_list()
 		_set_music_to_song(level.music)
-		level_timer_enabled.pressed = level.uses_timer
+		level_timer_enabled.button_pressed = level.uses_timer
 		level_time.value = level.time
 		level_time.editable = level_timer_enabled.pressed
 		level_gravity.value = level.gravity
@@ -172,7 +172,7 @@ func _on_HideLevelProperties_pressed():
 func _input(event):
 	if !visible: return
 	if Input.is_action_pressed("ui_accept"):
-		yield(get_tree(), "idle_frame") # This has to be here or else the play level input registers too
+		await get_tree().idle_frame # This has to be here or else the play level input registers too
 		hide()
 
 func _set_using_custom_music(new_value):

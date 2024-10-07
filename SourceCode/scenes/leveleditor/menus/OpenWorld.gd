@@ -1,24 +1,24 @@
-extends PopupDialog
+extends Popup
 
-onready var open_world_button = get_node_or_null("VBoxContainer/OpenWorldButton")
-onready var open_level_button = get_node_or_null("VBoxContainer/OpenLevelButton")
-onready var back_button = $VBoxContainer/Back
+@onready var open_world_button = get_node_or_null("VBoxContainer/OpenWorldButton")
+@onready var open_level_button = get_node_or_null("VBoxContainer/OpenLevelButton")
+@onready var back_button = $VBoxContainer/Back
 
-export var allow_deleting_levels_or_worlds = true
-export var is_level_select = false
+@export var allow_deleting_levels_or_worlds = true
+@export var is_level_select = false
 
-onready var button_list = get_node_or_null("VBoxContainer/ScrollContainer/ButtonList")
-onready var worldmap_button = get_node_or_null("VBoxContainer/WorldmapSelect")
-onready var worldmap_container = get_node_or_null("VBoxContainer/WorldmapSelect/WorldmapContainer")
+@onready var button_list = get_node_or_null("VBoxContainer/ScrollContainer/ButtonList")
+@onready var worldmap_button = get_node_or_null("VBoxContainer/WorldmapSelect")
+@onready var worldmap_container = get_node_or_null("VBoxContainer/WorldmapSelect/WorldmapContainer")
 
-onready var world_menu = get_node_or_null("WorldMenu")
+@onready var world_menu = get_node_or_null("WorldMenu")
 
-onready var delete_world_dialog = get_node_or_null("DeleteWorldDialog")
-onready var delete_level_dialog = get_node_or_null("DeleteLevelDialog")
+@onready var delete_world_dialog = get_node_or_null("DeleteWorldDialog")
+@onready var delete_level_dialog = get_node_or_null("DeleteLevelDialog")
 
-export var include_worldmap = true
+@export var include_worldmap = true
 
-export var button_scene : PackedScene
+@export var button_scene : PackedScene
 
 var selected_world = ""
 var selected_level = ""
@@ -38,7 +38,7 @@ func _on_Menu_about_to_show():
 	else:
 		UserLevels.load_user_worlds()
 		_populate_world_list()
-		open_world_button.disabled = UserLevels.user_worlds.empty()
+		open_world_button.disabled = UserLevels.user_worlds.is_empty()
 	
 	button_list.show()
 
@@ -46,13 +46,13 @@ func _populate_world_list():
 	if UserLevels.user_worlds.size() == 0: return
 	
 	for world in UserLevels.user_worlds:
-		var button = button_scene.instance()
+		var button = button_scene.instantiate()
 		button.deleteable = allow_deleting_levels_or_worlds
 		button_list.add_child(button)
 		button.owner = button_list
-		button.connect("world_selected", self, "world_selected")
-		button.connect("world_opened", self, "world_opened")
-		button.connect("world_delete_prompt", self, "world_delete_prompt")
+		button.connect("world_selected", Callable(self, "world_selected"))
+		button.connect("world_opened", Callable(self, "world_opened"))
+		button.connect("world_delete_prompt", Callable(self, "world_delete_prompt"))
 		button.init_world(world)
 	
 	var first_world = UserLevels.user_worlds.keys().front()
@@ -73,13 +73,13 @@ func _populate_level_list():
 func _add_level_button(level_filepath, is_worldmap = false):
 	var container = button_list if !is_worldmap else worldmap_container
 	
-	var button = button_scene.instance()
+	var button = button_scene.instantiate()
 	button.deleteable = allow_deleting_levels_or_worlds
 	container.add_child(button)
 	button.owner = container
-	button.connect("level_selected", self, "level_selected")
-	button.connect("level_opened", self, "level_opened")
-	button.connect("level_delete_prompt", self, "level_delete_prompt")
+	button.connect("level_selected", Callable(self, "level_selected"))
+	button.connect("level_opened", Callable(self, "level_opened"))
+	button.connect("level_delete_prompt", Callable(self, "level_delete_prompt"))
 	button.init_level(level_filepath, is_worldmap)
 
 func _on_Back_pressed():
@@ -105,7 +105,7 @@ func level_selected(level_filepath):
 	selected_level = level_filepath
 	
 	for button in button_list.get_children():
-		button.pressed = button.level_filepath == selected_level
+		button.button_pressed = button.level_filepath == selected_level
 		if button.pressed:
 			button.grab_focus()
 
@@ -113,7 +113,7 @@ func world_selected(selected_world_folder_name):
 	selected_world = selected_world_folder_name
 	
 	for button in button_list.get_children():
-		button.pressed = button.world_folder_name == selected_world
+		button.button_pressed = button.world_folder_name == selected_world
 		if button.pressed: button.grab_focus()
 
 func world_opened(selected_world_folder_name):
@@ -130,14 +130,14 @@ func world_delete_prompt(selected_world_folder_name):
 	
 	delete_world_dialog.init_world(selected_world_folder_name)
 	delete_world_dialog.popup()
-	delete_world_dialog.connect("delete_world", self, "delete_world")
+	delete_world_dialog.connect("delete_world", Callable(self, "delete_world"))
 
 func level_delete_prompt(level_filename):
 	if !delete_level_dialog: return
 	
 	delete_level_dialog.init_level(level_filename)
 	delete_level_dialog.popup()
-	delete_level_dialog.connect("delete_level", self, "delete_level")
+	delete_level_dialog.connect("delete_level", Callable(self, "delete_level"))
 
 func _on_WorldMenu_popup_hide():
 	var old_selected_world = selected_world

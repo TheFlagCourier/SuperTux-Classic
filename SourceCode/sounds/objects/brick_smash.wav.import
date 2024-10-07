@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/brick_smash.wav-4fea1fb3dd4d9c2abea6e833beb3fd7f.sample"
+type="AudioStreamWAV"
+uid="uid://dh5xme5r6o7xm"
+path="res://.godot/imported/brick_smash.wav-4fea1fb3dd4d9c2abea6e833beb3fd7f.sample"
 
 [deps]
 
 source_file="res://sounds/objects/brick_smash.wav"
-dest_files=[ "res://.import/brick_smash.wav-4fea1fb3dd4d9c2abea6e833beb3fd7f.sample" ]
+dest_files=["res://.godot/imported/brick_smash.wav-4fea1fb3dd4d9c2abea6e833beb3fd7f.sample"]
 
 [params]
 

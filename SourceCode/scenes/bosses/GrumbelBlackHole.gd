@@ -1,17 +1,17 @@
 extends Area2D
 
-onready var hitbox = $CollisionShape2D
-onready var tween = create_tween()
+@onready var hitbox = $CollisionShape2D
+@onready var tween = create_tween()
 
-export var master_pull_strength = 1.0
-export var pull_strength = Vector2(300, 150)
-export var resist_pull_strength = Vector2(2, 150)
+@export var master_pull_strength = 1.0
+@export var pull_strength = Vector2(300, 150)
+@export var resist_pull_strength = Vector2(2, 150)
 
-onready var sprite = $Sprite
-onready var shockwave_anim = $ShockwaveAnim
+@onready var sprite = $Sprite2D
+@onready var shockwave_anim = $ShockwaveAnim
 
-export var appear_size = 400.0
-export var appear_time = 3.0
+@export var appear_size = 400.0
+@export var appear_time = 3.0
 
 func appear(time = appear_time, size = appear_size):
 	shockwave_anim.play("appear")
@@ -30,7 +30,7 @@ func dissipate():
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_IN)
 	tween.start()
-	yield(tween, "tween_completed")
+	await tween.tween_completed
 	queue_free()
 
 func _process(delta):

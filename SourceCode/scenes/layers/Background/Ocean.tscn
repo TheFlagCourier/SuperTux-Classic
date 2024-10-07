@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://images/background/CloudsDark.png" type="Texture" id=1]
-[ext_resource path="res://images/background/gradient.png" type="Texture" id=2]
-[ext_resource path="res://images/background/OceanDark.png" type="Texture" id=3]
+[ext_resource path="res://images/background/CloudsDark.png" type="Texture2D" id=1]
+[ext_resource path="res://images/background/gradient.png" type="Texture2D" id=2]
+[ext_resource path="res://images/background/OceanDark.png" type="Texture2D" id=3]
 
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
@@ -23,8 +23,8 @@ mouse_filter = 2
 [node name="ColorRect" type="ColorRect" parent="Sky"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 962.0
-margin_bottom = 103.0
+offset_right = 962.0
+offset_bottom = 103.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Ocean" type="Control" parent="."]
@@ -36,8 +36,8 @@ mouse_filter = 2
 [node name="TextureRect" type="TextureRect" parent="Ocean"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 100.0
-margin_bottom = 100.0
+offset_top = 100.0
+offset_bottom = 100.0
 texture = ExtResource( 3 )
 expand = true
 
@@ -51,7 +51,7 @@ modulate = Color( 0.0745098, 0.0823529, 0.109804, 1 )
 material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 115.0
+offset_top = 115.0
 texture = ExtResource( 2 )
 expand = true
 flip_v = true
@@ -62,17 +62,17 @@ motion_scale = Vector2( 0.35, 1 )
 motion_offset = Vector2( 320, 0 )
 motion_mirroring = Vector2( 1920, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds4"]
+[node name="Sprite2D" type="Sprite2D" parent="Clouds4"]
 position = Vector2( 0, 40 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite2" type="Sprite" parent="Clouds4"]
+[node name="Sprite2" type="Sprite2D" parent="Clouds4"]
 position = Vector2( 640, 40 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite3" type="Sprite" parent="Clouds4"]
+[node name="Sprite3" type="Sprite2D" parent="Clouds4"]
 position = Vector2( 1280, 40 )
 texture = ExtResource( 1 )
 centered = false
@@ -82,17 +82,17 @@ modulate = Color( 0.215686, 0.290196, 0.458824, 1 )
 motion_scale = Vector2( 0.4, 1 )
 motion_mirroring = Vector2( 1920, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds3"]
+[node name="Sprite2D" type="Sprite2D" parent="Clouds3"]
 position = Vector2( 0, 24 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite2" type="Sprite" parent="Clouds3"]
+[node name="Sprite2" type="Sprite2D" parent="Clouds3"]
 position = Vector2( 640, 24 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite3" type="Sprite" parent="Clouds3"]
+[node name="Sprite3" type="Sprite2D" parent="Clouds3"]
 position = Vector2( 1280, 24 )
 texture = ExtResource( 1 )
 centered = false
@@ -103,16 +103,16 @@ motion_scale = Vector2( 0.45, 1 )
 motion_offset = Vector2( 320, 0 )
 motion_mirroring = Vector2( 1920, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds2"]
+[node name="Sprite2D" type="Sprite2D" parent="Clouds2"]
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite2" type="Sprite" parent="Clouds2"]
+[node name="Sprite2" type="Sprite2D" parent="Clouds2"]
 position = Vector2( 640, 0 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite3" type="Sprite" parent="Clouds2"]
+[node name="Sprite3" type="Sprite2D" parent="Clouds2"]
 position = Vector2( 1280, 0 )
 texture = ExtResource( 1 )
 centered = false
@@ -121,17 +121,17 @@ centered = false
 motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 1920, 0 )
 
-[node name="Sprite" type="Sprite" parent="Clouds1"]
+[node name="Sprite2D" type="Sprite2D" parent="Clouds1"]
 position = Vector2( 0, -32 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite2" type="Sprite" parent="Clouds1"]
+[node name="Sprite2" type="Sprite2D" parent="Clouds1"]
 position = Vector2( 640, -32 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="Sprite3" type="Sprite" parent="Clouds1"]
+[node name="Sprite3" type="Sprite2D" parent="Clouds1"]
 position = Vector2( 1280, -32 )
 texture = ExtResource( 1 )
 centered = false
@@ -145,8 +145,8 @@ mouse_filter = 2
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 951.0
-margin_bottom = 488.0
+offset_right = 951.0
+offset_bottom = 488.0
 color = Color( 0.647059, 0.690196, 0.843137, 0.0352941 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -155,8 +155,8 @@ color = Color( 0.647059, 0.690196, 0.843137, 0.0352941 )
 material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 99359.0
-margin_bottom = 99519.0
-rect_min_size = Vector2( 99999, 99999 )
+offset_right = 99359.0
+offset_bottom = 99519.0
+custom_minimum_size = Vector2( 99999, 99999 )
 mouse_filter = 2
 color = Color( 0, 0.0627451, 0.286275, 0.160784 )

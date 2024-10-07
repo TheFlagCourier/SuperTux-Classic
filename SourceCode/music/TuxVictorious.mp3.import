@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/TuxVictorious.mp3-0393439d304d6f211406945ce3833d68.mp3str"
+uid="uid://tbr1vuivmu0l"
+path="res://.godot/imported/TuxVictorious.mp3-0393439d304d6f211406945ce3833d68.mp3str"
 
 [deps]
 
 source_file="res://music/TuxVictorious.mp3"
-dest_files=[ "res://.import/TuxVictorious.mp3-0393439d304d6f211406945ce3833d68.mp3str" ]
+dest_files=["res://.godot/imported/TuxVictorious.mp3-0393439d304d6f211406945ce3833d68.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

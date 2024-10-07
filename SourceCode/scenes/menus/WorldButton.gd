@@ -1,7 +1,7 @@
 extends Button
 
-export var world_to_load = "world1"
-export var initial_scene_for_world = "res://scenes/levels/world1/intro.tscn"
+@export var world_to_load = "world1"
+@export var initial_scene_for_world = "res://scenes/levels/world1/intro.tscn"
 
 func _on_WorldButton_mouse_entered():
 	if !disabled:

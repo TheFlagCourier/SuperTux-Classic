@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/particles/Clouds.tres" type="Material" id=1]
-[ext_resource path="res://images/particles/cloud_transparent.png" type="Texture" id=2]
+[ext_resource path="res://images/particles/cloud_transparent.png" type="Texture2D" id=2]
 [ext_resource path="res://scenes/layers/Ambience.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CanvasItemMaterial" id=1]
@@ -15,7 +15,7 @@ modulate = Color( 0.0784314, 0.0784314, 0.223529, 0.388235 )
 material = SubResource( 1 )
 motion_mirroring = Vector2( 6144, 0 )
 
-[node name="Particles2D" type="Particles2D" parent="ParallaxLayer"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParallaxLayer"]
 use_parent_material = true
 position = Vector2( 256, 994 )
 amount = 300
@@ -26,7 +26,7 @@ visibility_rect = Rect2( -7000, -3000, 9000, 3000 )
 process_material = ExtResource( 1 )
 texture = ExtResource( 2 )
 
-[node name="Particles2D2" type="Particles2D" parent="ParallaxLayer"]
+[node name="Particles2D2" type="GPUParticles2D" parent="ParallaxLayer"]
 use_parent_material = true
 position = Vector2( 4096, 994 )
 amount = 300

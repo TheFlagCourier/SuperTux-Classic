@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://images/background/gradient2.png" type="Texture" id=1]
+[ext_resource path="res://images/background/gradient2.png" type="Texture2D" id=1]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -8,17 +8,17 @@ blend_mode = 1
 [node name="LavaGlow" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -2560.0
-margin_right = -2560.0
+offset_left = -2560.0
+offset_right = -2560.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color( 1, 0, 0, 1 )
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 462.0
-margin_right = 999999.0
-margin_bottom = 720.0
+offset_top = 462.0
+offset_right = 999999.0
+offset_bottom = 720.0
 texture = ExtResource( 1 )
 expand = true
 flip_v = true
@@ -28,9 +28,9 @@ modulate = Color( 0.921569, 1, 0, 0.52549 )
 material = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 508.0
-margin_right = 999999.0
-margin_bottom = 720.0
+offset_top = 508.0
+offset_right = 999999.0
+offset_bottom = 720.0
 texture = ExtResource( 1 )
 expand = true
 flip_v = true
@@ -41,9 +41,9 @@ material = SubResource( 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 720.0
-margin_right = 999999.0
-margin_bottom = 1.00072e+06
+offset_top = 720.0
+offset_right = 999999.0
+offset_bottom = 1.00072e+06
 
 [node name="TextureRect3" type="ColorRect" parent="."]
 modulate = Color( 0.921569, 1, 0, 0.52549 )
@@ -51,6 +51,6 @@ material = SubResource( 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 720.0
-margin_right = 999999.0
-margin_bottom = 1.00072e+06
+offset_top = 720.0
+offset_right = 999999.0
+offset_bottom = 1.00072e+06

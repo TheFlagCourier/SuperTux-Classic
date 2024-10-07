@@ -2,64 +2,64 @@ extends Control
 
 #export var level_to_load = "res://scenes/levels/world1/level1.tscn"
 
-export var object_scene_folder_for_levels = "res://scenes/objects/"
-export var object_scene_folder_for_worldmaps = "res://scenes/worldmap/"
+@export var object_scene_folder_for_levels = "res://scenes/objects/"
+@export var object_scene_folder_for_worldmaps = "res://scenes/worldmap/"
 
 # The folder which contains all scenes for the objects
-var object_scenes_folder = null setget , _get_object_scenes_folder
+var object_scenes_folder = null: get = _get_object_scenes_folder
 
 # The Editor UI gets smaller when the screen resolution is lower than this
-export var ui_scale_min_resolution = Vector2(1280, 720)
+@export var ui_scale_min_resolution = Vector2(1280, 720)
 
 var cache_level = null
 var is_paused = false
 
-export var unselected_tilemap_opacity = 0.5
+@export var unselected_tilemap_opacity = 0.5
 
-export var editor_layers_directory = "res://scenes/layers/"
+@export var editor_layers_directory = "res://scenes/layers/"
 
-onready var sfx = $SFX
+@onready var sfx = $SFX
 
-onready var toggle_edit_button = $UI/Scale/EditToggle
+@onready var toggle_edit_button = $UI/Scale/EditToggle
 
-onready var tile_functions = $TileFunctions
-onready var object_functions = $ObjectFunctions
-onready var editor_camera = $EditorCamera
+@onready var tile_functions = $TileFunctions
+@onready var object_functions = $ObjectFunctions
+@onready var editor_camera = $EditorCamera
 
-onready var ui_scale = $UI/Scale
-onready var ui_editor = $UI/Scale/EditorUI
-onready var tiles_container = $UI/Scale/EditorUI/TilesPanelOffset/TilesPanel/ScrollContainer/TilesContainer
-onready var layers_container = $UI/Scale/EditorUI/LayersPanelOffset/LayersPanel/ScrollContainer/LayersContainer
+@onready var ui_scale = $UI/Scale
+@onready var ui_editor = $UI/Scale/EditorUI
+@onready var tiles_container = $UI/Scale/EditorUI/TilesPanelOffset/TilesPanel/ScrollContainer/TilesContainer
+@onready var layers_container = $UI/Scale/EditorUI/LayersPanelOffset/LayersPanel/ScrollContainer/LayersContainer
 
 var unsaved_changes = false
-var rect_select_enabled = false setget update_rect_select_enabled
-var eraser_enabled = false setget update_eraser_enabled
-var eyedropper_enabled = false setget update_eyedropper_enabled
-var flip_tiles_enabled = false setget update_flip_tiles_enabled
-var edit_objects_enabled = false setget update_edit_objects_enabled
+var rect_select_enabled = false: set = update_rect_select_enabled
+var eraser_enabled = false: set = update_eraser_enabled
+var eyedropper_enabled = false: set = update_eyedropper_enabled
+var flip_tiles_enabled = false: set = update_flip_tiles_enabled
+var edit_objects_enabled = false: set = update_edit_objects_enabled
 
-onready var tile_buttons = $UI/Scale/EditorUI/TilesPanelOffset/TilesPanel/PlacementOptionsContainer/PlacementOptions
-onready var button_rect_select = tile_buttons.get_node("RectSelect")
-onready var button_eraser = tile_buttons.get_node("Eraser")
-onready var button_eyedropper = tile_buttons.get_node("EyeDropper")
-onready var button_flip_tiles = tile_buttons.get_node("FlipTiles")
-onready var button_edit_objects = tile_buttons.get_node("EditObject")
+@onready var tile_buttons = $UI/Scale/EditorUI/TilesPanelOffset/TilesPanel/PlacementOptionsContainer/PlacementOptions
+@onready var button_rect_select = tile_buttons.get_node("RectSelect")
+@onready var button_eraser = tile_buttons.get_node("Eraser")
+@onready var button_eyedropper = tile_buttons.get_node("EyeDropper")
+@onready var button_flip_tiles = tile_buttons.get_node("FlipTiles")
+@onready var button_edit_objects = tile_buttons.get_node("EditObject")
 
-onready var button_undo = $UI/Scale/EditorUI/ButtonsContainer/Buttons/UndoButton
-onready var button_level_properties = $UI/Scale/EditorUI/ButtonsContainer/Buttons/LevelProperties
+@onready var button_undo = $UI/Scale/EditorUI/ButtonsContainer/Buttons/UndoButton
+@onready var button_level_properties = $UI/Scale/EditorUI/ButtonsContainer/Buttons/LevelProperties
 
-onready var level_properties_dialog = $UI/Scale/EditorUI/LevelPropertiesDialog
+@onready var level_properties_dialog = $UI/Scale/EditorUI/LevelPropertiesDialog
 
-export var layer_button_scene : PackedScene
+@export var layer_button_scene : PackedScene
 
 #onready var cache_level_path = cache_level_directory + cache_level_filename
 
-onready var edit_layer_dialog = $UI/Scale/EditorUI/EditLayerDialog
+@onready var edit_layer_dialog = $UI/Scale/EditorUI/EditLayerDialog
 
 # This dialog appears if you attempt to close the level editor with unsaved changes.
-onready var quit_without_saving_dialog = $UI/UnsavedChangesDialog
+@onready var quit_without_saving_dialog = $UI/UnsavedChangesDialog
 
-onready var pause_menu = $PauseMenu
+@onready var pause_menu = $PauseMenu
 
 signal level_loaded
 
@@ -70,20 +70,20 @@ signal flip_tiles_toggled
 signal edit_objects_toggled
 
 var level = null
-var level_objects = null setget , _get_level_objects
+var level_objects = null: get = _get_level_objects
 var object_map = null
 
-var selected_layer = null setget update_selected_layer
+var selected_layer = null: set = update_selected_layer
 var selected_layer_name = ""
 
-var current_tile_id = -1 setget _update_current_tile_id # The ID of the tile the user is currently using
-var current_object_resource = null setget _update_current_object_resource # The Resource of the object the user currently has selected
+var current_tile_id = -1: set = _update_current_tile_id
+var current_object_resource = null: set = _update_current_object_resource
 
-var edit_mode = true setget _update_edit_mode
+var edit_mode = true: set = _update_edit_mode
 
-var can_place_tiles = true setget , _get_can_place_tiles
+var can_place_tiles = true: get = _get_can_place_tiles
 
-var mouse_over_ui = null setget , _get_mouse_over_ui
+var mouse_over_ui = null: get = _get_mouse_over_ui
 
 var edit_dialog_visible = false
 
@@ -104,24 +104,24 @@ signal object_clicked
 func _ready():
 	layer_types = get_layer_types()
 	
-	Global.connect("quit_game_requested", self, "handle_closing_game")
-	Global.connect("player_died", self, "enter_edit_mode")
-	Global.connect("level_cleared", self, "enter_edit_mode")
+	Global.connect("quit_game_requested", Callable(self, "handle_closing_game"))
+	Global.connect("player_died", Callable(self, "enter_edit_mode"))
+	Global.connect("level_cleared", Callable(self, "enter_edit_mode"))
 	Scoreboard.hide()
 	Music.stop_all()
-	ResolutionManager.connect("window_resized", self, "window_resized")
-	tiles_container.connect("update_selected_tile", self, "update_selected_tile")
-	tiles_container.connect("update_selected_object", self, "update_selected_object")
-	tiles_container.connect("update_tile_preview_texture", self, "update_tile_preview_texture")
-	edit_layer_dialog.connect("layer_parameter_changed", self, "layer_parameter_changed")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
+	tiles_container.connect("update_selected_tile", Callable(self, "update_selected_tile"))
+	tiles_container.connect("update_selected_object", Callable(self, "update_selected_object"))
+	tiles_container.connect("update_tile_preview_texture", Callable(self, "update_tile_preview_texture"))
+	edit_layer_dialog.connect("layer_parameter_changed", Callable(self, "layer_parameter_changed"))
 	window_resized()
 	
-	pause_menu.connect("pause_changed", self, "pause_toggled")
-	pause_menu.connect("save_and_quit", self, "save_and_quit")
+	pause_menu.connect("pause_changed", Callable(self, "pause_toggled"))
+	pause_menu.connect("save_and_quit", Callable(self, "save_and_quit"))
 	
-	connect("edit_objects_toggled", toggle_edit_button, "update")
+	connect("edit_objects_toggled", Callable(toggle_edit_button, "update"))
 	
-	Global.connect("object_clicked", self, "object_clicked")
+	Global.connect("object_clicked", Callable(self, "object_clicked"))
 	
 	Music.set_editor_music(true)
 	
@@ -188,7 +188,7 @@ func _deferred_enter_edit_mode():
 	if !level: return
 	
 	if cache_level:
-		var level_object = cache_level.instance()
+		var level_object = cache_level.instantiate()
 		call_deferred("load_level_from_object", level_object)
 	
 	Scoreboard.hide()
@@ -198,7 +198,7 @@ func _deferred_enter_edit_mode():
 	#get_tree().paused = false
 	self.edit_mode = true
 	get_tree().paused = false
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	Global.can_pause = true
 	Music.set_editor_music(true)
 	toggle_edit_button.update()
@@ -207,7 +207,7 @@ func _deferred_enter_edit_mode():
 # Level loading
 
 func load_level_from_path(level_path: String):
-	var level_object = load(level_path).instance()
+	var level_object = load(level_path).instantiate()
 	load_level_from_object(level_object)
 
 func load_level_from_object(level_object: Node2D, free_level_immediately = false):
@@ -231,7 +231,7 @@ func initialise_level(level_object):
 	
 	level.play_music(true)
 	
-	level.connect("music_changed", self, "level_music_changed")
+	level.connect("music_changed", Callable(self, "level_music_changed"))
 	
 	update_layers_panel(self.level_objects)
 	
@@ -295,17 +295,17 @@ func update_layers_panel(level_objects):
 		layer.free()
 	
 	var sorted_layers = level_objects
-	sorted_layers.sort_custom(self, "sort_layers")
+	sorted_layers.sort_custom(Callable(self, "sort_layers"))
 	
 	for node in sorted_layers:
 		#if is_objectmap(node): continue
-		var button = layer_button_scene.instance()
+		var button = layer_button_scene.instantiate()
 		layers_container.add_child(button)
 		button.layer_name = node.name
 		button.layer_object = node
-		button.connect("layer_button_pressed", self, "layer_button_pressed")
-		button.connect("edit_layer", self, "edit_layer")
-		button.connect("delete_layer", self, "delete_layer")
+		button.connect("layer_button_pressed", Callable(self, "layer_button_pressed"))
+		button.connect("edit_layer", Callable(self, "edit_layer"))
+		button.connect("delete_layer", Callable(self, "delete_layer"))
 	
 	update_selected_layer(selected_layer)
 
@@ -343,7 +343,7 @@ func window_resized():
 	set_ui_scale(scale)
 
 func set_ui_scale(scale):
-	ui_scale.rect_scale = Vector2.ONE * scale
+	ui_scale.scale = Vector2.ONE * scale
 	
 	ui_scale.anchor_bottom = 1 / scale
 	ui_scale.anchor_right = 1 / scale
@@ -525,22 +525,22 @@ func _on_FlipTiles_toggled(button_pressed):
 
 func update_rect_select_enabled(new_value):
 	rect_select_enabled = new_value
-	button_rect_select.pressed = new_value
+	button_rect_select.button_pressed = new_value
 	emit_signal("rect_select_toggled", new_value)
 
 func update_eraser_enabled(new_value):
 	eraser_enabled = new_value
-	button_eraser.pressed = new_value
+	button_eraser.button_pressed = new_value
 	emit_signal("eraser_toggled", new_value)
 
 func update_eyedropper_enabled(new_value):
 	eyedropper_enabled = new_value
-	button_eyedropper.pressed = new_value
+	button_eyedropper.button_pressed = new_value
 	emit_signal("eyedropper_toggled", new_value)
 
 func update_flip_tiles_enabled(new_value):
 	flip_tiles_enabled = new_value
-	button_flip_tiles.pressed = new_value
+	button_flip_tiles.button_pressed = new_value
 	emit_signal("flip_tiles_toggled", new_value)
 
 func add_layer(layer_name : String, layer_type : String):
@@ -551,7 +551,7 @@ func add_layer(layer_name : String, layer_type : String):
 	
 	var file = File.new()
 	if file.file_exists(layer_node_path):
-		var layer_node = load(layer_node_path).instance()
+		var layer_node = load(layer_node_path).instantiate()
 		layer_node.set_name(layer_name)
 		
 		if layer_node.get("is_in_worldmap") != null:
@@ -643,16 +643,16 @@ func _on_UndoButton_pressed():
 func undo():
 	if !level: return
 	
-	if undo_stack.empty(): return
+	if undo_stack.is_empty(): return
 	
 	var last_state = undo_stack.back()
 	
-	var level_object = last_state.instance()
+	var level_object = last_state.instantiate()
 	
 	call_deferred("load_level_from_object", level_object)
 	
 	undo_stack.erase(last_state)
-	button_undo.disabled = undo_stack.empty()
+	button_undo.disabled = undo_stack.is_empty()
 	
 	emit_signal("undo_executed")
 	
@@ -712,7 +712,7 @@ func object_clicked(object : Node, click_type : int):
 		self.edit_objects_enabled = false
 		return
 	
-	var eyedropping = eyedropper_enabled or click_type == BUTTON_MIDDLE
+	var eyedropping = eyedropper_enabled or click_type == MOUSE_BUTTON_MIDDLE
 	
 	if eyedropping and can_edit_objects:
 		var object_resource = load(object.filename)
@@ -722,7 +722,7 @@ func object_clicked(object : Node, click_type : int):
 			play_sound("Eyedrop")
 			return
 	
-	elif click_type == BUTTON_RIGHT:
+	elif click_type == MOUSE_BUTTON_RIGHT:
 		if object.get("editor_params") == null:
 			if can_delete_object: object_functions.delete_object(object)
 		else: edit_object(object)
@@ -730,7 +730,7 @@ func object_clicked(object : Node, click_type : int):
 	elif eraser_enabled and can_delete_object:
 		object_functions.delete_object(object)
 	
-	elif click_type == BUTTON_LEFT:
+	elif click_type == MOUSE_BUTTON_LEFT:
 		object_functions.grab_object(object)
 
 func _get_can_place_tiles():
@@ -758,7 +758,7 @@ func _input(event):
 	# Editor-specific keyboard shortcuts
 	
 	# Keyboard shortcut support for UNDO and SAVE actions.
-	if Input.is_key_pressed(KEY_CONTROL):
+	if Input.is_key_pressed(KEY_CTRL):
 		if Input.is_key_pressed(KEY_S):
 			save_level()
 		elif Input.is_key_pressed(KEY_Z):
@@ -808,7 +808,7 @@ func handle_closing_game():
 func _on_UnsavedChangesDialog_about_to_show():
 	pause_menu.paused = false
 	if !edit_mode:
-		yield(call("_deferred_enter_edit_mode"), "completed")
+		await call("_deferred_enter_edit_mode").completed
 	pause_toggled(true)
 
 func _on_UnsavedChangesDialog_popup_hide():
@@ -856,7 +856,7 @@ func _on_EditObject_toggled(button_pressed):
 
 func update_edit_objects_enabled(new_value):
 	edit_objects_enabled = new_value
-	button_edit_objects.pressed = new_value
+	button_edit_objects.button_pressed = new_value
 	emit_signal("edit_objects_toggled")
 
 func _get_mouse_over_ui():
@@ -879,7 +879,7 @@ func is_mouse_hovering_over_node(node : Control):
 	
 	if node is Control:
 		if node.mouse_filter == MOUSE_FILTER_STOP:
-			var hitbox = Rect2(Vector2.ZERO, node.rect_size)
+			var hitbox = Rect2(Vector2.ZERO, node.size)
 			if hitbox.has_point(node.get_local_mouse_position()):
 				return true
 	

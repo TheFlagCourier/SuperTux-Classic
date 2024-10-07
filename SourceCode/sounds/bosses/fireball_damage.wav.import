@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/fireball_damage.wav-db37cecb20c8920d140383ab0e541b66.sample"
+type="AudioStreamWAV"
+uid="uid://dt0xgijooq2lc"
+path="res://.godot/imported/fireball_damage.wav-db37cecb20c8920d140383ab0e541b66.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/fireball_damage.wav"
-dest_files=[ "res://.import/fireball_damage.wav-db37cecb20c8920d140383ab0e541b66.sample" ]
+dest_files=["res://.godot/imported/fireball_damage.wav-db37cecb20c8920d140383ab0e541b66.sample"]
 
 [params]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://images/background/cave-bg3.png" type="Texture" id=1]
-[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture" id=2]
-[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture" id=3]
+[ext_resource path="res://images/background/cave-bg3.png" type="Texture2D" id=1]
+[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture2D" id=2]
+[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture2D" id=3]
 
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
@@ -19,13 +19,13 @@ animations = [ {
 } ]
 
 [node name="Torch" type="Control"]
-margin_right = 128.0
-margin_bottom = 128.0
+offset_right = 128.0
+offset_bottom = 128.0
 mouse_filter = 2
 
 [node name="TextureRect2" type="TextureRect" parent="."]
-margin_right = 128.0
-margin_bottom = 128.0
+offset_right = 128.0
+offset_bottom = 128.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
@@ -33,9 +33,9 @@ stretch_mode = 2
 visible = false
 modulate = Color( 1, 0, 0, 1 )
 material = SubResource( 2 )
-margin_top = -40.0
-margin_right = 128.0
-margin_bottom = 88.0
+offset_top = -40.0
+offset_right = 128.0
+offset_bottom = 88.0
 texture = ExtResource( 2 )
 stretch_mode = 1
 
@@ -43,14 +43,14 @@ stretch_mode = 1
 visible = false
 modulate = Color( 0.937255, 0.933333, 0.427451, 0.286275 )
 material = SubResource( 2 )
-margin_top = -40.0
-margin_right = 128.0
-margin_bottom = 88.0
+offset_top = -40.0
+offset_right = 128.0
+offset_bottom = 88.0
 texture = ExtResource( 2 )
 stretch_mode = 1
 flip_h = true
 
-[node name="Glow3" type="AnimatedSprite" parent="."]
+[node name="Glow3" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0, 0, 1 )
 material = SubResource( 3 )
 position = Vector2( 64, 37 )
@@ -62,7 +62,7 @@ speed_scale = 0.5
 playing = true
 offset = Vector2( 0, -2 )
 
-[node name="Glow5" type="AnimatedSprite" parent="."]
+[node name="Glow5" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.992157, 0, 0.466667 )
 material = SubResource( 3 )
 position = Vector2( 64, 37 )
@@ -73,7 +73,7 @@ speed_scale = 0.5
 playing = true
 offset = Vector2( 0, -2 )
 
-[node name="Glow4" type="AnimatedSprite" parent="."]
+[node name="Glow4" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.309804, 0, 1 )
 material = SubResource( 3 )
 position = Vector2( 64, 37 )

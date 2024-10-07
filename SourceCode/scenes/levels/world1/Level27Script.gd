@@ -17,15 +17,15 @@
 
 extends Node
 
-onready var camera = get_parent().get_node("Camera2D")
-onready var anim_player = get_parent().get_node("AnimationPlayer")
-onready var nolok = get_parent().get_node("Nolok")
+@onready var camera = get_parent().get_node("Camera2D")
+@onready var anim_player = get_parent().get_node("AnimationPlayer")
+@onready var nolok = get_parent().get_node("Nolok")
 
 var boss_defeated = false
 var lerp_speed = 0.02
 
 func _ready():
-	nolok.connect("nolok_defeated", self, "boss_defeated")
+	nolok.connect("nolok_defeated", Callable(self, "boss_defeated"))
 
 func boss_defeated():
 	anim_player.play("defeated")

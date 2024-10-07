@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/water_splash_out.wav-db3129768e795270235c0ce33d474659.sample"
+type="AudioStreamWAV"
+uid="uid://5wl3aqn1bey"
+path="res://.godot/imported/water_splash_out.wav-db3129768e795270235c0ce33d474659.sample"
 
 [deps]
 
 source_file="res://sounds/enemies/water_splash_out.wav"
-dest_files=[ "res://.import/water_splash_out.wav-db3129768e795270235c0ce33d474659.sample" ]
+dest_files=["res://.godot/imported/water_splash_out.wav-db3129768e795270235c0ce33d474659.sample"]
 
 [params]
 

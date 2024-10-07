@@ -4,12 +4,12 @@ extends Node2D
 # including placing and erasing tiles from the tilemap,
 # displaying a grid for the currently selected tilemap, etc.
 
-onready var tile_selection = $SelectedTile
-onready var tile_preview = $SelectedTile/TilePreview
+@onready var tile_selection = $SelectedTile
+@onready var tile_preview = $SelectedTile/TilePreview
 
-export var grid_color = Color(0,0,0,0.5)
-export var rect_select_add_color = Color(0.1, 1, 0.1, 0.4)
-export var rect_select_erase_color = Color(1, 0.1, 0.1, 0.4)
+@export var grid_color = Color(0,0,0,0.5)
+@export var rect_select_add_color = Color(0.1, 1, 0.1, 0.4)
+@export var rect_select_erase_color = Color(1, 0.1, 0.1, 0.4)
 
 
 var selected_tilemap = null
@@ -93,11 +93,11 @@ func _process(delta):
 
 func get_selected_tile():
 	var mouse_pos = get_global_mouse_position()
-	return selected_tilemap.world_to_map(mouse_pos)
+	return selected_tilemap.local_to_map(mouse_pos)
 
 func update_tile_selected_sprite():
 	tile_selection.visible = is_tile_position_legal(selected_tile_position)
-	tile_selection.position = selected_tilemap.map_to_world(selected_tile_position)
+	tile_selection.position = selected_tilemap.map_to_local(selected_tile_position)
 	tile_selection.position += selected_tilemap.cell_size * 0.5
 
 func _input(event):
@@ -110,7 +110,7 @@ func _input(event):
 		if event is InputEventMouseButton:
 			if event.pressed and mouse_over_ui: return
 			
-			var about_to_use_eyedropper = event.button_index == BUTTON_MIDDLE or Input.is_action_pressed("editor_eyedrop_tool") or owner.eyedropper_enabled
+			var about_to_use_eyedropper = event.button_index == MOUSE_BUTTON_MIDDLE or Input.is_action_pressed("editor_eyedrop_tool") or owner.eyedropper_enabled
 			
 			if !about_to_use_eyedropper:
 				placing_tiles = event.pressed
@@ -121,7 +121,7 @@ func _input(event):
 				
 				placing_rectangle_fill = false
 				
-				is_erasing = event.button_index == BUTTON_RIGHT or owner.eraser_enabled
+				is_erasing = event.button_index == MOUSE_BUTTON_RIGHT or owner.eraser_enabled
 				tile_id_to_use = owner.current_tile_id if !is_erasing else -1
 				
 				var can_rect_fill = owner.rect_select_enabled or Input.is_action_pressed("editor_rect_select")

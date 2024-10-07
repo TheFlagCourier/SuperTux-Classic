@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://theme/FontCredits.tres" type="DynamicFont" id=1]
+[ext_resource path="res://theme/FontCredits.tres" type="FontFile" id=1]
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=3]
 [ext_resource path="res://scenes/layers/Background/IceMountains.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/menus/TextScroll.gd" type="Script" id=6]
@@ -22,11 +22,11 @@ return_scene = "res://scenes/levels/world1/worldmap.tscn"
 [node name="RichTextLabel" type="Label" parent="TextScroll"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -320.0
-margin_right = 320.0
-margin_bottom = 434.0
-custom_constants/shadow_offset_x = 0
-custom_fonts/font = ExtResource( 1 )
+offset_left = -320.0
+offset_right = 320.0
+offset_bottom = 434.0
+theme_override_constants/shadow_offset_x = 0
+theme_override_fonts/font = ExtResource( 1 )
 text = "Penny gets captured!
 
 Tux and Penny were out having a nice
@@ -53,9 +53,9 @@ beloved Penny, he begins his journey.
 align = 1
 clip_text = true
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="TextScroll/RichTextLabel"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="TextScroll/RichTextLabel"]
 rect = Rect2( 0, 0, 640, 395 )
 
 [node name="IceMountainsBackground" parent="." instance=ExtResource( 4 )]
 
-[connection signal="screen_exited" from="TextScroll/RichTextLabel/VisibilityNotifier2D" to="TextScroll" method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="screen_exited" from="TextScroll/RichTextLabel/VisibleOnScreenNotifier2D" to="TextScroll" method="_on_VisibilityNotifier2D_screen_exited"]

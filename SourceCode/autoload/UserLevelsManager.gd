@@ -14,7 +14,7 @@ var current_world = null
 var current_level = null
 
 # If true, the target device supports opening folders and modifying files for user worlds.
-var custom_content_supported = null setget , _is_custom_content_supported
+var custom_content_supported = null: get = _is_custom_content_supported
 
 func reload_user_worlds():
 	unload_user_worlds()
@@ -23,7 +23,7 @@ func reload_user_worlds():
 func load_user_worlds():
 	unload_user_worlds()
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 
 	dir.open("user://")
 	if !dir.dir_exists(user_worlds_folder):
@@ -35,7 +35,7 @@ func load_user_worlds():
 	
 	if dir.dir_exists(user_worlds_folder):
 		dir.change_dir(user_worlds_folder)
-		dir.list_dir_begin(true, true)
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		while true:
 			var current: String = dir.get_next()
 			if current == "":
@@ -46,7 +46,7 @@ func load_user_worlds():
 # Add all levels from the base game (world1, bonus1, bonus2)
 # into the User Levels directory so that users can edit them!
 func _add_base_game_worlds_to_user_worlds_folder() -> int:
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	var file = File.new()
 	
 	var levels_directory = Global.globalise_path(Global.worlds_folder)
@@ -81,7 +81,7 @@ func _add_base_game_worlds_to_user_worlds_folder() -> int:
 	return OK
 
 func _get_user_world_data(dir_name: String) -> bool:
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 
 	# If contrib pack data exists for the current user world:
 	if dir.dir_exists(user_worlds_directory + dir_name) and dir.file_exists(user_worlds_directory + dir_name + "/" + world_data_file):
@@ -125,7 +125,7 @@ func create_user_world(world_name : String, author_name : String, create_worldma
 	
 	var world_directory = user_worlds_directory + world_folder_name
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	# If a directory for the world we want to create already exists.
 	# don't proceed further so we don't overwrite anything.
@@ -178,7 +178,7 @@ func create_user_world(world_name : String, author_name : String, create_worldma
 # Change the name / author of an existing user world
 func modify_user_world(world_name : String, author_name : String, world_folder_name : String = current_world) -> int:
 	var world_directory = user_worlds_directory + world_folder_name
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	# Ensure the world exists before trying to modify it.
 	if !dir.dir_exists(world_directory):
@@ -219,7 +219,7 @@ func create_level_in_world(world_folder : String = current_world) -> String:
 	var world_directory = user_worlds_directory + world_folder
 	var level_filepath = world_directory + "/" + level_name
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if !dir.dir_exists(world_directory):
 		push_error("Error creating level in world '" + world_folder + "': world folder does not exist.")
 	
@@ -285,7 +285,7 @@ func get_world_folder_from_name(world_name : String):
 # Returns the file paths for each level in a user world,
 # EXCLUDING the worldmap.
 func get_levels_in_world(world_folder_name : String) -> Array:
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	var world_folder = user_worlds_folder + world_folder_name
 	
 	var worldmap_file = get_worldmap_filename_for_world(world_folder_name)
@@ -299,7 +299,7 @@ func get_levels_in_world(world_folder_name : String) -> Array:
 	
 	dir.change_dir(world_folder)
 	
-	dir.list_dir_begin(true, true)
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	while true:
 		var current: String = dir.get_next()
 		if current == "":
@@ -309,7 +309,7 @@ func get_levels_in_world(world_folder_name : String) -> Array:
 				if current != worldmap_file:
 					levels.append(current)
 	
-	levels.sort_custom(Global, "sort_alphabetically")
+	levels.sort_custom(Callable(Global, "sort_alphabetically"))
 	
 	var level_filepaths = []
 	
@@ -322,12 +322,12 @@ func get_levels_in_world(world_folder_name : String) -> Array:
 func delete_user_world(world_folder_name : String):
 	var world_folder = user_worlds_folder + world_folder_name + "/"
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.open("user://")
 	dir.change_dir(world_folder)
 	
 	# Delete all files in the world
-	dir.list_dir_begin(true, true)
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	while true:
 		var current: String = dir.get_next()
 		if current == "":
@@ -340,7 +340,7 @@ func delete_user_world(world_folder_name : String):
 	dir.remove(user_worlds_directory + world_folder_name)
 
 func delete_user_level(level_filepath : String):
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.remove(level_filepath)
 
 func _create_world_data(world_name : String, author_name : String, worldmap_scene : String = worldmap_file, initial_scene : String = worldmap_file) -> Dictionary:
@@ -369,7 +369,7 @@ func get_custom_music_tracks_for_world(world : String = UserLevels.current_world
 	
 	var custom_music_folder = user_worlds_directory.plus_file(world).plus_file("assets/music")
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	var tracks = []
 	
@@ -398,11 +398,11 @@ func open_user_world_custom_assets_folder(subfolder : String = "", world_folder 
 	if subfolder != "":
 		folder_to_open = folder_to_open.plus_file(subfolder)
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if !dir.dir_exists(folder_to_open):
 		dir.make_dir_recursive(folder_to_open)
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	
 	folder_to_open = Global.globalise_path(folder_to_open)
 	

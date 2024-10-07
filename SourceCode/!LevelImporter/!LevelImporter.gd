@@ -77,16 +77,16 @@
 
 extends Node2D
 
-export var level_data = ""
-export var export_file_path = "res://IMPORTS/Level.tscn"
-export var default_tile = "Placeholder"
+@export var level_data = ""
+@export var export_file_path = "res://IMPORTS/Level.tscn"
+@export var default_tile = "Placeholder"
 
 # EXPAND TILEMAPS: If this option is enabled for a tilemap,
 # Every tile at the bottom will be copied downwards a number of times
 # Effectively filling the bottom of the level.
-export var expand_interactive_tilemap = true
-export var expand_background_tilemap = true 
-export var expand_foreground_tilemap = false
+@export var expand_interactive_tilemap = true
+@export var expand_background_tilemap = true 
+@export var expand_foreground_tilemap = false
 
 var level_width = 0
 var object_list = ""
@@ -96,21 +96,21 @@ var tiles_interactive = ""
 var tiles_background = ""
 var tiles_foreground = ""
 
-onready var tile_importer = $TileImporter
-onready var object_importer = $ObjectImporter
-onready var import = $ImportFunctions
-onready var music = $MusicImporter.music
+@onready var tile_importer = $TileImporter
+@onready var object_importer = $ObjectImporter
+@onready var import = $ImportFunctions
+@onready var music = $MusicImporter.music
 
-onready var level = $Level
-onready var level_intact = $Level/TileMap
-onready var level_bg = $Level/Background
-onready var level_fg = $Level/Foreground
-onready var level_water = $Level/Water
-onready var objectmap = $Level/ObjectMap
-onready var worldmap_objects = get_node("Level/Objects")
-onready var gradient_background = get_node_or_null("Level/GradientBG")
+@onready var level = $Level
+@onready var level_intact = $Level/TileMap
+@onready var level_bg = $Level/Background
+@onready var level_fg = $Level/Foreground
+@onready var level_water = $Level/Water
+@onready var objectmap = $Level/ObjectMap
+@onready var worldmap_objects = get_node("Level/Objects")
+@onready var gradient_background = get_node_or_null("Level/GradientBG")
 
-export var is_worldmap_importer = false
+@export var is_worldmap_importer = false
 
 # Returns only the portion of a string between beginning_phrase and end_phrase.
 func _get_section_of_string(string, beginning_phrase, end_phrase):

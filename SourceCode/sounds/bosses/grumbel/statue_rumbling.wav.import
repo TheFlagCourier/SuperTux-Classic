@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/statue_rumbling.wav-cdda6818b1085edfc5374ffc5e8fbafd.sample"
+type="AudioStreamWAV"
+uid="uid://cuux64ajuhip8"
+path="res://.godot/imported/statue_rumbling.wav-cdda6818b1085edfc5374ffc5e8fbafd.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/grumbel/statue_rumbling.wav"
-dest_files=[ "res://.import/statue_rumbling.wav-cdda6818b1085edfc5374ffc5e8fbafd.sample" ]
+dest_files=["res://.godot/imported/statue_rumbling.wav-cdda6818b1085edfc5374ffc5e8fbafd.sample"]
 
 [params]
 

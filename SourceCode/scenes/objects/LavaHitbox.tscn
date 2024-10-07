@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://images/editor/LavaHitbox.png" type="Texture" id=1]
+[ext_resource path="res://images/editor/LavaHitbox.png" type="Texture2D" id=1]
 [ext_resource path="res://scenes/objects/LavaHitbox.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=6]
@@ -16,7 +16,7 @@ script = ExtResource( 2 )
 position = Vector2( 0, 8 )
 shape = SubResource( 6 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource( 1 )
 
 [connection signal="body_entered" from="." to="." method="_on_Lava_body_entered"]

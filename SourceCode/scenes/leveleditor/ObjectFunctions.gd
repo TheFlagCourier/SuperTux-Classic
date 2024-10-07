@@ -8,8 +8,8 @@ var can_place_objects = true
 
 var mouse_over_ui = false
 
-onready var tile_selection = $SelectedTile
-onready var tile_preview = $SelectedTile/TilePreview
+@onready var tile_selection = $SelectedTile
+@onready var tile_preview = $SelectedTile/TilePreview
 
 func _ready():
 	set_process(true)
@@ -40,7 +40,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		
 		# Let go of dragged objects when mouse released
-		if event.button_index == BUTTON_LEFT and !event.pressed:
+		if event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
 			can_place_objects = true
 			
 			if dragged_object:
@@ -49,13 +49,13 @@ func _input(event):
 					dragged_object = null
 			return
 		
-		if event.pressed and event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
 		
 			if can_place_objects and !mouse_over_ui and !dragged_object and object_container:
 				
-				var is_erasing = event.button_index == BUTTON_RIGHT or owner.eraser_enabled
+				var is_erasing = event.button_index == MOUSE_BUTTON_RIGHT or owner.eraser_enabled
 				
-				if !is_erasing and event.button_index == BUTTON_LEFT:
+				if !is_erasing and event.button_index == MOUSE_BUTTON_LEFT:
 					place_object()
 
 func place_object():
@@ -70,7 +70,7 @@ func place_object():
 	if !object_to_add: return
 	if !object_container: return
 	
-	var object = object_to_add.instance()
+	var object = object_to_add.instantiate()
 	object.position = position
 	object_container.add_child(object)
 	object.set_owner(level)

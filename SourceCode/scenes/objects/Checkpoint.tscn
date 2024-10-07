@@ -1,15 +1,15 @@
 [gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://images/objects/checkpoint/bell-m.png" type="Texture" id=1]
-[ext_resource path="res://images/objects/checkpoint/bell-l.png" type="Texture" id=2]
-[ext_resource path="res://images/objects/checkpoint/bell-l_0.png" type="Texture" id=3]
-[ext_resource path="res://images/objects/checkpoint/bell-r.png" type="Texture" id=4]
-[ext_resource path="res://images/objects/checkpoint/bell-r_0.png" type="Texture" id=5]
+[ext_resource path="res://images/objects/checkpoint/bell-m.png" type="Texture2D" id=1]
+[ext_resource path="res://images/objects/checkpoint/bell-l.png" type="Texture2D" id=2]
+[ext_resource path="res://images/objects/checkpoint/bell-l_0.png" type="Texture2D" id=3]
+[ext_resource path="res://images/objects/checkpoint/bell-r.png" type="Texture2D" id=4]
+[ext_resource path="res://images/objects/checkpoint/bell-r_0.png" type="Texture2D" id=5]
 [ext_resource path="res://sounds/objects/checkpoint.wav" type="AudioStream" id=6]
 [ext_resource path="res://scenes/master/SFX.gd" type="Script" id=7]
-[ext_resource path="res://images/particles/invincible_sparkle.png" type="Texture" id=8]
-[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture" id=9]
-[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture" id=10]
+[ext_resource path="res://images/particles/invincible_sparkle.png" type="Texture2D" id=8]
+[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture2D" id=9]
+[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture2D" id=10]
 [ext_resource path="res://scenes/objects/Checkpoint.gd" type="Script" id=11]
 [ext_resource path="res://scenes/particles/InvincibleParticlesSmall.tres" type="Material" id=12]
 
@@ -53,8 +53,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -65,20 +65,20 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("AnimatedSprite:animation")
+tracks/2/path = NodePath("AnimatedSprite2D:animation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ "active" ]
 }
@@ -93,8 +93,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -105,20 +105,20 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("AnimatedSprite:animation")
+tracks/2/path = NodePath("AnimatedSprite2D:animation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ "default" ]
 }
@@ -126,7 +126,7 @@ tracks/2/keys = {
 [node name="Checkpoint" type="Node2D" groups=["checkpoints"]]
 script = ExtResource( 11 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 frames = SubResource( 1 )
 playing = true
 
@@ -143,7 +143,7 @@ script = ExtResource( 7 )
 [node name="Checkpoint" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 6 )
 
-[node name="Particles" type="Particles2D" parent="."]
+[node name="Particles" type="GPUParticles2D" parent="."]
 material = SubResource( 3 )
 z_index = 2
 amount = 2
@@ -152,7 +152,7 @@ local_coords = false
 process_material = ExtResource( 12 )
 texture = ExtResource( 8 )
 
-[node name="Flash" type="Particles2D" parent="."]
+[node name="Flash" type="GPUParticles2D" parent="."]
 material = SubResource( 3 )
 z_index = 2
 emitting = false
@@ -164,7 +164,7 @@ local_coords = false
 process_material = ExtResource( 12 )
 texture = ExtResource( 8 )
 
-[node name="Glow" type="AnimatedSprite" parent="."]
+[node name="Glow" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0.972549, 0.494118, 0.541176 )
 material = SubResource( 4 )
 scale = Vector2( 2, 2 )

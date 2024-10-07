@@ -1,17 +1,17 @@
-extends PopupDialog
+extends Popup
 
-onready var escape_button = $VBoxContainer/VBoxContainer/EscapeButton
-onready var delete_button = $VBoxContainer/VBoxContainer/ConfirmDelete
+@onready var escape_button = $VBoxContainer/VBoxContainer/EscapeButton
+@onready var delete_button = $VBoxContainer/VBoxContainer/ConfirmDelete
 
-onready var deletion_message = $DeletionMessage
-onready var deletion_ok_button = $DeletionMessage/VBoxContainer/FinishDelete
+@onready var deletion_message = $DeletionMessage
+@onready var deletion_ok_button = $DeletionMessage/VBoxContainer/FinishDelete
 
-onready var anim_player = get_node_or_null("AnimationPlayer")
+@onready var anim_player = get_node_or_null("AnimationPlayer")
 
-export var is_level_delete = false
+@export var is_level_delete = false
 
 # If true, will force the user to wait before being able to press "Yes" to delete
-export var delay_delete_button = true
+@export var delay_delete_button = true
 
 var world_to_delete = ""
 var level_to_delete = ""

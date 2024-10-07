@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/close_level_properties.wav-638198922489712b206884eb34ebf62e.sample"
+type="AudioStreamWAV"
+uid="uid://d1tuq5oily72n"
+path="res://.godot/imported/close_level_properties.wav-638198922489712b206884eb34ebf62e.sample"
 
 [deps]
 
 source_file="res://sounds/editor/close_level_properties.wav"
-dest_files=[ "res://.import/close_level_properties.wav-638198922489712b206884eb34ebf62e.sample" ]
+dest_files=["res://.godot/imported/close_level_properties.wav-638198922489712b206884eb34ebf62e.sample"]
 
 [params]
 

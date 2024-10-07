@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/objects/Powerup.gd" type="Script" id=1]
-[ext_resource path="res://images/powerups/star.png" type="Texture" id=2]
-[ext_resource path="res://images/particles/invincible_sparkle.png" type="Texture" id=3]
+[ext_resource path="res://images/powerups/star.png" type="Texture2D" id=2]
+[ext_resource path="res://images/particles/invincible_sparkle.png" type="Texture2D" id=3]
 [ext_resource path="res://scenes/particles/InvincibleParticlesSmall.tres" type="Material" id=4]
 
 [sub_resource type="Animation" id=7]
@@ -10,26 +10,26 @@ resource_name = "appear"
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control:rect_position")
+tracks/0/path = NodePath("Control:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PackedFloat32Array( 0, 0.4 ),
+"transitions": PackedFloat32Array( 0.5, 1 ),
 "update": 0,
 "values": [ Vector2( -16, 16 ), Vector2( -16, -16 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Control:rect_size")
+tracks/1/path = NodePath("Control:size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PackedFloat32Array( 0, 0.4 ),
+"transitions": PackedFloat32Array( 0.5, 1 ),
 "update": 0,
 "values": [ Vector2( 32, 0 ), Vector2( 32, 32 ) ]
 }
@@ -40,8 +40,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.15 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
@@ -58,8 +58,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.15, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.1, 0.15, 0.2, 0.3, 0.4 ),
+"transitions": PackedFloat32Array( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0.156863, 1, 1 ), Color( 0, 0.905882, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0.905882, 1, 1 ), Color( 0, 0.156863, 1, 1 ) ]
 }
@@ -84,7 +84,7 @@ extents = Vector2( 16, 16 )
 [sub_resource type="CanvasItemMaterial" id=23]
 blend_mode = 1
 
-[node name="Star" type="KinematicBody2D"]
+[node name="Star" type="CharacterBody2D"]
 z_index = 2
 collision_layer = 0
 script = ExtResource( 1 )
@@ -112,18 +112,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -16.0
-margin_top = 16.0
-margin_right = 16.0
-margin_bottom = 16.0
-rect_pivot_offset = Vector2( 16, 32 )
-rect_clip_content = true
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2( 16, 32 )
+clip_contents = true
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Control"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control"]
 frames = SubResource( 8 )
 centered = false
 
-[node name="Glow" type="AnimatedSprite" parent="Control"]
+[node name="Glow" type="AnimatedSprite2D" parent="Control"]
 modulate = Color( 0, 0.220425, 1, 1 )
 material = SubResource( 9 )
 frames = SubResource( 8 )
@@ -141,7 +141,7 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )
 
-[node name="Particles" type="Particles2D" parent="."]
+[node name="Particles" type="GPUParticles2D" parent="."]
 material = SubResource( 23 )
 z_index = 2
 emitting = false

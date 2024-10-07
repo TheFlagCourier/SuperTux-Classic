@@ -1,10 +1,10 @@
 extends CanvasLayer
 
 var is_using_mobile = false
-export var force_mobile_controls = false
+@export var force_mobile_controls = false
 
-export var deadzone = 0.2
-export var max_direction_distance = 1
+@export var deadzone = 0.2
+@export var max_direction_distance = 1
 # If the direction you're holding has a distance less than this to a cardinal direction
 # you will be moving in the cardinal direction
 # E.g. If my joystick direction is Vector2.UP and the angle between Vector2.UP and Vector2.LEFT
@@ -16,18 +16,18 @@ var movement_vector = Vector2.ZERO
 var button_just_pressed = false
 var button_just_released = false
 
-onready var mobile_controls = $Control
-onready var joystick_button = $Control/JoystickScale/JoystickArea/Joystick/JoystickButton
-onready var joystick_container = $Control/JoystickScale/JoystickArea/Joystick
-onready var joystick_stick = $Control/JoystickScale/JoystickArea/Joystick/Stick
-onready var scale_joystick = $Control/JoystickScale
-onready var scale_buttons = $Control/ButtonsScale
+@onready var mobile_controls = $Control
+@onready var joystick_button = $Control/JoystickScale/JoystickArea/Joystick/JoystickButton
+@onready var joystick_container = $Control/JoystickScale/JoystickArea/Joystick
+@onready var joystick_stick = $Control/JoystickScale/JoystickArea/Joystick/Stick
+@onready var scale_joystick = $Control/JoystickScale
+@onready var scale_buttons = $Control/ButtonsScale
 
-onready var buttons = [$Control/ButtonsScale/ButtonsArea/Jump/JumpButton, $Control/ButtonsScale/ButtonsArea/Action/ActionButton]
+@onready var buttons = [$Control/ButtonsScale/ButtonsArea/Jump/JumpButton, $Control/ButtonsScale/ButtonsArea/Action/ActionButton]
 
-var mouse_over_ui = null setget , _get_mouse_over_ui
+var mouse_over_ui = null: get = _get_mouse_over_ui
 
-onready var mouse_hover_detectors = [
+@onready var mouse_hover_detectors = [
 	get_node("Control/ButtonsScale/ButtonsArea"),
 	get_node("Control/JoystickScale/JoystickArea"),
 	get_node("Control/PauseArea")
@@ -45,7 +45,7 @@ var movement_directions = []
 func _ready():
 	mobile_controls.hide()
 	if force_mobile_controls: activate_mobile_controls()
-	ResolutionManager.connect("window_resized", self, "window_resized")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
 	window_resized()
 
 func window_resized():
@@ -60,8 +60,8 @@ func window_resized():
 	update_mobile_controls_scale(scale)
 
 func update_mobile_controls_scale(ui_scale : float):
-	scale_joystick.rect_scale = Vector2.ONE * ui_scale
-	scale_buttons.rect_scale = Vector2.ONE * ui_scale
+	scale_joystick.scale = Vector2.ONE * ui_scale
+	scale_buttons.scale = Vector2.ONE * ui_scale
 
 func _input(event):
 	
@@ -100,7 +100,7 @@ func _input(event):
 	
 	
 	if event is InputEventScreenTouch:
-		if event.pressed == false:
+		if event.button_pressed == false:
 			joystick_active = false
 
 func _physics_process(delta):
@@ -151,22 +151,22 @@ func clear_directions():
 		movement_directions = []
 
 func get_movement_vector(touch_position, limit = true):
-	var joy_scale = scale_joystick.rect_scale.x
+	var joy_scale = scale_joystick.scale.x
 	
-	var joystick_center_position = joystick_button.global_position + joystick_container.rect_size * 0.5
+	var joystick_center_position = joystick_button.global_position + joystick_container.size * 0.5
 	
 	joystick_center_position += Vector2.ONE * 64 * (joy_scale - 1)
 	
 	var position_difference = touch_position - joystick_center_position
-	position_difference *= 2.0 / joystick_container.rect_size.x / joy_scale
+	position_difference *= 2.0 / joystick_container.size.x / joy_scale
 	if position_difference.length() > 1 and limit: position_difference = position_difference.normalized()
 	return position_difference
 
 func update_joystick_sprite():
-	joystick_stick.position = joystick_button.position + joystick_container.rect_size * 0.5
+	joystick_stick.position = joystick_button.position + joystick_container.size * 0.5
 	joystick_stick.animation = "pressed" if joystick_active else "default"
 	if joystick_active:
-		joystick_stick.position += movement_vector * joystick_container.rect_size * 0.5
+		joystick_stick.position += movement_vector * joystick_container.size * 0.5
 
 func activate_mobile_controls():
 	is_using_mobile = true
@@ -197,7 +197,7 @@ func _on_PauseButton_pressed():
 	Input.action_release("ui_cancel")
 	var a = InputEventAction.new()
 	a.action = "ui_cancel"
-	a.pressed = true
+	a.button_pressed = true
 	Input.parse_input_event(a)
 
 func _get_mouse_over_ui():
@@ -205,7 +205,7 @@ func _get_mouse_over_ui():
 	if joystick_active: return true
 	
 	for area in mouse_hover_detectors:
-		var hitbox = Rect2(Vector2.ZERO, area.rect_size)
+		var hitbox = Rect2(Vector2.ZERO, area.size)
 		if hitbox.has_point(area.get_local_mouse_position()): return true
 	
 	return false

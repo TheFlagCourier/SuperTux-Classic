@@ -62,7 +62,7 @@ func get_options_data() -> Dictionary:
 
 # Saves a Dictionary of game options to a file for later access.
 func save_options_data(optionsData : Dictionary):
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if !dir.dir_exists(OPTIONS_DIR):
 		dir.make_dir_recursive(OPTIONS_DIR)
 	
@@ -79,7 +79,7 @@ func save_options_data(optionsData : Dictionary):
 		print("Error saving options data")
 		push_error("Failure saving options file")
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func does_options_data_exist() -> bool:
 	var file = File.new()
@@ -122,7 +122,7 @@ func save_game(world : String = WorldmapManager.worldmap_name, levels_cleared : 
 	
 	var save_data = _encapsulate_game_data(levels_cleared, worldmap_level, worldmap_position)
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if !dir.dir_exists(current_save_directory):
 		dir.make_dir_recursive(current_save_directory)
 	
@@ -136,7 +136,7 @@ func save_game(world : String = WorldmapManager.worldmap_name, levels_cleared : 
 		print("Error creating SuperTux save file at path: " + str(save_path))
 		print("Error code: " + str(save_state))
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	emit_signal("save_completed")
 
 func _encapsulate_game_data(levels_cleared : Array, worldmap_level : String, worldmap_position : Vector2):
@@ -186,7 +186,7 @@ func load_game(world = WorldmapManager.worldmap_name, load_path = current_save_d
 	if save_data == null:
 		push_error("Error loading SuperTux save file at path: " + str(load_path))
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func _decapsulate_game_data(data_dictionary):
 	var levels_cleared = data_dictionary.get("levels_cleared")
@@ -209,7 +209,7 @@ func _decapsulate_game_data(data_dictionary):
 
 func delete_save_file(save_path = current_save_directory):
 	var files_to_delete = Global.list_files_in_directory(current_save_directory)
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	for file in files_to_delete:
 		dir.remove(file)
 
@@ -218,7 +218,7 @@ func save_current_controls():
 	
 	var controls = {"Key": [], "Gamepad": []}
 	for control in Global.controls:
-		var input_list = InputMap.get_action_list(control)
+		var input_list = InputMap.action_get_events(control)
 		var input_key: InputEventKey = null
 		var input_button: InputEventJoypadButton = null
 		
@@ -229,26 +229,26 @@ func save_current_controls():
 				input_button = i
 		
 		if input_key == null:
-			push_error("Error saving controls: Cannot convert null InputEvent into a scancode because it is not of type InputEventKey")
+			push_error("Error saving controls: Cannot convert null InputEvent into a keycode because it is not of type InputEventKey")
 			continue
 		if input_button == null:
 			push_error("Error saving controls: Cannot convert null InputEvent into a button_index because it is not of type InputEventJoypadButton")
 			continue
 		
-		var scancode = input_key.get_scancode()
-		controls["Key"].append(scancode)
+		var keycode = input_key.get_keycode()
+		controls["Key"].append(keycode)
 		controls["Gamepad"].append(input_button.button_index)
 	
 	# Save this array of scancodes to the controls file.
 	var file = File.new()
 	var controls_file = file.open(CONTROLS_FILE, File.WRITE)
 	if controls_file == OK:
-		file.store_string(to_json(controls))
+		file.store_string(JSON.new().stringify(controls))
 		file.close()
 	else:
 		push_error("Failure saving controls file")
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func load_current_controls(load_path = CONTROLS_FILE):
 	var file = File.new()
@@ -259,14 +259,16 @@ func load_current_controls(load_path = CONTROLS_FILE):
 		if load_state == OK:
 			match type_of_controls_file:
 				CONTROLS_FILE_TYPE.Current:
-					var controls: Dictionary = parse_json(file.get_line())
+					var test_json_conv = JSON.new()
+					test_json_conv.parse(file.get_line())
+					var controls: Dictionary = test_json_conv.get_data()
 					_deencapsulate_player_controls(controls)
 				CONTROLS_FILE_TYPE.Legacy:
 					var controls: Array = file.get_var()
 					_deencapsulate_player_controls_legacy(controls)
 					
 					# Remove old file and save to new file
-					var dir = Directory.new()
+					var dir = DirAccess.new()
 					dir.open(OPTIONS_DIR)
 					dir.remove(CONTROLS_LEGACY_FILE)
 					save_current_controls()
@@ -280,9 +282,9 @@ func _deencapsulate_player_controls(controls: Dictionary):
 	print("Loading saved player controls")
 	for i in range(len(controls["Key"])):
 		var control_action = Global.controls[i]
-		var ctrl_list = InputMap.get_action_list(control_action)
+		var ctrl_list = InputMap.action_get_events(control_action)
 		var inputeventkey = InputEventKey.new()
-		inputeventkey.scancode = controls["Key"][i]
+		inputeventkey.keycode = controls["Key"][i]
 		var inputeventpad = InputEventJoypadButton.new()
 		inputeventpad.button_index = controls["Gamepad"][i]
 		
@@ -315,7 +317,7 @@ func _deencapsulate_player_controls(controls: Dictionary):
 		var ui_action = action[0]
 		var move_action = action[1]
 
-		var ctrl_list = InputMap.get_action_list(ui_action)
+		var ctrl_list = InputMap.action_get_events(ui_action)
 
 		var del_inev_key: InputEventKey = null
 		var del_inev_pad: InputEventJoypadButton = null
@@ -332,7 +334,7 @@ func _deencapsulate_player_controls(controls: Dictionary):
 		if del_inev_pad != null:
 			InputMap.action_erase_event(ui_action, del_inev_pad)
 
-		var inputs = InputMap.get_action_list(move_action)
+		var inputs = InputMap.action_get_events(move_action)
 
 		for input in inputs:
 			if input is InputEventKey or input is InputEventJoypadButton:
@@ -344,11 +346,11 @@ func _deencapsulate_player_controls(controls: Dictionary):
 func _deencapsulate_player_controls_legacy(scancode_array : Array):
 	print("Loading saved player controls (LEGACY)")
 	var i = 0
-	for scancode in scancode_array:
+	for keycode in scancode_array:
 		var control_action = Global.controls[i]
-		var ctrl_list = InputMap.get_action_list(control_action)
+		var ctrl_list = InputMap.action_get_events(control_action)
 		var inputeventkey = InputEventKey.new()
-		inputeventkey.scancode = scancode
+		inputeventkey.keycode = keycode
 		
 		var del_inev: InputEvent = null
 		
@@ -375,7 +377,7 @@ func _deencapsulate_player_controls_legacy(scancode_array : Array):
 		var ui_action = action[0]
 		var move_action = action[1]
 		
-		var ctrl_list = InputMap.get_action_list(ui_action)
+		var ctrl_list = InputMap.action_get_events(ui_action)
 		
 		var del_inev: InputEvent = null
 		
@@ -388,7 +390,7 @@ func _deencapsulate_player_controls_legacy(scancode_array : Array):
 		if del_inev != null:
 			InputMap.action_erase_event(ui_action, del_inev)
 		
-			var inputs = InputMap.get_action_list(move_action)
+			var inputs = InputMap.action_get_events(move_action)
 			
 			for input in inputs:
 				if input is InputEventKey:
@@ -396,10 +398,10 @@ func _deencapsulate_player_controls_legacy(scancode_array : Array):
 
 func _list_files_in_directory(path):
 	var files = []
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.open(path)
 	
-	dir.list_dir_begin()
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 
 	while true:
 		var file = dir.get_next()
@@ -429,7 +431,7 @@ func transfer_old_savefile_to_new_save_path():
 	var old_save_file_path = SAVE_DIR + "file1.dat"
 	var new_save_file_path = current_save_directory + "world1.dat"
 	
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	if !dir.dir_exists(current_save_directory):
 		dir.make_dir_recursive(current_save_directory)

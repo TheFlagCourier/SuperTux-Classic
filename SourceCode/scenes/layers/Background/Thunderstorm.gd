@@ -1,9 +1,9 @@
 extends ParallaxBackground
 
-onready var anim_player = $AnimationPlayer
-onready var lightning_timer = $LightningTimer
-onready var sound = $SFX/Lightning
-onready var sfx = $SFX
+@onready var anim_player = $AnimationPlayer
+@onready var lightning_timer = $LightningTimer
+@onready var sound = $SFX/Lightning
+@onready var sfx = $SFX
 
 func _on_LightningTimer_timeout():
 	var rng = RandomNumberGenerator.new()

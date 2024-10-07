@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/black_hole_charge.wav-aa83db55ad24818c33f921fe516154cc.sample"
+type="AudioStreamWAV"
+uid="uid://dww5e5vxeccqj"
+path="res://.godot/imported/black_hole_charge.wav-aa83db55ad24818c33f921fe516154cc.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/grumbel/black_hole_charge.wav"
-dest_files=[ "res://.import/black_hole_charge.wav-aa83db55ad24818c33f921fe516154cc.sample" ]
+dest_files=["res://.godot/imported/black_hole_charge.wav-aa83db55ad24818c33f921fe516154cc.sample"]
 
 [params]
 

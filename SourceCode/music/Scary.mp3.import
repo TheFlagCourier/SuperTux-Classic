@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/Scary.mp3-1d128d5e29a9013505ae9ad550fa239b.mp3str"
+uid="uid://c7ys3qghiikj0"
+path="res://.godot/imported/Scary.mp3-1d128d5e29a9013505ae9ad550fa239b.mp3str"
 
 [deps]
 
 source_file="res://music/Scary.mp3"
-dest_files=[ "res://.import/Scary.mp3-1d128d5e29a9013505ae9ad550fa239b.mp3str" ]
+dest_files=["res://.godot/imported/Scary.mp3-1d128d5e29a9013505ae9ad550fa239b.mp3str"]
 
 [params]
 
 loop=true
 loop_offset=5.6
+bpm=0
+beat_count=0
+bar_beats=4

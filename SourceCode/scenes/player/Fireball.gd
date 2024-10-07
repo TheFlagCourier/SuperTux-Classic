@@ -15,14 +15,14 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
 var velocity = Vector2()
 var is_moving = true
 var active = true
 
-onready var animation_player = $AnimationPlayer
-onready var destroy_timer = $DestroyTimer
+@onready var animation_player = $AnimationPlayer
+@onready var destroy_timer = $DestroyTimer
 
 func _ready():
 	if velocity.x >= 0:

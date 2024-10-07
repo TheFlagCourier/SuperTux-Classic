@@ -1,7 +1,7 @@
 extends GridContainer
 
-export var tile_button_scene : PackedScene
-export var object_button_scene : PackedScene
+@export var tile_button_scene : PackedScene
+@export var object_button_scene : PackedScene
 
 var current_tileset = null
 
@@ -65,15 +65,15 @@ func show_tiles_from_tilemap(tilemap : TileMap):
 				if !tilemap.group_tiles.has(tile_name):
 					continue
 		
-		var tile_button = tile_button_scene.instance()
+		var tile_button = tile_button_scene.instantiate()
 		add_child(tile_button)
 		tile_button.set_owner(self)
-		tile_button.connect("tile_button_pressed", self, "update_selected_tile")
-		tile_button.connect("update_tile_preview_texture", self, "update_tile_preview_texture")
+		tile_button.connect("tile_button_pressed", Callable(self, "update_selected_tile"))
+		tile_button.connect("update_tile_preview_texture", Callable(self, "update_tile_preview_texture"))
 		tile_button.tileset = current_tileset
 		tile_button.tile_id = tile
 		tile_button.flip_tiles_toggled(owner.flip_tiles_enabled)
-		owner.connect("flip_tiles_toggled", tile_button, "flip_tiles_toggled")
+		owner.connect("flip_tiles_toggled", Callable(tile_button, "flip_tiles_toggled"))
 
 # Display all object scenes within a directory
 func show_object_scenes_in_folder(folder_name : String):
@@ -86,17 +86,17 @@ func show_object_scenes_in_folder(folder_name : String):
 		var object_resource = load(file)
 		
 		var is_object_allowed = true
-		var object = object_resource.instance()
+		var object = object_resource.instantiate()
 		#print(object.name)
 		if object.is_in_group("players"): is_object_allowed = false
 		object.queue_free()
 		if !is_object_allowed: continue
 		
-		var object_button = object_button_scene.instance()
+		var object_button = object_button_scene.instantiate()
 		add_child(object_button)
 		object_button.set_owner(self)
-		object_button.connect("object_button_pressed", self, "update_selected_object")
-		object_button.connect("update_tile_preview_texture", self, "update_tile_preview_texture")
+		object_button.connect("object_button_pressed", Callable(self, "update_selected_object"))
+		object_button.connect("update_tile_preview_texture", Callable(self, "update_tile_preview_texture"))
 		object_button.object_resource = object_resource
 
 
@@ -130,5 +130,5 @@ func update_selected_object(selected_object_resource : Resource):
 		if object_button.object_resource == selected_object_resource:
 			object_button.set_preview_texture()
 
-func update_tile_preview_texture(new_texture : Texture, region_rect):
+func update_tile_preview_texture(new_texture : Texture2D, region_rect):
 	emit_signal("update_tile_preview_texture", new_texture, region_rect)

@@ -15,25 +15,25 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var type = ""
-export var state_to_grant = 0 # Refer to player states enum for powerup states
-export var facing = 1
-export var can_move = true
-export var bounces = false
-export var move_speed_in_tiles = 0.8 * 4
-export var bounce_height_in_tiles = 6.0
-export var solid = true
-export var friction = 0.75
+@export var type = ""
+@export var state_to_grant = 0 # Refer to player states enum for powerup states
+@export var facing = 1
+@export var can_move = true
+@export var bounces = false
+@export var move_speed_in_tiles = 0.8 * 4
+@export var bounce_height_in_tiles = 6.0
+@export var solid = true
+@export var friction = 0.75
 
 var velocity = Vector2()
 var touching_wall = false
 var grounded = false
 var moving = false
 var is_solid = true
-onready var move_speed = move_speed_in_tiles * Global.TILE_SIZE
-onready var bounce_height = bounce_height_in_tiles * Global.TILE_SIZE
+@onready var move_speed = move_speed_in_tiles * Global.TILE_SIZE
+@onready var bounce_height = bounce_height_in_tiles * Global.TILE_SIZE
 
 var intangibility_timer = 0
 
@@ -59,7 +59,10 @@ func apply_gravity(delta, grav_set = Global.gravity):
 
 func apply_movement(delta, solid):
 	if solid:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
 		
 		grounded = is_on_floor()
 		touching_wall = is_on_wall()

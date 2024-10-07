@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/ricochet.wav-05fd2170ca5b3d14275ba3dd2aff2fe8.sample"
+type="AudioStreamWAV"
+uid="uid://g2iemtw7yxis"
+path="res://.godot/imported/ricochet.wav-05fd2170ca5b3d14275ba3dd2aff2fe8.sample"
 
 [deps]
 
 source_file="res://sounds/enemies/ricochet.wav"
-dest_files=[ "res://.import/ricochet.wav-05fd2170ca5b3d14275ba3dd2aff2fe8.sample" ]
+dest_files=["res://.godot/imported/ricochet.wav-05fd2170ca5b3d14275ba3dd2aff2fe8.sample"]
 
 [params]
 

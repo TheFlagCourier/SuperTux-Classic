@@ -2,16 +2,16 @@
 
 [ext_resource path="res://scenes/enemies/badguy.gd" type="Script" id=1]
 [ext_resource path="res://scenes/enemies/badguy_sm.gd" type="Script" id=2]
-[ext_resource path="res://images/enemies/fish/up1.png" type="Texture" id=3]
-[ext_resource path="res://images/enemies/fish/up2.png" type="Texture" id=4]
-[ext_resource path="res://images/enemies/fish/down.png" type="Texture" id=5]
+[ext_resource path="res://images/enemies/fish/up1.png" type="Texture2D" id=3]
+[ext_resource path="res://images/enemies/fish/up2.png" type="Texture2D" id=4]
+[ext_resource path="res://images/enemies/fish/down.png" type="Texture2D" id=5]
 [ext_resource path="res://sounds/enemies/fall.wav" type="AudioStream" id=6]
 [ext_resource path="res://scenes/master/SFX.gd" type="Script" id=7]
 [ext_resource path="res://scenes/master/damage_area.tscn" type="PackedScene" id=8]
-[ext_resource path="res://images/particles/splash.png" type="Texture" id=9]
+[ext_resource path="res://images/particles/splash.png" type="Texture2D" id=9]
 [ext_resource path="res://sounds/enemies/water_splash_out.wav" type="AudioStream" id=10]
 [ext_resource path="res://sounds/enemies/water_splash_in.wav" type="AudioStream" id=11]
-[ext_resource path="res://images/enemies/fish/squished.png" type="Texture" id=12]
+[ext_resource path="res://images/enemies/fish/squished.png" type="Texture2D" id=12]
 [ext_resource path="res://scenes/master/bounce_area.tscn" type="PackedScene" id=13]
 [ext_resource path="res://sounds/enemies/squish.wav" type="AudioStream" id=14]
 [ext_resource path="res://scenes/particles/WaterSplash.tres" type="Material" id=15]
@@ -49,14 +49,14 @@ extents = Vector2( 12, 16 )
 resource_name = "default"
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control:rect_position")
+tracks/0/path = NodePath("Control:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
@@ -67,8 +67,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
@@ -79,8 +79,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -88,14 +88,14 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=7]
 resource_name = "enter_water"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control:rect_position")
+tracks/0/path = NodePath("Control:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 64 ) ]
 }
@@ -106,8 +106,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -118,8 +118,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -128,14 +128,14 @@ tracks/2/keys = {
 resource_name = "exit_water"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control:rect_position")
+tracks/0/path = NodePath("Control:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 64 ), Vector2( 0, 0 ) ]
 }
@@ -146,8 +146,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
@@ -158,8 +158,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -173,7 +173,7 @@ particles_anim_loop = false
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 18, 11 )
 
-[node name="Fish" type="KinematicBody2D" groups=["enemies"]]
+[node name="Fish" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource( 1 )
@@ -190,9 +190,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-rect_pivot_offset = Vector2( 0, 10 )
+pivot_offset = Vector2( 0, 10 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Control"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control"]
 frames = SubResource( 6 )
 animation = "fall"
 playing = true
@@ -212,7 +212,7 @@ collision_mask = 128
 position = Vector2( 0, -4 )
 shape = SubResource( 5 )
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 visible = false
 rect = Rect2( -160, -100, 320, 200 )
 process_parent = true
@@ -252,7 +252,7 @@ anims/default = SubResource( 8 )
 anims/enter_water = SubResource( 7 )
 anims/exit_water = SubResource( 9 )
 
-[node name="SplashParticles" type="Particles2D" parent="."]
+[node name="SplashParticles" type="GPUParticles2D" parent="."]
 material = SubResource( 10 )
 emitting = false
 amount = 1

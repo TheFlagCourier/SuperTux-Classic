@@ -1,27 +1,27 @@
 [gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scenes/shaders/Overlay.gdshader" type="Shader" id=1]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk6.png" type="Texture" id=2]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk7.png" type="Texture" id=3]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk6.png" type="Texture2D" id=2]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk7.png" type="Texture2D" id=3]
 [ext_resource path="res://scenes/worldmap/Player.gd" type="Script" id=4]
 [ext_resource path="res://scenes/master/SFX.gd" type="Script" id=5]
 [ext_resource path="res://sounds/objects/coin.wav" type="AudioStream" id=6]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltux.png" type="Texture" id=7]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk8.png" type="Texture" id=8]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk3.png" type="Texture" id=9]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk4.png" type="Texture" id=10]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk5.png" type="Texture" id=11]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk7.png" type="Texture" id=12]
-[ext_resource path="res://images/player/tux/worldmap/big/tux.png" type="Texture" id=13]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk1.png" type="Texture" id=14]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk2.png" type="Texture" id=15]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk6.png" type="Texture" id=16]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk4.png" type="Texture" id=17]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk5.png" type="Texture" id=18]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk2.png" type="Texture" id=19]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk3.png" type="Texture" id=20]
-[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk8.png" type="Texture" id=21]
-[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk1.png" type="Texture" id=22]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltux.png" type="Texture2D" id=7]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk8.png" type="Texture2D" id=8]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk3.png" type="Texture2D" id=9]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk4.png" type="Texture2D" id=10]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk5.png" type="Texture2D" id=11]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk7.png" type="Texture2D" id=12]
+[ext_resource path="res://images/player/tux/worldmap/big/tux.png" type="Texture2D" id=13]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk1.png" type="Texture2D" id=14]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk2.png" type="Texture2D" id=15]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk6.png" type="Texture2D" id=16]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk4.png" type="Texture2D" id=17]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk5.png" type="Texture2D" id=18]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk2.png" type="Texture2D" id=19]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk3.png" type="Texture2D" id=20]
+[ext_resource path="res://images/player/tux/worldmap/big/tuxwalk8.png" type="Texture2D" id=21]
+[ext_resource path="res://images/player/tux/worldmap/small/smalltuxwalk1.png" type="Texture2D" id=22]
 
 [sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 1 )
@@ -67,8 +67,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ SubResource( 10 ) ]
 }
@@ -79,8 +79,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
@@ -95,8 +95,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ SubResource( 9 ) ]
 }
@@ -107,8 +107,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
@@ -125,8 +125,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0.0470588, 1, 0.172549, 1 ), Color( 1, 1, 1, 1 ) ]
 }
@@ -136,15 +136,15 @@ script = ExtResource( 4 )
 
 [node name="Control" type="Control" parent="."]
 material = SubResource( 9 )
-margin_top = -8.0
-margin_bottom = -8.0
+offset_top = -8.0
+offset_bottom = -8.0
 
-[node name="SpriteSmall" type="AnimatedSprite" parent="Control"]
+[node name="SpriteSmall" type="AnimatedSprite2D" parent="Control"]
 use_parent_material = true
 frames = SubResource( 11 )
 playing = true
 
-[node name="SpriteBig" type="AnimatedSprite" parent="Control"]
+[node name="SpriteBig" type="AnimatedSprite2D" parent="Control"]
 visible = false
 use_parent_material = true
 frames = SubResource( 1 )
@@ -157,7 +157,7 @@ limit_top = 0
 limit_right = 0
 limit_bottom = 0
 limit_smoothed = true
-smoothing_speed = 30.0
+position_smoothing_speed = 30.0
 
 [node name="SFX" type="Node2D" parent="."]
 script = ExtResource( 5 )

@@ -1,29 +1,29 @@
 extends TileMap
 
-export var editor_params = [
+@export var editor_params = [
 	"solid", "liquid", "z_index", "multiply_color", "overlay_color"
 	]
 
-onready var solid : bool = get_collision_layer_bit(0) setget _update_solidity
-onready var liquid : bool = get_collision_layer_bit(7) setget _update_liquid_collision
-onready var multiply_color : Color = modulate setget _update_multiply_color
+@onready var solid : bool = get_collision_layer_value(0): set = _update_solidity
+@onready var liquid : bool = get_collision_layer_value(7): set = _update_liquid_collision
+@onready var multiply_color : Color = modulate: set = _update_multiply_color
 
-var overlay_color : Color = Color(0.5,0.5,0.5,0.5) setget _update_overlay_color
+var overlay_color : Color = Color(0.5,0.5,0.5,0.5): set = _update_overlay_color
 
 var expand_on_bottom = true
 
 var is_in_worldmap = false
 
-export var unique_material = false
+@export var unique_material = false
 
-export var worldmap_tileset : TileSet
+@export var worldmap_tileset : TileSet
 
 func _ready():
 	if is_in_worldmap: set_tileset(worldmap_tileset)
 	
 	if unique_material: use_parent_material = false
 	
-	var overlay = material.get_shader_param("overlay_color")
+	var overlay = material.get_shader_parameter("overlay_color")
 	
 	if overlay is Plane:
 		overlay_color = Color(overlay.x, overlay.y, overlay.z, overlay.d)
@@ -31,21 +31,21 @@ func _ready():
 		overlay_color = overlay
 	
 # These tiles won't apply autotile rules in the editor.
-export var non_autotile_tiles = ["SnowDopeFish", "SnowFish"]
+@export var non_autotile_tiles = ["SnowDopeFish", "SnowFish"]
 
 # These tiles will be treated as a single tile in the editor.
-export var group_tiles = {
+@export var group_tiles = {
 	"Water1" : ['Water1', 'Water2', 'Water3', 'Water4', 'WaterFill'],
 	"Lava1" : ['Lava1', 'Lava2', 'Lava3', 'Lava4', 'LavaFill'],
 }
 
 # These tiles won't show up in the editor.
-export var ignore_tiles = [
+@export var ignore_tiles = [
 	"Invisible", "InvisibleUniSolid"
 ]
 
 # These tiles use custom autotiling rules.
-export var custom_autotile_tiles = [
+@export var custom_autotile_tiles = [
 	'Water1', 'Water2', 'Water3', 'Water4', 'WaterFill',
 	'Lava1', 'Lava2', 'Lava3', 'Lava4', 'LavaFill'
 ]
@@ -127,14 +127,14 @@ func get_tile_name(tile_id):
 func _update_solidity(new_value):
 	#print("solid " + str(new_value))
 	solid = new_value
-	set_collision_layer_bit(0, new_value)
-	set_collision_mask_bit(0, new_value)
+	set_collision_layer_value(0, new_value)
+	set_collision_mask_value(0, new_value)
 
 func _update_liquid_collision(new_value):
 	#print("liquid " + str(new_value))
 	liquid = new_value
-	set_collision_layer_bit(7, new_value)
-	set_collision_mask_bit(7, new_value)
+	set_collision_layer_value(7, new_value)
+	set_collision_mask_value(7, new_value)
 
 func _update_multiply_color(new_value):
 	multiply_color = new_value
@@ -146,5 +146,5 @@ func _update_overlay_color(new_value):
 	
 	var overlay_plane = Plane(overlay_color.r, overlay_color.g, overlay_color.b, overlay_color.a)
 	
-	material.set_shader_param("overlay_color", overlay_plane)
+	material.set_shader_parameter("overlay_color", overlay_plane)
 	unique_material = true

@@ -17,16 +17,16 @@
 
 extends CanvasLayer
 
-export var title = ""
-export var author = ""
+@export var title = ""
+@export var author = ""
 
-onready var title_text = $Control/VBoxContainer/Title
-onready var author_text = $Control/VBoxContainer/Author
-onready var lives_counter = $Control/VBoxContainer/HBoxContainer/LivesCount
+@onready var title_text = $Control/VBoxContainer/Title
+@onready var author_text = $Control/VBoxContainer/Author
+@onready var lives_counter = $Control/VBoxContainer/HBoxContainer/LivesCount
 
 func _ready():
 	Scoreboard.hide()
-	title_text.bbcode_text = str("[center][wave]" + title)
+	title_text.text = str("[center][wave]" + title)
 	author_text.text = str("by " + author)
 	lives_counter.text = str(Scoreboard.lives)
 

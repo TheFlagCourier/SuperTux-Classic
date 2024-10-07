@@ -1,15 +1,15 @@
 extends Control
 
-export var menu_music = ""
-onready var menu_main = $MainMenu
-onready var menu_create_world = $CreateWorldMenu
-onready var menu_open_world = $OpenWorldMenu
-onready var menu_world = $WorldMenu
+@export var menu_music = ""
+@onready var menu_main = $MainMenu
+@onready var menu_create_world = $CreateWorldMenu
+@onready var menu_open_world = $OpenWorldMenu
+@onready var menu_world = $WorldMenu
 
-onready var button_world_create = $MainMenu/VBoxContainer/PanelContainer/MenuItems/WorldCreate
-onready var button_world_open = $MainMenu/VBoxContainer/PanelContainer/MenuItems/WorldOpen
-onready var button_worlds_folder_open = $MainMenu/VBoxContainer/PanelContainer/MenuItems/OpenWorldFolder
-onready var button_exit = $MainMenu/VBoxContainer/ExitToMenu
+@onready var button_world_create = $MainMenu/VBoxContainer/PanelContainer/MenuItems/WorldCreate
+@onready var button_world_open = $MainMenu/VBoxContainer/PanelContainer/MenuItems/WorldOpen
+@onready var button_worlds_folder_open = $MainMenu/VBoxContainer/PanelContainer/MenuItems/OpenWorldFolder
+@onready var button_exit = $MainMenu/VBoxContainer/ExitToMenu
 
 func _ready():
 	Music.set_editor_music(false)
@@ -24,9 +24,9 @@ func _ready():
 	if !UserLevels.custom_content_supported:
 		button_worlds_folder_open.disabled = true
 	
-	menu_create_world.connect("show_world_menu", self, "open_world_menu")
+	menu_create_world.connect("show_world_menu", Callable(self, "open_world_menu"))
 	
-	Global.connect("open_world_menu", self, "open_world_menu")
+	Global.connect("open_world_menu", Callable(self, "open_world_menu"))
 
 
 func _on_WorldCreate_mouse_entered():

@@ -17,19 +17,19 @@
 
 extends CanvasLayer
 
-onready var menu = $Control
-onready var menu_items = $Control/CenterContainer
-onready var options_menu = $Control/OptionsMenu
+@onready var menu = $Control
+@onready var menu_items = $Control/CenterContainer
+@onready var options_menu = $Control/OptionsMenu
 
-onready var button_continue = $Control/CenterContainer/VBoxContainer/Continue
-onready var button_restart = $Control/CenterContainer/VBoxContainer/Restart
-onready var button_options = $Control/CenterContainer/VBoxContainer/Options
-onready var button_abort = $Control/CenterContainer/VBoxContainer/Abort
-onready var button_quit = $Control/CenterContainer/VBoxContainer/Quit
+@onready var button_continue = $Control/CenterContainer/VBoxContainer/Continue
+@onready var button_restart = $Control/CenterContainer/VBoxContainer/Restart
+@onready var button_options = $Control/CenterContainer/VBoxContainer/Options
+@onready var button_abort = $Control/CenterContainer/VBoxContainer/Abort
+@onready var button_quit = $Control/CenterContainer/VBoxContainer/Quit
 
 var in_editor = false
 
-var paused = false setget _set_paused
+var paused = false: set = _set_paused
 
 func _ready():
 	if WorldmapManager.is_level_worldmap or in_editor:
@@ -43,7 +43,7 @@ func _ready():
 		button_abort.hide()
 	
 	# Make the music mute if we pause the game.
-	Music.pause_mode = PAUSE_MODE_INHERIT
+	Music.process_mode = PROCESS_MODE_INHERIT
 	menu.hide()
 	Global.can_pause = true
 

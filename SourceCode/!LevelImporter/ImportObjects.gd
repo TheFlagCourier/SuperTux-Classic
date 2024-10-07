@@ -17,13 +17,13 @@
 
 extends Node2D
 
-export var is_worldmap = false
-export var level_dot_scene : PackedScene
+@export var is_worldmap = false
+@export var level_dot_scene : PackedScene
 var text = ""
 var unknown_objects = []
 
-onready var object_map = null
-onready var import = null
+@onready var object_map = null
+@onready var import = null
 
 var world = null
 
@@ -130,7 +130,7 @@ func _place_worldmap_objects(obj_array, object_node : Node):
 		#var position = Vector2(i[2], i[3])
 		
 		# Create the level dot object for the level dot and add it to the scene
-		var leveldot = level_dot_scene.instance()
+		var leveldot = level_dot_scene.instantiate()
 		object_node.add_child(leveldot)
 		
 		var regex = RegEx.new()
@@ -252,7 +252,7 @@ func _place_objects_in_level(obj_array, objmap_to_use):
 			var tile_to_set = _get_tile_id_from_name(type, objmap_to_use)
 			position.x = round(position.x / 32.0) * 32.0
 			position.y = round(position.y / 32.0) * 32.0
-			var pos = objmap_to_use.world_to_map(position)
+			var pos = objmap_to_use.local_to_map(position)
 			pos += obj_offset
 			
 			var tile_occupied = objmap_to_use.get_cell(pos.x, pos.y) != -1

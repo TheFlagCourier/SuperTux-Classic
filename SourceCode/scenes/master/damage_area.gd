@@ -17,7 +17,7 @@
 
 extends Area2D
 
-onready var host = get_parent()
+@onready var host = get_parent()
 
 func _on_Area2D_body_entered(body):
 	if host.has_method("_on_DamageArea_body_entered"):

@@ -1,6 +1,6 @@
 extends Node
 
-var worldmap_level = null setget _update_worldmap_level_file
+var worldmap_level = null: set = _update_worldmap_level_file
 var worldmap_player_position = null
 var player_stop_direction = null
 

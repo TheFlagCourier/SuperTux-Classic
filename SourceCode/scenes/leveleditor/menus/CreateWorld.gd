@@ -1,17 +1,17 @@
-extends PopupDialog
+extends Popup
 
-export var is_edit_world_menu = false
+@export var is_edit_world_menu = false
 
-onready var error_dialog = $ErrorDialog
-onready var error_ok_button = $ErrorDialog/VBoxContainer/ErrorEscape
+@onready var error_dialog = $ErrorDialog
+@onready var error_ok_button = $ErrorDialog/VBoxContainer/ErrorEscape
 
-onready var world_name = $VBoxContainer/WorldProperties/WorldName/WorldNameEdit
-onready var author_name = $VBoxContainer/WorldProperties/AuthorName/AuthorNameEdit
+@onready var world_name = $VBoxContainer/WorldProperties/WorldName/WorldNameEdit
+@onready var author_name = $VBoxContainer/WorldProperties/AuthorName/AuthorNameEdit
 
-onready var world_name_container = $VBoxContainer/WorldProperties/WorldName
+@onready var world_name_container = $VBoxContainer/WorldProperties/WorldName
 
-onready var create_world_button = $VBoxContainer/CreateWorldButton
-onready var edit_world_button = $VBoxContainer/ConfirmEditProperties
+@onready var create_world_button = $VBoxContainer/CreateWorldButton
+@onready var edit_world_button = $VBoxContainer/ConfirmEditProperties
 
 signal show_world_menu
 

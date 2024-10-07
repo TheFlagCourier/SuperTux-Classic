@@ -15,17 +15,17 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var initial_speed = 2
-export var acceleration = 28
-export var angle = 90
+@export var initial_speed = 2
+@export var acceleration = 28
+@export var angle = 90
 
-onready var speed = initial_speed * Global.TILE_SIZE
-onready var destroy_timer = $DestroyTimer
-onready var animation_player = $AnimationPlayer
-onready var sfx = $SFX
-onready var damage_area = $DamageArea/CollisionShape2D
+@onready var speed = initial_speed * Global.TILE_SIZE
+@onready var destroy_timer = $DestroyTimer
+@onready var animation_player = $AnimationPlayer
+@onready var sfx = $SFX
+@onready var damage_area = $DamageArea/CollisionShape2D
 
 var is_moving = true
 
@@ -39,7 +39,8 @@ func _physics_process(delta):
 	var velocity = Vector2(speed, 0).rotated(angle)
 	speed += acceleration
 	
-	move_and_slide(velocity)
+	set_velocity(velocity)
+	move_and_slide()
 	if is_on_wall() or is_on_floor() or is_on_ceiling(): dissipate()
 
 func _on_VisibilityNotifier2D_screen_exited():

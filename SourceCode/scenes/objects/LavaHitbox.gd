@@ -1,6 +1,6 @@
 extends Area2D
 
-onready var sprite = get_node_or_null("Sprite")
+@onready var sprite = get_node_or_null("Sprite2D")
 
 func _ready():
 	if sprite: sprite.hide()

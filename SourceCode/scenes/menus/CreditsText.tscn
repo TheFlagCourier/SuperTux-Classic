@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/menus/TextScroll.gd" type="Script" id=1]
-[ext_resource path="res://theme/FontCredits.tres" type="DynamicFont" id=3]
+[ext_resource path="res://theme/FontCredits.tres" type="FontFile" id=3]
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=4]
 
 [node name="CreditsText" type="Control"]
@@ -16,11 +16,11 @@ return_scene = "res://scenes/menus/TitleScreen.tscn"
 [node name="RichTextLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -320.0
-margin_right = 320.0
-margin_bottom = 2432.0
-custom_constants/shadow_offset_x = 0
-custom_fonts/font = ExtResource( 3 )
+offset_left = -320.0
+offset_right = 320.0
+offset_bottom = 2432.0
+theme_override_constants/shadow_offset_x = 0
+theme_override_fonts/font = ExtResource( 3 )
 text = "- SuperTux Classic -
 
 A remaster of SuperTux Milestone 1
@@ -246,7 +246,7 @@ Thank you for playing!
 align = 1
 clip_text = true
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="RichTextLabel"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="RichTextLabel"]
 rect = Rect2( 0, 0, 640, 3800 )
 
-[connection signal="screen_exited" from="RichTextLabel/VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="screen_exited" from="RichTextLabel/VisibleOnScreenNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/master/SFX.gd" type="Script" id=1]
-[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture" id=2]
-[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture" id=3]
+[ext_resource path="res://images/enemies/flame/flame-0.png" type="Texture2D" id=2]
+[ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture2D" id=3]
 [ext_resource path="res://scenes/enemies/FlameOrb.gd" type="Script" id=4]
 [ext_resource path="res://scenes/master/damage_area.tscn" type="PackedScene" id=8]
 
@@ -28,8 +28,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( -2, -2 ),
+"times": PackedFloat32Array( 0, 0.2 ),
+"transitions": PackedFloat32Array( -2, -2 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 2.5, 2.5 ) ]
 }
@@ -42,13 +42,13 @@ z_index = -1
 script = ExtResource( 4 )
 starting_angle = 180
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 15
 frames = SubResource( 7 )
 playing = true
 offset = Vector2( 0, -2 )
 
-[node name="Glow3" type="AnimatedSprite" parent="."]
+[node name="Glow3" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0, 0, 0.137255 )
 material = SubResource( 8 )
 scale = Vector2( 5, 5 )
@@ -57,7 +57,7 @@ frames = SubResource( 7 )
 playing = true
 offset = Vector2( 0, -2 )
 
-[node name="Glow2" type="AnimatedSprite" parent="."]
+[node name="Glow2" type="AnimatedSprite2D" parent="."]
 modulate = Color( 1, 0, 0, 0.541176 )
 material = SubResource( 8 )
 scale = Vector2( 2, 2 )
@@ -67,7 +67,7 @@ frame = 1
 playing = true
 offset = Vector2( 0, -2 )
 
-[node name="Glow" type="AnimatedSprite" parent="."]
+[node name="Glow" type="AnimatedSprite2D" parent="."]
 material = SubResource( 8 )
 scale = Vector2( 1.02614, 1.02614 )
 z_index = 15
@@ -79,7 +79,7 @@ offset = Vector2( 0, -2 )
 autoplay = "default"
 anims/default = SubResource( 9 )
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 visible = false
 rect = Rect2( -160, -160, 320, 320 )
 process_parent = true

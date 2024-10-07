@@ -1,21 +1,21 @@
 extends Node2D
 
-export var level_dots = [] # An array of all the level dot objects in the worldmap
-export var tilemaps = []   # An array of all the tilemap objects in the worldmap
+@export var level_dots = [] # An array of all the level dot objects in the worldmap
+@export var tilemaps = []   # An array of all the tilemap objects in the worldmap
 
 # The node of the level dot the player is currently standing on.
-var current_level_dot = null setget set_current_level_dot
+var current_level_dot = null: set = set_current_level_dot
 
 var state = 0
 var sprite = null
 
-onready var camera = $Camera2D
+@onready var camera = $Camera2D
 
-onready var sprite_big = $Control/SpriteBig
-onready var sprite_small = $Control/SpriteSmall
-onready var shader = $SpriteColour
+@onready var sprite_big = $Control/SpriteBig
+@onready var sprite_small = $Control/SpriteSmall
+@onready var shader = $SpriteColour
 
-onready var sfx = $SFX
+@onready var sfx = $SFX
 
 var move_direction = Vector2(0,0)
 var stop_direction = Vector2(0,0)
@@ -40,7 +40,7 @@ var stop_tiles = [186]
 # Set the player camera boundaries to the boundaries of the largest tilemap
 func _ready():
 	Global.player = self
-	ResolutionManager.connect("window_resized", self, "window_resized")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
 	window_resized()
 	if tilemaps == []: push_error("Worldmap player node cannot access any tilemaps in the worldmap")
 	
@@ -73,13 +73,13 @@ func _process(delta):
 	for t in tilemaps:
 		if !is_instance_valid(t): continue # Thanks for that.
 		var tilemap : TileMap = t
-		var tile_position = tilemap.world_to_map(position)
+		var tile_position = tilemap.local_to_map(position)
 		var occupied_tile_id = tilemap.get_cellv(tile_position) # The ID of the tile the player is standing on.
 		
 		if occupied_tile_id != null and occupied_tile_id != -1:
 			var tile_name = tilemap.get_tileset().tile_get_name(occupied_tile_id)
 			
-			if tile_name == "Path":
+			if tile_name == "Path3D":
 				handle_path_movement(tilemap, tile_position, occupied_tile_id)
 				
 				break
@@ -90,7 +90,7 @@ func _process(delta):
 	
 	if current_level_dot != null:
 		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("ui_accept"):
-			var tile_position = tilemaps[0].world_to_map(position)
+			var tile_position = tilemaps[0].local_to_map(position)
 			Scoreboard.clear_message()
 			current_level_dot.activate(self, tile_position, stop_direction)
 
@@ -108,7 +108,7 @@ func handle_path_movement(tilemap : TileMap, tile_position : Vector2, tile_id : 
 	if bitmask in down_tiles: path_directions.append(Vector2.DOWN)
 	
 	# If the player is grid-aligned we can move
-	var is_player_aligned_to_tile = tilemap.map_to_world(tile_position) + Vector2(16,16) == position
+	var is_player_aligned_to_tile = tilemap.map_to_local(tile_position) + Vector2(16,16) == position
 	if is_player_aligned_to_tile:
 		if stop_tiles.has(bitmask):
 			handle_leveldot_collisions(tilemap)
@@ -168,8 +168,8 @@ func handle_leveldot_collisions(tilemap):
 	var new_level_dot = null
 	
 	for leveldot in level_dots:
-		var level_position = tilemap.world_to_map(leveldot.position)
-		var player_position = tilemap.world_to_map(position)
+		var level_position = tilemap.local_to_map(leveldot.position)
+		var player_position = tilemap.local_to_map(position)
 		
 		if level_position == player_position:
 			new_level_dot = leveldot
@@ -186,8 +186,8 @@ func handle_leveldot_collisions(tilemap):
 
 func get_current_level_dot(tilemap = tilemaps[0]):
 	for leveldot in level_dots:
-		var level_position = tilemap.world_to_map(leveldot.position)
-		var player_position = tilemap.world_to_map(position)
+		var level_position = tilemap.local_to_map(leveldot.position)
+		var player_position = tilemap.local_to_map(position)
 		
 		if level_position == player_position:
 			set_current_level_dot(leveldot, false)
@@ -245,4 +245,4 @@ func set_position(new_value):
 	grid_pos = Vector2(floor(grid_pos.x), floor(grid_pos.y))
 	
 	var grid_aligned_pos = grid_pos * Global.TILE_SIZE + Vector2.ONE * Global.TILE_SIZE * 0.5
-	.set_position(grid_aligned_pos)
+	super.set_position(grid_aligned_pos)

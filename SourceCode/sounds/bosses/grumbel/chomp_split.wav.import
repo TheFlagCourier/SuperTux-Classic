@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/chomp_split.wav-50bf5f6aaef8e3c35600dc909bcb85fc.sample"
+type="AudioStreamWAV"
+uid="uid://c66tvu6kc5uoh"
+path="res://.godot/imported/chomp_split.wav-50bf5f6aaef8e3c35600dc909bcb85fc.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/grumbel/chomp_split.wav"
-dest_files=[ "res://.import/chomp_split.wav-50bf5f6aaef8e3c35600dc909bcb85fc.sample" ]
+dest_files=["res://.godot/imported/chomp_split.wav-50bf5f6aaef8e3c35600dc909bcb85fc.sample"]
 
 [params]
 

@@ -17,13 +17,13 @@
 
 extends Node2D
 
-onready var text = $CanvasLayer/Control/TextScroll
+@onready var text = $CanvasLayer/Control/TextScroll
 
 func _ready():
 	Scoreboard.hide()
-	yield(get_tree().create_timer(5.5, false), "timeout")
+	await get_tree().create_timer(5.5, false).timeout
 	$Stalactite.state_machine.set_state("shaking")
-	yield(get_tree().create_timer(3, false), "timeout")
+	await get_tree().create_timer(3, false).timeout
 	Music.play("TuxVictorious")
 
 func _on_AnimationPlayer_animation_finished(anim_name):

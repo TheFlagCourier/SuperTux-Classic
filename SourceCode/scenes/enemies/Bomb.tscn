@@ -5,15 +5,15 @@
 [ext_resource path="res://scenes/enemies/badguy_sm.gd" type="Script" id=3]
 [ext_resource path="res://sounds/enemies/fall.wav" type="AudioStream" id=4]
 [ext_resource path="res://sounds/enemies/squish.wav" type="AudioStream" id=5]
-[ext_resource path="res://images/enemies/bomb/walk2.png" type="Texture" id=6]
-[ext_resource path="res://images/enemies/bomb/hiss1.png" type="Texture" id=7]
-[ext_resource path="res://images/enemies/bomb/hiss2.png" type="Texture" id=8]
-[ext_resource path="res://images/enemies/bomb/walk3.png" type="Texture" id=9]
+[ext_resource path="res://images/enemies/bomb/walk2.png" type="Texture2D" id=6]
+[ext_resource path="res://images/enemies/bomb/hiss1.png" type="Texture2D" id=7]
+[ext_resource path="res://images/enemies/bomb/hiss2.png" type="Texture2D" id=8]
+[ext_resource path="res://images/enemies/bomb/walk3.png" type="Texture2D" id=9]
 [ext_resource path="res://scenes/master/bounce_area.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/master/damage_area.tscn" type="PackedScene" id=11]
-[ext_resource path="res://images/enemies/bomb/walk1.png" type="Texture" id=12]
-[ext_resource path="res://images/enemies/bomb/explode1.png" type="Texture" id=13]
-[ext_resource path="res://images/enemies/bomb/explode2.png" type="Texture" id=14]
+[ext_resource path="res://images/enemies/bomb/walk1.png" type="Texture2D" id=12]
+[ext_resource path="res://images/enemies/bomb/explode1.png" type="Texture2D" id=13]
+[ext_resource path="res://images/enemies/bomb/explode2.png" type="Texture2D" id=14]
 [ext_resource path="res://sounds/enemies/explode.wav" type="AudioStream" id=15]
 
 [sub_resource type="SpriteFrames" id=7]
@@ -45,7 +45,7 @@ extents = Vector2( 14, 15 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 18, 8 )
 
-[node name="Bomb" type="KinematicBody2D" groups=["enemies", "explodes"]]
+[node name="Bomb" type="CharacterBody2D" groups=["enemies", "explodes"]]
 collision_layer = 4
 collision_mask = 5
 script = ExtResource( 1 )
@@ -60,16 +60,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-rect_pivot_offset = Vector2( 0, 10 )
+pivot_offset = Vector2( 0, 10 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Control"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control"]
 frames = SubResource( 7 )
 animation = "walk"
 frame = 2
 playing = true
 offset = Vector2( 0, -5 )
 
-[node name="Explosion" type="AnimatedSprite" parent="Control"]
+[node name="Explosion" type="AnimatedSprite2D" parent="Control"]
 visible = false
 frames = SubResource( 8 )
 animation = "explode"
@@ -95,9 +95,9 @@ shape = SubResource( 6 )
 
 [node name="EdgeTurn" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 0, 18 )
+target_position = Vector2( 0, 18 )
 
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 visible = false
 rect = Rect2( -160, -100, 320, 200 )
 process_parent = true

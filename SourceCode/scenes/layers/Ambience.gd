@@ -1,22 +1,22 @@
 extends AudioStreamPlayer
 
-export var editor_params = ["volume", "pitch"] # "sound"
+@export var editor_params = ["volume", "pitch"] # "sound"
 
-export var volume = -10 setget _set_volume, _get_volume
-export var pitch = 1.25 setget _set_pitch, _get_pitch
+@export var volume = -10: get = _get_volume, set = _set_volume
+@export var pitch = 1.25: get = _get_pitch, set = _set_pitch
 
-export var using_default_values = true
+@export var using_default_values = true
 
-export var current_sound = "AmbienceSnow" setget _set_current_sound
+@export var current_sound = "AmbienceSnow": set = _set_current_sound
 
-export var max_volume = 20
+@export var max_volume = 20
 
 var ambient_sounds_list = []
 
-var sound = [] setget _set_sound_dropdown, _get_sound_dropdown
+var sound = []: get = _get_sound_dropdown, set = _set_sound_dropdown
 
-export var ambience_sounds_path = "res://sounds/ambience_loops/"
-export var file_extension = ".mp3"
+@export var ambience_sounds_path = "res://sounds/ambience_loops/"
+@export var file_extension = ".mp3"
 
 func _ready():
 	if !using_default_values:
@@ -26,7 +26,7 @@ func _ready():
 	#_get_ambient_sounds()
 
 func _get_ambient_sounds():
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	
 	if dir.dir_exists(ambience_sounds_path):
 		var potential_sounds = Global.list_files_in_directory(ambience_sounds_path)
@@ -51,7 +51,7 @@ func _deferred_set_audio_stream_to_file(file_path):
 	if file.file_exists(file_path):
 		file.open(file_path, File.READ)
 		
-		var buffer = file.get_buffer(file.get_len())
+		var buffer = file.get_buffer(file.get_length())
 		
 		if buffer:
 			stream.data = buffer

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/grunt_jump.wav-8df454a124c742be7a0e737ab8b07021.sample"
+type="AudioStreamWAV"
+uid="uid://bj0eig2ybtvbp"
+path="res://.godot/imported/grunt_jump.wav-8df454a124c742be7a0e737ab8b07021.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/nolok/grunt_jump.wav"
-dest_files=[ "res://.import/grunt_jump.wav-8df454a124c742be7a0e737ab8b07021.sample" ]
+dest_files=["res://.godot/imported/grunt_jump.wav-8df454a124c742be7a0e737ab8b07021.sample"]
 
 [params]
 

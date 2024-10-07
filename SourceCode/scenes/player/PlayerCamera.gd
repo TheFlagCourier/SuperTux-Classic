@@ -17,16 +17,16 @@
 
 extends Camera2D
 
-onready var host = get_parent()
-onready var noise = OpenSimplexNoise.new()
-onready var tween = create_tween()
+@onready var host = get_parent()
+@onready var noise = FastNoiseLite.new()
+@onready var tween = create_tween()
 var noise_y = 0
 
 var intensity = 0
-export var min_intensity = 0.05 # If intensity is below this threshold, stop shaking
-export var shake_dampen_default = 0.8
+@export var min_intensity = 0.05 # If intensity is below this threshold, stop shaking
+@export var shake_dampen_default = 0.8
 
-onready var dampen = shake_dampen_default
+@onready var dampen = shake_dampen_default
 
 var pos_offset = 1 * Global.TILE_SIZE
 
@@ -36,7 +36,7 @@ func _ready():
 	randomize()
 	noise.seed = randi()
 	noise.period = 4
-	noise.octaves = 2
+	noise.fractal_octaves = 2
 
 func _process(_delta):
 	# Extended Camera Stuff

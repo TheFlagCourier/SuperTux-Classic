@@ -15,41 +15,41 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
 signal attack_finished
 
 # BOUNDARIES
 # Basically these act as invisible vertical walls at the edges of the level
 # which Nolok cannot pass, to prevent him from falling off the level like a doofus
-export var initial_health = 5
-export var attack_cooldown = 0.75
-export var facing = -1 setget set_facing
-export var boundary_tile_left = 1
-export var boundary_tile_right = 18
-export var width = 128 # How wide is nolok? (chungus momen)
-export (PackedScene) var iceblock_scene
-export (PackedScene) var fireball_scene
+@export var initial_health = 5
+@export var attack_cooldown = 0.75
+@export var facing = -1: set = set_facing
+@export var boundary_tile_left = 1
+@export var boundary_tile_right = 18
+@export var width = 128 # How wide is nolok? (chungus momen)
+@export var iceblock_scene: PackedScene
+@export var fireball_scene: PackedScene
 
-export var fireballs_per_hit = 10 # If Nolok gets hit by X fireballs, it counts as a hit
+@export var fireballs_per_hit = 10 # If Nolok gets hit by X fireballs, it counts as a hit
 var fireball_hits = 0 # How many fireball hits the player has racked up on Nolok
 
-onready var bound_left = boundary_tile_left * Global.TILE_SIZE + width * 0.5
-onready var bound_right = (boundary_tile_right + 1) * Global.TILE_SIZE - width * 0.5
+@onready var bound_left = boundary_tile_left * Global.TILE_SIZE + width * 0.5
+@onready var bound_right = (boundary_tile_right + 1) * Global.TILE_SIZE - width * 0.5
 
-onready var iceblock_throw_position = $Control/IceblockThrowPos
-onready var fireball_position = $Control/FireballPosition
-onready var control = $Control
-onready var sfx = $SFX
-onready var state_machine = $StateMachine
-onready var attack_timer = $AttackCooldown # Nolok will do an attack once this timer depletes.
-onready var ai = $AI
-onready var tween = create_tween()
-onready var invulnerable_timer = $InvulnerableTimer
-onready var health = initial_health
+@onready var iceblock_throw_position = $Control/IceblockThrowPos
+@onready var fireball_position = $Control/FireballPosition
+@onready var control = $Control
+@onready var sfx = $SFX
+@onready var state_machine = $StateMachine
+@onready var attack_timer = $AttackCooldown # Nolok will do an attack once this timer depletes.
+@onready var ai = $AI
+@onready var tween = create_tween()
+@onready var invulnerable_timer = $InvulnerableTimer
+@onready var health = initial_health
 
-onready var anim_player = $AnimationPlayer
-onready var sprite = $Control/AnimatedSprite
+@onready var anim_player = $AnimationPlayer
+@onready var sprite = $Control/AnimatedSprite2D
 
 signal nolok_defeated
 
@@ -70,7 +70,10 @@ func apply_gravity(delta, gravity_set = gravity):
 
 func apply_movement(delta, solid = true):
 	if solid:
-		velocity = move_and_slide(velocity, Vector2.UP)
+		set_velocity(velocity)
+		set_up_direction(Vector2.UP)
+		move_and_slide()
+		velocity = velocity
 	else:
 		position += velocity * delta
 
@@ -95,17 +98,17 @@ func homing_jump(amount = 3, jump_duration = 0.8):
 	sfx.play("GruntJump")
 	sprite.play("fireball")
 	Global.camera_shake(20, 0.85)
-	yield(wait(0.5, false), "completed")
+	await wait(0.5, false).completed
 	
 	for i in amount - 1:
 		if state_machine.state != "homing_jump": return
-		yield(single_homing_jump(jump_duration), "completed")
-		yield(wait(0.15, false), "completed")
+		await single_homing_jump(jump_duration).completed
+		await wait(0.15, false).completed
 	
 	if state_machine.state != "homing_jump": return
 	
 	# Jump to the nearest corner of the level
-	yield(single_homing_jump(jump_duration + 0.35, true), "completed")
+	await single_homing_jump(jump_duration + 0.35, true).completed
 
 func single_homing_jump(jump_duration, to_nearest_corner = false):
 	if Global.player == null: return
@@ -133,12 +136,14 @@ func single_homing_jump(jump_duration, to_nearest_corner = false):
 	
 	tween.start()
 	
-	yield(tween, "tween_completed")
+	await tween.tween_completed
 	
 	if state_machine.state != "homing_jump": return
 	
 	# Snap to the ground
-	move_and_slide(Vector2(0, 64), Vector2.UP)
+	set_velocity(Vector2(0, 64))
+	set_up_direction(Vector2.UP)
+	move_and_slide()
 	Global.camera_shake(20, 0.8)
 	sfx.play("Thump")
 	sprite.play("idle")
@@ -160,19 +165,19 @@ func jump(height_in_tiles: float, duration: float):
 func iceblock_kick():
 	for i in 3:
 		if state_machine.state != "iceblock_kick": return
-		yield(throw_iceblock(), "completed")
+		await throw_iceblock().completed
 
 func throw_iceblock():
 	# Play "wind up" animation
 	sfx.play("SpawnIceblock")
 	sprite.play("iceblock")
-	yield(wait(0.5), "completed")
+	await wait(0.5).completed
 	
 	if state_machine.state != "iceblock_kick": return
 	# Summon iceblock and play "throw" animation
 	spawn_iceblock()
 	sprite.play("idle")
-	yield(wait(0.75), "completed")
+	await wait(0.75).completed
 
 func spawn_iceblock():
 	var iceblock_position = iceblock_throw_position.global_position
@@ -187,11 +192,11 @@ func fireball():
 	sfx.play("GrowlCharge")
 	for i in 3:
 		if state_machine.state != "fireball": return
-		yield(spawn_fireball(), "completed")
+		await spawn_fireball().completed
 
 func spawn_fireball():
 	sprite.play("firecharge")
-	yield(wait(0.7, false), "completed")
+	await wait(0.7, false).completed
 	
 	if state_machine.state != "fireball": return
 	
@@ -202,14 +207,14 @@ func spawn_fireball():
 	var fireball_pos = fireball_position.global_position
 	var fireball = instance_node(fireball_scene, fireball_pos)
 	
-	yield(wait(0.3), "completed")
+	await wait(0.3).completed
 	
 	if state_machine.state != "fireball": return
 	
 	sprite.play("idle")
 
 func instance_node(packedscene, global_pos):
-	var child = packedscene.instance()
+	var child = packedscene.instantiate()
 	child.global_position = global_pos
 	if "facing" in child: child.facing = facing
 	return Global.add_child_to_level(child, self)
@@ -277,13 +282,13 @@ func _knock_out():
 # Called once Nolok actually enters the knock out state
 func knock_out():
 	sfx.play("KnockOut")
-	pause_mode = PAUSE_MODE_PROCESS
+	process_mode = PROCESS_MODE_ALWAYS
 	sprite.play("knockout")
 	face_player()
 	update_sprite()
 	velocity = Vector2.ZERO
 	
-	yield(Global.hitstop(2, 150, 0.95), "completed")
+	await Global.hitstop(2, 150, 0.95).completed
 	Global.can_pause = false
 	fall_off_screen()
 
@@ -313,14 +318,14 @@ func set_facing(new_value):
 	facing = new_value
 
 func update_sprite():
-	control.rect_scale.x = facing
+	control.scale.x = facing
 	if state_machine.state == "idle":
 		sprite.play("idle")
 
 func wait(time, affected_by_speed = true):
 	if affected_by_speed: time *= speed
 	var wait_time = time
-	yield(get_tree().create_timer(wait_time, false), "timeout")
+	await get_tree().create_timer(wait_time, false).timeout
 
 # When Nolok touches a player fireball
 func fireball_hit():

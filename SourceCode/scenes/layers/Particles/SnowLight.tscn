@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/particles/SnowfallSmall.tres" type="Material" id=1]
-[ext_resource path="res://images/particles/snow0.png" type="Texture" id=2]
+[ext_resource path="res://images/particles/snow0.png" type="Texture2D" id=2]
 
 [node name="LightSnowParticles" type="ParallaxBackground"]
 layer = 100
@@ -9,7 +9,7 @@ layer = 100
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 motion_mirroring = Vector2( 2048, 0 )
 
-[node name="Particles2D" type="Particles2D" parent="ParallaxLayer"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="ParallaxLayer"]
 position = Vector2( 256, -30 )
 scale = Vector2( 0.25, 0.25 )
 amount = 40
@@ -19,7 +19,7 @@ visibility_rect = Rect2( -7000, 0, 9000, 3000 )
 process_material = ExtResource( 1 )
 texture = ExtResource( 2 )
 
-[node name="Particles2D2" type="Particles2D" parent="ParallaxLayer"]
+[node name="Particles2D2" type="GPUParticles2D" parent="ParallaxLayer"]
 position = Vector2( 1280, -30 )
 scale = Vector2( 0.25, 0.25 )
 amount = 40

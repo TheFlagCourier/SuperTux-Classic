@@ -17,10 +17,10 @@
 
 extends Node2D
 
-onready var sfx = $SFX
-onready var animation_player = $AnimationPlayer
+@onready var sfx = $SFX
+@onready var animation_player = $AnimationPlayer
 
-var active = false setget set_active
+var active = false: set = set_active
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):

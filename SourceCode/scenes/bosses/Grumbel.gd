@@ -1,44 +1,44 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var enabled = true
+@export var enabled = true
 
-export var phase = 1
+@export var phase = 1
 
-export var attack_timer_phase_1 = [6,12]
-export var attack_timer_phase_2 = [1,5]
+@export var attack_timer_phase_1 = [6,12]
+@export var attack_timer_phase_2 = [1,5]
 
-export var invincible_time = 2.0
-export var fireballs_per_hit = 3
+@export var invincible_time = 2.0
+@export var fireballs_per_hit = 3
 
-export var max_health = 5
-export var max_health_phase_two = 8
+@export var max_health = 5
+@export var max_health_phase_two = 8
 
-export var fireball_scene : PackedScene
-export var black_hole_scene : PackedScene
-export var shockwave_scene : PackedScene
-export var powerup_small_scene : PackedScene
-export var powerup_big_scene : PackedScene
+@export var fireball_scene : PackedScene
+@export var black_hole_scene : PackedScene
+@export var shockwave_scene : PackedScene
+@export var powerup_small_scene : PackedScene
+@export var powerup_big_scene : PackedScene
 
-onready var ai = $AI
-onready var state_machine = $StateMachine
-onready var anim_player = $AnimationPlayer
-onready var fire_hit_anim = $FireHitAnim
-onready var bounce_area = $BounceArea
-onready var damage_area = $DamageArea
-onready var sfx = $SFX
-onready var invincible_timer = $InvincibleTimer
-onready var aura = $Aura
-onready var eye_positions = $EyePositions
-onready var powerup_spawn_pos = $PowerupSpawn
-onready var fireball_timer = $FireballTimer
-onready var attack_timer = $AttackTimer
-onready var chomp_hitbox = $ChompHitbox
+@onready var ai = $AI
+@onready var state_machine = $StateMachine
+@onready var anim_player = $AnimationPlayer
+@onready var fire_hit_anim = $FireHitAnim
+@onready var bounce_area = $BounceArea
+@onready var damage_area = $DamageArea
+@onready var sfx = $SFX
+@onready var invincible_timer = $InvincibleTimer
+@onready var aura = $Aura
+@onready var eye_positions = $EyePositions
+@onready var powerup_spawn_pos = $PowerupSpawn
+@onready var fireball_timer = $FireballTimer
+@onready var attack_timer = $AttackTimer
+@onready var chomp_hitbox = $ChompHitbox
 
-onready var health = max_health
-onready var tween = create_tween()
+@onready var health = max_health
+@onready var tween = create_tween()
 
-onready var rng = RandomNumberGenerator.new()
-onready var sprite = $Control
+@onready var rng = RandomNumberGenerator.new()
+@onready var sprite = $Control
 
 var _initial_position = Vector2()
 var velocity = Vector2()
@@ -108,12 +108,12 @@ func black_hole():
 	
 	anim_player.play("black_hole_charge")
 	var charge_time = 0.25 - anger * 0.1
-	yield(get_tree().create_timer(charge_time, false), "timeout")
+	await get_tree().create_timer(charge_time, false).timeout
 	
 	if state_machine.state != "black_hole": return
 	
 	anim_player.play("black_hole_attack")
-	yield(get_tree().create_timer(0.25, false), "timeout")
+	await get_tree().create_timer(0.25, false).timeout
 	
 	if state_machine.state != "black_hole": return
 	
@@ -124,22 +124,22 @@ func black_hole():
 	
 	black_hole.appear(black_hole_time, black_hole_size)
 	
-	yield(get_tree().create_timer(black_hole_time - 0.5, false), "timeout")
+	await get_tree().create_timer(black_hole_time - 0.5, false).timeout
 	
 	black_hole.dissipate()
 	
 	anim_player.play("black_hole_end")
-	yield(get_tree().create_timer(0.25, false), "timeout")
+	await get_tree().create_timer(0.25, false).timeout
 	
 	invincible = false
 	disable_bounce_area(false)
 	
-	yield(anim_player, "animation_finished")
+	await anim_player.animation_finished
 	
 	disable_damage_area(false)
 	idle_animation()
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func chomp():
 	invincible = true
@@ -147,15 +147,15 @@ func chomp():
 	disable_damage_area()
 	
 	anim_player.play("chomp_split")
-	yield(get_tree().create_timer(0.25, false), "timeout")
+	await get_tree().create_timer(0.25, false).timeout
 	
 	if state_machine.state != "chomp": return
 	
 	Global.camera_shake(30, 0.7)
 	if phase == 1:
-		yield(get_tree().create_timer(0.5, false), "timeout")
+		await get_tree().create_timer(0.5, false).timeout
 	else:
-		yield(get_tree().create_timer(0.1, false), "timeout")
+		await get_tree().create_timer(0.1, false).timeout
 	#yield(anim_player, "animation_finished")
 	
 	if state_machine.state != "chomp": return
@@ -165,12 +165,12 @@ func chomp():
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.start()
-	yield(get_tree().create_timer(chomp_time * 0.75, false), "timeout")
+	await get_tree().create_timer(chomp_time * 0.75, false).timeout
 	
 	if state_machine.state != "chomp": return
 	
 	anim_player.play("chomp_smash")
-	yield(get_tree().create_timer(0.2, false), "timeout")
+	await get_tree().create_timer(0.2, false).timeout
 	
 	if state_machine.state != "chomp": return
 	
@@ -180,12 +180,12 @@ func chomp():
 	disable_bounce_area(false)
 	disable_damage_area(false)
 	
-	yield(anim_player, "animation_finished")
+	await anim_player.animation_finished
 	
 	if state_machine.state != "chomp": return
 	
 	idle_animation()
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func chomp_kill_player():
 	for body in chomp_hitbox.get_overlapping_bodies():
@@ -202,7 +202,7 @@ func shoot_eye_fireballs(fireball_packed_scene = fireball_scene):
 		instance_node(fireball_packed_scene, eye_position)
 
 func instance_node(packedscene, global_pos):
-	var child = packedscene.instance()
+	var child = packedscene.instantiate()
 	child.global_position = global_pos
 	return Global.add_child_to_level(child, self)
 
@@ -238,7 +238,7 @@ func defeated():
 	disable_bounce_area()
 	disable_damage_area()
 	
-	pause_mode = PAUSE_MODE_PROCESS
+	process_mode = PROCESS_MODE_ALWAYS
 	Scoreboard.hide()
 	Global.can_pause = false
 	Music.stop_all()
@@ -249,7 +249,7 @@ func defeated():
 	sfx.play("Squish2")
 	sfx.play("KnockOut")
 	
-	yield(Global.hitstop(2, 100, 0.99), "completed")
+	await Global.hitstop(2, 100, 0.99).completed
 	die()
 
 func die():
@@ -275,7 +275,7 @@ func die():
 		rng.randomize()
 		position.y += rng.randf_range(-grumb_shake, grumb_shake)
 		
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 
 func fake_death_loop(delta):
 	velocity.x = 0
@@ -387,7 +387,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 		state_machine.set_state("phase_two_transition")
 
 func phase_two_transition():
-	yield(get_tree().create_timer(1, false), "timeout")
+	await get_tree().create_timer(1, false).timeout
 	
 	anim_player.play("angry")
 	var pos_y = _initial_position.y - Global.TILE_SIZE * 4
@@ -412,7 +412,7 @@ func enable(enable = true, wait_time = 1):
 	disable_damage_area(!enabled)
 	invincible = !enabled
 	if enabled:
-		yield(get_tree().create_timer(wait_time, false), "timeout")
+		await get_tree().create_timer(wait_time, false).timeout
 		if state_machine.state == "waiting":
 			state_machine.set_state("idle")
 

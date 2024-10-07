@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/undo.wav-29059bcc7a9446a4a50dbac8ff3c8d35.sample"
+type="AudioStreamWAV"
+uid="uid://b31j3fghrowgf"
+path="res://.godot/imported/undo.wav-29059bcc7a9446a4a50dbac8ff3c8d35.sample"
 
 [deps]
 
 source_file="res://sounds/editor/undo.wav"
-dest_files=[ "res://.import/undo.wav-29059bcc7a9446a4a50dbac8ff3c8d35.sample" ]
+dest_files=["res://.godot/imported/undo.wav-29059bcc7a9446a4a50dbac8ff3c8d35.sample"]
 
 [params]
 

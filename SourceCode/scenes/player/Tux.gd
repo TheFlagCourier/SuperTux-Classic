@@ -18,20 +18,20 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
-export (PackedScene) var fireball_scene
-export var jump_height_in_tiles = 5.0
-export var run_jump_height_in_tiles = 6.0
-export var riding_jump_height_in_tiles = 7.0
-export var low_bounce_height_in_tiles = 2.0
-export var high_bounce_height_in_tiles = 5.0
+@export var fireball_scene: PackedScene
+@export var jump_height_in_tiles = 5.0
+@export var run_jump_height_in_tiles = 6.0
+@export var riding_jump_height_in_tiles = 7.0
+@export var low_bounce_height_in_tiles = 2.0
+@export var high_bounce_height_in_tiles = 5.0
 
-export var invincible_star_time = 10.0
-export var invincible_warning_time = 3.0 # Tux flashes green this many seconds before the invincible star wears out
-export var damage_safe_time = 1.0
+@export var invincible_star_time = 10.0
+@export var invincible_warning_time = 3.0 # Tux flashes green this many seconds before the invincible star wears out
+@export var damage_safe_time = 1.0
 
-var grounded = false setget _set_grounded_state
+var grounded = false: set = _set_grounded_state
 var jump_terminable = false
 var velocity = Vector2()
 var invincible = false
@@ -59,46 +59,46 @@ var riding_accel = 0.025 * pow(60, 2) / 11
 var riding_max = 4 * 4.5 * Global.TILE_SIZE # Max speed whilst riding Ice Dragon is increased
 
 # These values all get re-calculated in the initialize function using kinematic equations (thanks Game Endeavor)
-onready var jump_height = jump_height_in_tiles * Global.TILE_SIZE # WAS 5.2 The peak height of holding jump in blocks
-onready var run_jump_height = run_jump_height_in_tiles * Global.TILE_SIZE # WAS 5.8 Same as above but while moving fast
-onready var riding_jump_height = riding_jump_height_in_tiles * Global.TILE_SIZE
+@onready var jump_height = jump_height_in_tiles * Global.TILE_SIZE # WAS 5.2 The peak height of holding jump in blocks
+@onready var run_jump_height = run_jump_height_in_tiles * Global.TILE_SIZE # WAS 5.8 Same as above but while moving fast
+@onready var riding_jump_height = riding_jump_height_in_tiles * Global.TILE_SIZE
 
-onready var bounce_height = low_bounce_height_in_tiles * Global.TILE_SIZE # Bounce height while not holding jump
-onready var high_bounce_height = high_bounce_height_in_tiles * Global.TILE_SIZE # Bounce height while holding jump
+@onready var bounce_height = low_bounce_height_in_tiles * Global.TILE_SIZE # Bounce height while not holding jump
+@onready var high_bounce_height = high_bounce_height_in_tiles * Global.TILE_SIZE # Bounce height while holding jump
 
 var has_large_hitbox = false # Returns true if tux is using big Tux's hitbox
 var can_die = true
 
 enum states {SMALL, BIG, FIRE}
-var state = states.SMALL setget update_state
+var state = states.SMALL: set = update_state
 
 enum invincible_types {DAMAGED, STAR}
 var invincible_type = invincible_types.DAMAGED
 
-onready var camera = $Camera2D
-onready var state_machine = $StateMachine
-onready var jump_buffer = $JumpBuffer
-onready var coyote_timer = $CoyoteTimer
-onready var bounce_raycasts = $BounceRaycasts
-onready var duck_raycast = $DuckRaycast
-onready var sprite_master = $Control
-onready var sprites = [$Control/SpriteSmall, $Control/SpriteBig, $Control/Dragon]
-onready var arm_sprite = $Control/GrabArm
-onready var sfx = $SFX
-onready var skid_timer = $SkidTimer
-onready var invincible_timer = $InvincibleTimer
-onready var invincible_warning_timer = $StarWarning
-onready var win_timer = $WinTimer
-onready var invincible_anim = $InvincibleAnimation
-onready var grab_position = $GrabPosition
+@onready var camera = $Camera2D
+@onready var state_machine = $StateMachine
+@onready var jump_buffer = $JumpBuffer
+@onready var coyote_timer = $CoyoteTimer
+@onready var bounce_raycasts = $BounceRaycasts
+@onready var duck_raycast = $DuckRaycast
+@onready var sprite_master = $Control
+@onready var sprites = [$Control/SpriteSmall, $Control/SpriteBig, $Control/Dragon]
+@onready var arm_sprite = $Control/GrabArm
+@onready var sfx = $SFX
+@onready var skid_timer = $SkidTimer
+@onready var invincible_timer = $InvincibleTimer
+@onready var invincible_warning_timer = $StarWarning
+@onready var win_timer = $WinTimer
+@onready var invincible_anim = $InvincibleAnimation
+@onready var grab_position = $GrabPosition
 
 # These get swapped out depending on Tux's state
-onready var small_nodes = [$HitboxSmall, $Control/SpriteSmall]
-onready var big_nodes = [$HitboxBig, $Control/SpriteBig]
-onready var dragon_sprite = $Control/Dragon
-onready var hitbox_small = $HitboxSmall
-onready var hitbox_big = $HitboxBig
-onready var hitbox_riding = $HitboxRiding
+@onready var small_nodes = [$HitboxSmall, $Control/SpriteSmall]
+@onready var big_nodes = [$HitboxBig, $Control/SpriteBig]
+@onready var dragon_sprite = $Control/Dragon
+@onready var hitbox_small = $HitboxSmall
+@onready var hitbox_big = $HitboxBig
+@onready var hitbox_riding = $HitboxRiding
 
 var riding_entity = null
 
@@ -122,7 +122,10 @@ func initialize_character():
 
 func apply_movement(delta, solid = true):
 	if solid:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
 	else:
 		position += velocity * delta
 	
@@ -267,7 +270,7 @@ func check_bounce(delta):
 		# Make all the raycasts extend out to cover Tux's future position
 		for raycast in bounce_raycasts.get_children():
 			var direction = Vector2.DOWN if velocity.y > 0 else Vector2.UP
-			raycast.cast_to = direction * Vector2.DOWN * delta + direction
+			raycast.target_position = direction * Vector2.DOWN * delta + direction
 			raycast.force_raycast_update()
 			if raycast.is_colliding():
 				

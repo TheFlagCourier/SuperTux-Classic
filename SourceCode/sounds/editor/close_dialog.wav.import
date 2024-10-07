@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/close_dialog.wav-a220e7e70cfaa6aa62019d9040638491.sample"
+type="AudioStreamWAV"
+uid="uid://5ly4bn7juc2i"
+path="res://.godot/imported/close_dialog.wav-a220e7e70cfaa6aa62019d9040638491.sample"
 
 [deps]
 
 source_file="res://sounds/editor/close_dialog.wav"
-dest_files=[ "res://.import/close_dialog.wav-a220e7e70cfaa6aa62019d9040638491.sample" ]
+dest_files=["res://.godot/imported/close_dialog.wav-a220e7e70cfaa6aa62019d9040638491.sample"]
 
 [params]
 

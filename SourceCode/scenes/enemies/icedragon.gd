@@ -1,13 +1,13 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var facing = -1
-export var turn_on_walls = true
-export var turn_on_cliffs = false
-export var jump_height_in_tiles = 6.0
-export var walk_speed = 0.8 * 4
-export var run_speed = 8
-export var max_health = 3
-export var tux_position_offset = Vector2(0, -26)
+@export var facing = -1
+@export var turn_on_walls = true
+@export var turn_on_cliffs = false
+@export var jump_height_in_tiles = 6.0
+@export var walk_speed = 0.8 * 4
+@export var run_speed = 8
+@export var max_health = 3
+@export var tux_position_offset = Vector2(0, -26)
 
 var invincible = false
 var velocity = Vector2()
@@ -17,20 +17,20 @@ var die_height = 2.0 * Global.TILE_SIZE
 
 var player_entity = null
 
-onready var walk_speed_tiles = walk_speed * 4 * Global.TILE_SIZE
-onready var jump_height = jump_height_in_tiles * Global.TILE_SIZE
-onready var health = max_health
+@onready var walk_speed_tiles = walk_speed * 4 * Global.TILE_SIZE
+@onready var jump_height = jump_height_in_tiles * Global.TILE_SIZE
+@onready var health = max_health
 
-onready var sprite = $Control/AnimatedSprite
-onready var anim_player = $AnimationPlayer
-onready var state_machine = $StateMachine
-onready var hitbox = $DamageArea
-onready var bounce_area = $BounceArea
-onready var edge_turn = $EdgeTurn
-onready var sfx = $SFX
-onready var destroy_timer = $DestroyTimer
-onready var player_riding_position = $RidingPosition
-onready var invincible_timer = $InvincibleTimer
+@onready var sprite = $Control/AnimatedSprite2D
+@onready var anim_player = $AnimationPlayer
+@onready var state_machine = $StateMachine
+@onready var hitbox = $DamageArea
+@onready var bounce_area = $BounceArea
+@onready var edge_turn = $EdgeTurn
+@onready var sfx = $SFX
+@onready var destroy_timer = $DestroyTimer
+@onready var player_riding_position = $RidingPosition
+@onready var invincible_timer = $InvincibleTimer
 
 # Kinematic Equations
 func _ready():
@@ -40,7 +40,10 @@ func _ready():
 
 func apply_movement(delta, solid = true):
 	if solid:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
 		
 		grounded = is_on_floor()
 		touching_wall = is_on_wall()
@@ -88,8 +91,8 @@ func exit_riding(from_damage = false):
 		state_machine.set_state("walk")
 
 func disable_collision( disabled = true ):
-	set_collision_layer_bit(2, !disabled)
-	set_collision_mask_bit(2, !disabled)
+	set_collision_layer_value(2, !disabled)
+	set_collision_mask_value(2, !disabled)
 	
 	if hitbox != null:
 		for child in hitbox.get_children():
@@ -112,8 +115,8 @@ func update_sprite():
 # If true, this enemy will collide with other enemies.
 # If false, this enemy will pass through other enemies.
 func collide_with_other_enemies(colliding = true):
-	set_collision_layer_bit(2, colliding)
-	set_collision_mask_bit(2, colliding)
+	set_collision_layer_value(2, colliding)
+	set_collision_mask_value(2, colliding)
 
 # When a player (or enemy) enters our hitbox
 func _on_DamageArea_body_entered(body):

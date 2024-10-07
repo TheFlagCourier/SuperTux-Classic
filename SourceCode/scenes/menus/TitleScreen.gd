@@ -17,22 +17,22 @@
 
 extends Control
 
-export var intro_scene = ""
-export var options_scene = ""
-export var credits_scene = ""
-onready var title_content = $TitleContent
+@export var intro_scene = ""
+@export var options_scene = ""
+@export var credits_scene = ""
+@onready var title_content = $TitleContent
 
-onready var start_game_button = $TitleContent/Menu/VBoxContainer/StartGame
-onready var options_button = $TitleContent/Menu/VBoxContainer/Options
-onready var level_editor_button = $TitleContent/Menu/VBoxContainer/LevelEditor
-onready var credits_button = $TitleContent/Menu/VBoxContainer/Credits
-onready var quit_button = $TitleContent/Menu/VBoxContainer/Quit
+@onready var start_game_button = $TitleContent/Menu/VBoxContainer/StartGame
+@onready var options_button = $TitleContent/Menu/VBoxContainer/Options
+@onready var level_editor_button = $TitleContent/Menu/VBoxContainer/LevelEditor
+@onready var credits_button = $TitleContent/Menu/VBoxContainer/Credits
+@onready var quit_button = $TitleContent/Menu/VBoxContainer/Quit
 
-onready var new_game_warning = $TitleContent/Menu/NewGameWarning
-onready var options_menu = $OptionsMenu
-onready var start_game_menu = $StartGameMenu
+@onready var new_game_warning = $TitleContent/Menu/NewGameWarning
+@onready var options_menu = $OptionsMenu
+@onready var start_game_menu = $StartGameMenu
 
-export var default_world = "world1"
+@export var default_world = "world1"
 
 func _ready():
 	Music.play("Title")

@@ -1,14 +1,14 @@
 extends Camera2D
 
-export var move_speed = 16.0
-export var mouse_drag_strength = 1.0
-export var mouse_zoom_speed = 0.1
+@export var move_speed = 16.0
+@export var mouse_drag_strength = 1.0
+@export var mouse_zoom_speed = 0.1
 
-export var min_zoom = (1.0 / 4.0) # 400% zoom in
-export var max_zoom = (1.0 * 1.5) # 66% zoom out
+@export var min_zoom = (1.0 / 4.0) # 400% zoom in
+@export var max_zoom = (1.0 * 1.5) # 66% zoom out
 
-export var touch_zoom_speed = 0.05
-export var touch_zoom_sensitivity = 50 # Minimum number of pixels needed to start a zoom
+@export var touch_zoom_speed = 0.05
+@export var touch_zoom_sensitivity = 50 # Minimum number of pixels needed to start a zoom
 
 var mouse_motion = Vector2.ZERO
 var mouse_dragging_camera = false
@@ -16,14 +16,14 @@ var mouse_drag_pressed = false
 
 var touch_dragging_camera = false
 
-var dragging_camera = null setget , _is_dragging_camera
+var dragging_camera = null: get = _is_dragging_camera
 
-var touch_events = {} setget update_touch_events
+var touch_events = {}: set = update_touch_events
 var last_drag_distance = 0
 
-var cam_zoom = null setget , _get_global_camera_zoom
+var cam_zoom = null: get = _get_global_camera_zoom
 
-onready var tux_sprite = get_node("TuxSprite")
+@onready var tux_sprite = get_node("TuxSprite")
 
 # Override base set zoom function to impose zoom limits
 func set_zoom(new_zoom : Vector2):
@@ -32,7 +32,7 @@ func set_zoom(new_zoom : Vector2):
 		clamp(new_zoom.y, min_zoom, max_zoom)
 	)
 	
-	.set_zoom(new_zoom)
+	super.set_zoom(new_zoom)
 
 # Touchscreen can drag/zoom camera using two fingers.
 # Code credit: https://kidscancode.org/godot_recipes/3.x/2d/touchscreen_camera/index.html

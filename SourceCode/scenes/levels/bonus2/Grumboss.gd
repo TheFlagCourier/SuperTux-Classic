@@ -1,15 +1,15 @@
 extends Node2D
 
-onready var grumbel = $Grumbel
-onready var anim_player = $AnimationPlayer
-onready var statue = $Statue
-onready var sfx = $SFX
-onready var ambience = $Ambience
-onready var evil_text = $EvilText/Control
-onready var evil_text_label = $EvilText/Control/Label
-onready var evil_text_static = $EvilText/Control/Static
-onready var rng = RandomNumberGenerator.new()
-onready var sanity_effect_animation = $SanityEffects
+@onready var grumbel = $Grumbel
+@onready var anim_player = $AnimationPlayer
+@onready var statue = $Statue
+@onready var sfx = $SFX
+@onready var ambience = $Ambience
+@onready var evil_text = $EvilText/Control
+@onready var evil_text_label = $EvilText/Control/Label
+@onready var evil_text_static = $EvilText/Control/Static
+@onready var rng = RandomNumberGenerator.new()
+@onready var sanity_effect_animation = $SanityEffects
 
 var evil_messages = [
 	"USELESS",
@@ -29,13 +29,13 @@ var evil_messages = [
 ]
 
 func _ready():
-	grumbel.connect("fake_death", self, "phase_two_transition")
-	grumbel.connect("phase_two", self, "phase_two")
-	grumbel.connect("defeated", self, "defeated")
-	grumbel.connect("dying", self, "dying")
-	grumbel.connect("hurt", self, "hurt")
+	grumbel.connect("fake_death", Callable(self, "phase_two_transition"))
+	grumbel.connect("phase_two", Callable(self, "phase_two"))
+	grumbel.connect("defeated", Callable(self, "defeated"))
+	grumbel.connect("dying", Callable(self, "dying"))
+	grumbel.connect("hurt", Callable(self, "hurt"))
 	
-	yield(Global, "level_ready")
+	await Global.level_ready
 	
 	if Scoreboard.number_of_deaths > 0 or grumbel.phase == 2 or grumbel.enabled:
 		spawn_grumbel(0.1)
@@ -45,44 +45,44 @@ func _ready():
 func spawn_grumbel(wait_time = 1):
 	grumbel.enable(true, wait_time)
 	statue.hide()
-	yield(get_tree().create_timer(wait_time, false), "timeout")
+	await get_tree().create_timer(wait_time, false).timeout
 	if grumbel.phase == 2:
 		anim_player.play("phase_two")
 	else: Music.play("Prophecy")
 
 func statue_intro():
-	yield(get_tree().create_timer(2, false), "timeout")
+	await get_tree().create_timer(2, false).timeout
 	
 	sfx.play("Static")
 	sfx.play("Glitch2")
-	yield(call("evil_text_message", "UNNECESSARY", 2, Color(1,1,0), Color(1,1,1,0.1)), "completed")
+	await call("evil_text_message", "UNNECESSARY", 2, Color(1,1,0), Color(1,1,1,0.1)).completed
 	sfx.stop("Glitch2")
 	sfx.stop("Static")
 	
-	yield(get_tree().create_timer(0.3, false), "timeout")
+	await get_tree().create_timer(0.3, false).timeout
 	
 	sfx.play("Static")
 	sfx.play("Glitch4")
-	yield(call("evil_text_message", "USELESS", 0.05), "completed")
+	await call("evil_text_message", "USELESS", 0.05).completed
 	sfx.stop("Glitch4")
 	sfx.stop("Static")
 	
-	yield(get_tree().create_timer(0.3, false), "timeout")
+	await get_tree().create_timer(0.3, false).timeout
 	
 	sfx.play("Static")
 	sfx.play("Glitch3")
-	yield(call("evil_text_message", "REDUNDANT", 0.05, Color(1,0.5,0), Color(1,0.5,0.5,0.2)), "completed")
+	await call("evil_text_message", "REDUNDANT", 0.05, Color(1,0.5,0), Color(1,0.5,0.5,0.2)).completed
 	sfx.stop("Static")
 	sfx.stop("Glitch3")
-	yield(get_tree().create_timer(0.3, false), "timeout")
+	await get_tree().create_timer(0.3, false).timeout
 	
 	sfx.play("Static")
 	sfx.play("Glitch1")
-	yield(call("evil_text_message", "WORTHLESS", 0.05, Color(1,1,1), Color(1,0,0,0.2)), "completed")
+	await call("evil_text_message", "WORTHLESS", 0.05, Color(1,1,1), Color(1,0,0,0.2)).completed
 	sfx.stop("Static")
 	sfx.stop("Glitch1")
 	
-	yield(get_tree().create_timer(0.6, false), "timeout")
+	await get_tree().create_timer(0.6, false).timeout
 	
 	var timer = get_tree().create_timer(2, false)
 	var shake = 0.05
@@ -92,8 +92,8 @@ func statue_intro():
 		Global.camera_shake(shake * 2, 0.5)
 		shake += 0.1
 		statue.offset.x = sin(shake * shake) * shake
-		yield(get_tree(), "idle_frame")
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
+		await get_tree().idle_frame
 	
 	statue.offset.x = 0
 	anim_player.play("flash_in")
@@ -102,8 +102,8 @@ func statue_intro():
 		Global.camera_shake(shake * 2, 0.5)
 		shake += 1
 		statue.offset.x = sin(shake * shake) * shake
-		yield(get_tree(), "idle_frame")
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
+		await get_tree().idle_frame
 	
 	sfx.play("Explosion")
 	sfx.play("Explosion2")
@@ -112,18 +112,18 @@ func statue_intro():
 	sfx.stop("Rumbling")
 	sfx.stop("Rumbling2")
 	
-	yield(get_tree().create_timer(2, false), "timeout")
+	await get_tree().create_timer(2, false).timeout
 	
 	spawn_grumbel(3)
 	anim_player.play("flash_out")
-	yield(anim_player, "animation_finished")
+	await anim_player.animation_finished
 	
-	yield(get_tree().create_timer(1, false), "timeout")
+	await get_tree().create_timer(1, false).timeout
 	
 	if grumbel.state_machine.state == "waiting": 
 		sfx.play("Glitch1")
 		sfx.play("Static")
-		yield(call("evil_text_message", "I WILL DEPRECATE YOU", 1, Color(1,0,0), Color(1,0,0,0.2)), "completed")
+		await call("evil_text_message", "I WILL DEPRECATE YOU", 1, Color(1,0,0), Color(1,0,0,0.2)).completed
 		sfx.stop("Glitch1")
 		sfx.stop("Static")
 
@@ -141,7 +141,7 @@ func phase_two():
 func defeated():
 	sfx.stop_all()
 	ambience.stop()
-	pause_mode = Node.PAUSE_MODE_PROCESS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	anim_player.play("defeated")
 	sanity_effect_animation.stop()
 	sanity_effect_animation.play("stop")
@@ -163,7 +163,7 @@ func hurt():
 			
 			sfx.play("Static")
 			sfx.play(sound)
-			yield(call("evil_text_message", message, 0.05, Color(1,1,1), Color(1,0,0,0.1)), "completed")
+			await call("evil_text_message", message, 0.05, Color(1,1,1), Color(1,0,0,0.1)).completed
 			sfx.stop(sound)
 			sfx.stop("Static")
 		
@@ -178,10 +178,10 @@ func grumbel_sanity_effect():
 	
 	sanity_effect_animation.stop()
 	sanity_effect_animation.play("sanity_effect", -1, speed)
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	
 	
-	yield(sanity_effect_animation, "animation_finished")
+	await sanity_effect_animation.animation_finished
 
 func random_glitch_noise():
 	rng.randomize()
@@ -193,7 +193,7 @@ func random_glitch_noise():
 	
 	sfx.play(sound)
 	
-	yield(get_tree().create_timer(rng.randf_range(0.25, 1)), "timeout")
+	await get_tree().create_timer(rng.randf_range(0.25, 1)).timeout
 	sfx.stop(sound)
 
 func dying():
@@ -201,13 +201,13 @@ func dying():
 	Music.pitch_slide_up()
 	
 	anim_player.play("dying")
-	yield(get_tree().create_timer(1), "timeout")
-	yield(call("cry_out_in_despair", 0.3), "completed")
-	yield(get_tree().create_timer(0.1), "timeout")
-	yield(call("cry_out_in_despair", 0.1), "completed")
-	yield(get_tree().create_timer(0.4), "timeout")
-	yield(call("cry_out_in_despair", 0.1), "completed")
-	yield(get_tree().create_timer(0.05), "timeout")
+	await get_tree().create_timer(1).timeout
+	await call("cry_out_in_despair", 0.3).completed
+	await get_tree().create_timer(0.1).timeout
+	await call("cry_out_in_despair", 0.1).completed
+	await get_tree().create_timer(0.4).timeout
+	await call("cry_out_in_despair", 0.1).completed
+	await get_tree().create_timer(0.05).timeout
 	
 	var i = 20
 	var time = 0.2
@@ -219,8 +219,8 @@ func dying():
 		i -= 1
 		time *= 0.9
 		brightness += 0.125
-		yield(call("cry_out_in_despair", time, brightness), "completed")
-		yield(get_tree().create_timer(time), "timeout")
+		await call("cry_out_in_despair", time, brightness).completed
+		await get_tree().create_timer(time).timeout
 	sfx.stop("Static")
 	Music.stop_all()
 
@@ -228,8 +228,8 @@ func dying():
 func cry_out_in_despair(message_time : float, brightness = 0):
 	evil_text.modulate.a = 1 - brightness * 0.5
 	sfx.play("Static")
-	yield(call("evil_text_message", "NO", message_time, Color(1,1,1,1), Color(brightness + 0.5,0,0,1 - brightness)), "completed")
-	yield(get_tree(), "idle_frame")
+	await call("evil_text_message", "NO", message_time, Color(1,1,1,1), Color(brightness + 0.5,0,0,1 - brightness)).completed
+	await get_tree().idle_frame
 	sfx.stop("Static")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
@@ -241,10 +241,10 @@ func evil_text_message(message_text : String, message_time : float, text_colour 
 	
 	AudioServer.set_bus_mute(3, true)
 	
-	var p = pause_mode
+	var p = process_mode
 	var can_pause = Global.can_pause
 	
-	pause_mode = Node.PAUSE_MODE_PROCESS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
 	Global.can_pause = false
 	
@@ -253,11 +253,11 @@ func evil_text_message(message_text : String, message_time : float, text_colour 
 	evil_text_label.text = message_text
 	evil_text.show()
 	
-	yield(get_tree().create_timer(message_time), "timeout")
+	await get_tree().create_timer(message_time).timeout
 	
 	evil_text.hide()
 	
-	pause_mode = p
+	process_mode = p
 	
 	AudioServer.set_bus_mute(3, false)
 	

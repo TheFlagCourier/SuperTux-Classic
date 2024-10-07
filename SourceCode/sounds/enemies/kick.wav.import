@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/kick.wav-880c4fd1e474802deb16684d77134359.sample"
+type="AudioStreamWAV"
+uid="uid://b7uci68yq8nio"
+path="res://.godot/imported/kick.wav-880c4fd1e474802deb16684d77134359.sample"
 
 [deps]
 
 source_file="res://sounds/enemies/kick.wav"
-dest_files=[ "res://.import/kick.wav-880c4fd1e474802deb16684d77134359.sample" ]
+dest_files=["res://.godot/imported/kick.wav-880c4fd1e474802deb16684d77134359.sample"]
 
 [params]
 

@@ -1,18 +1,18 @@
 extends Button
 
-onready var label = $Label
-onready var layer_options = $LayerOptions
-onready var layer_icon = $LayerIcon
+@onready var label = $Label
+@onready var layer_options = $LayerOptions
+@onready var layer_icon = $LayerIcon
 
-export var button_font : Font
+@export var button_font : Font
 
-export var uneditable_style_box : StyleBox
-export var editable_layer_types = ["TileMap", "ObjectMap", "ObjectContainer"]
+@export var uneditable_style_box : StyleBox
+@export var editable_layer_types = ["TileMap", "ObjectMap", "ObjectContainer"]
 
-var layer_object = null setget _set_layer_object
-var layer_name = null setget _set_layer_name
+var layer_object = null: set = _set_layer_object
+var layer_name = null: set = _set_layer_name
 
-var layer_type = null setget , _get_layer_type
+var layer_type = null: get = _get_layer_type
 
 signal layer_button_pressed(button_node, layer_object)
 signal edit_layer(layer_object)
@@ -41,9 +41,9 @@ func _on_Delete_pressed():
 # RIGHT CLICKING THE LAYER BUTTON ACTIVATES THE EDIT LAYER DIALOG
 func _on_LayerButton_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT:
 			_on_LayerButton_pressed()
-		if event.button_index == BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			_on_Edit_pressed()
 
 func _set_layer_name(new_value):
@@ -54,14 +54,14 @@ func _set_layer_name(new_value):
 	# We have to manually shrink the text for the label of the layer if it gets too long
 	var text_size = button_font.get_string_size(label.text).x
 	
-	var max_size = rect_min_size.x - label.margin_left + label.margin_right
+	var max_size = custom_minimum_size.x - label.offset_left + label.offset_right
 	
 	if text_size > max_size:
 		
 		var new_size = Vector2.ONE * max_size / text_size
-		label.rect_scale = new_size
+		label.scale = new_size
 	
-	else: label.rect_scale = Vector2.ONE
+	else: label.scale = Vector2.ONE
 
 func _set_layer_object(new_value):
 	if new_value == layer_object: return
@@ -84,7 +84,7 @@ func _update_layer_icon():
 	layer_icon.texture = load(layer_icon_img)
 	
 	if !editable_layer_types.has(self.layer_type):
-		add_stylebox_override("normal", uneditable_style_box)
+		add_theme_stylebox_override("normal", uneditable_style_box)
 
 func set_disabled(value):
 	disabled = value

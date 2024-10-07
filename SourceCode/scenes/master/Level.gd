@@ -25,29 +25,29 @@ var worldmap_player_object = preload("res://scenes/worldmap/Player.tscn")
 var pause_menu = preload("res://scenes/menus/PauseScreen.tscn")
 var is_autoscrolling = false
 
-onready var extro_level = WorldmapManager.extro_level
+@onready var extro_level = WorldmapManager.extro_level
 
-export var is_worldmap = false
-export var level_title = ""
-export var level_author = ""
-export var music = "ChipDisko" setget _set_level_music
-export var particle_system = ""
-export var uses_timer = true
-export var time = 300
-export var gravity = 10
-export var autoscroll_speed = 0.0
-export var starting_powerup = 0
-export var spawn_position = Vector2()
-export var level_height = 15
+@export var is_worldmap = false
+@export var level_title = ""
+@export var level_author = ""
+@export var music = "ChipDisko": set = _set_level_music
+@export var particle_system = ""
+@export var uses_timer = true
+@export var time = 300
+@export var gravity = 10
+@export var autoscroll_speed = 0.0
+@export var starting_powerup = 0
+@export var spawn_position = Vector2()
+@export var level_height = 15
 
 # If the level uses custom music, this variable specifies
 # the time (in seconds) at which the custom music stream
 # starts after being looped.
-export var custom_music_loop_offset : float = 0.0
+@export var custom_music_loop_offset : float = 0.0
 
-onready var objects = get_node("Objects").get_children() if has_node("Objects") else null
+@onready var objects = get_node("Objects").get_children() if has_node("Objects") else null
 
-onready var custom_camera = get_node_or_null("Camera2D")
+@onready var custom_camera = get_node_or_null("Camera2D")
 
 signal level_ready
 signal music_changed
@@ -55,7 +55,7 @@ signal music_changed
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.current_level = self
-	set_pause_mode(PAUSE_MODE_STOP)
+	set_process_mode(PROCESS_MODE_PAUSABLE)
 	
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
@@ -72,11 +72,11 @@ func activate_objectmaps():
 func start_level(in_editor = false):
 	activate_objectmaps()
 	
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	
 	#print(spawn_position)
 	
-	ResolutionManager.connect("window_resized", self, "window_resized")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
 	Scoreboard.show(!in_editor)
 	WorldmapManager.is_level_worldmap = is_worldmap
 	
@@ -97,7 +97,7 @@ func start_level(in_editor = false):
 	else: Scoreboard.disable_level_timer()
 	
 	# Display the level title card and wait until it disappears
-	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
+	if !is_worldmap and !in_editor: await _level_title_card().completed
 	else:
 		Global.emit_signal("level_ready")
 	
@@ -160,17 +160,17 @@ func _level_title_card():
 	# (we're going to display the title card, so we don't want Tux
 	# to be able to move or die during this!)
 	if Global.player == null:
-		yield(Global, "player_loaded")
+		await Global.player_loaded
 	Global.player.queue_free()
 	
 	# Instantiate (spawn) the level title card
-	var title = level_intro.instance()
+	var title = level_intro.instantiate()
 	title.title = level_title
 	title.author = level_author
 	add_child(title)
 	
 	# Wait until the title card disappears,
-	yield(title, "tree_exited")
+	await title.tree_exited
 	
 	# Then we re-add the player into the level
 	
@@ -179,7 +179,7 @@ func _level_title_card():
 	Global.emit_signal("level_ready")
 	
 	if get_tree() == null: return
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 func _load_pause_menu(in_editor = false):
 	var pause_screen_instance = pause_menu.instance()
@@ -190,7 +190,7 @@ func _spawn_player(tile_position : Vector2 = spawn_position):
 	var spawn_pos = map_to_world_position(spawn_position)
 	if Global.spawn_position != null: spawn_pos = Global.spawn_position
 	
-	var player = player_object.instance()
+	var player = player_object.instantiate()
 	
 	add_child(player)
 	player.set_owner(self)
@@ -202,7 +202,7 @@ func _spawn_worldmap_player(tile_position : Vector2):
 	if WorldmapManager.worldmap_player_position != null:
 		player_position = WorldmapManager.worldmap_player_position
 	
-	var player = worldmap_player_object.instance()
+	var player = worldmap_player_object.instantiate()
 	player.global_position = map_to_world_position(player_position)
 	
 	if WorldmapManager.player_stop_direction != null:
@@ -248,7 +248,7 @@ func create_autoscroll_camera():
 		camera_pos = Global.spawn_position.x
 	camera.position = Vector2(camera_pos, 320)
 	camera.current = true
-	yield(get_tree(), "idle_frame") # Disgusting madness
+	await get_tree().idle_frame # Disgusting madness
 	camera.current = true
 
 func autoscroll(delta):

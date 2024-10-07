@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/powerup-grow.wav-a1e6c3fcc7229f7f3194a197ca5deb04.sample"
+type="AudioStreamWAV"
+uid="uid://c5tlm3hkc22f1"
+path="res://.godot/imported/powerup-grow.wav-a1e6c3fcc7229f7f3194a197ca5deb04.sample"
 
 [deps]
 
 source_file="res://sounds/player/powerup-grow.wav"
-dest_files=[ "res://.import/powerup-grow.wav-a1e6c3fcc7229f7f3194a197ca5deb04.sample" ]
+dest_files=["res://.godot/imported/powerup-grow.wav-a1e6c3fcc7229f7f3194a197ca5deb04.sample"]
 
 [params]
 

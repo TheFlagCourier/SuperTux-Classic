@@ -1,11 +1,11 @@
 extends Button
 
-export var play_texture : Texture
-export var play_from_start_texture : Texture
-export var edit_texture : Texture
+@export var play_texture : Texture2D
+@export var play_from_start_texture : Texture2D
+@export var edit_texture : Texture2D
 
-onready var label = $Label
-onready var button_icon = $Icon
+@onready var label = $Label
+@onready var button_icon = $Icon
 
 func _ready():
 	update()

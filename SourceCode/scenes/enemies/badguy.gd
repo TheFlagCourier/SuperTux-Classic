@@ -18,16 +18,16 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var type = ""
-export var facing = -1
-export var turn_on_walls = true
-export var turn_on_cliffs = false
-export var sprite_faces_direction = true
-export var bounce_height_in_tiles = 6.0
-export var hop_height_in_tiles = 1.0 # If standing on another badguy, hop this many tiles up 
-export var flip_vertically_when_dying = true
+@export var type = ""
+@export var facing = -1
+@export var turn_on_walls = true
+@export var turn_on_cliffs = false
+@export var sprite_faces_direction = true
+@export var bounce_height_in_tiles = 6.0
+@export var hop_height_in_tiles = 1.0 # If standing on another badguy, hop this many tiles up 
+@export var flip_vertically_when_dying = true
 
 var velocity = Vector2()
 var move_speed = 0.8 * 4 * Global.TILE_SIZE
@@ -39,20 +39,20 @@ var touching_wall = false
 var invincible = false
 var die_height = 2.0 * Global.TILE_SIZE
 
-onready var bounce_height = bounce_height_in_tiles * Global.TILE_SIZE
-onready var hop_height = hop_height_in_tiles * Global.TILE_SIZE
-onready var sprite = $Control/AnimatedSprite
-onready var state_machine = $StateMachine
-onready var hitbox = $DamageArea
-onready var bounce_area = $BounceArea if has_node("BounceArea") else null
-onready var edge_turn = $EdgeTurn if has_node("EdgeTurn") else null
-onready var block_raycasts = get_node_or_null("BlockRaycasts")
-onready var sfx = $SFX
-onready var destroy_timer = $DestroyTimer
-onready var water_detector = get_node_or_null("WaterDetector")
-onready var water_rise_timer = get_node_or_null("RiseTimer")
-onready var anim_player = get_node_or_null("AnimationPlayer")
-onready var explosion_sprite = get_node_or_null("Control/Explosion")
+@onready var bounce_height = bounce_height_in_tiles * Global.TILE_SIZE
+@onready var hop_height = hop_height_in_tiles * Global.TILE_SIZE
+@onready var sprite = $Control/AnimatedSprite2D
+@onready var state_machine = $StateMachine
+@onready var hitbox = $DamageArea
+@onready var bounce_area = $BounceArea if has_node("BounceArea") else null
+@onready var edge_turn = $EdgeTurn if has_node("EdgeTurn") else null
+@onready var block_raycasts = get_node_or_null("BlockRaycasts")
+@onready var sfx = $SFX
+@onready var destroy_timer = $DestroyTimer
+@onready var water_detector = get_node_or_null("WaterDetector")
+@onready var water_rise_timer = get_node_or_null("RiseTimer")
+@onready var anim_player = get_node_or_null("AnimationPlayer")
+@onready var explosion_sprite = get_node_or_null("Control/Explosion")
 
 # Kinematic Equations
 func _ready():
@@ -64,7 +64,10 @@ func _ready():
 
 func apply_movement(delta, solid = true):
 	if solid:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
 		
 		# We need to do this special check after moving and sliding.
 		hop_upwards_if_standing_on_another_badguy()
@@ -77,7 +80,7 @@ func apply_movement(delta, solid = true):
 # If this badguy is standing on another bad guy,
 # we automatically make it hop upwards.
 func hop_upwards_if_standing_on_another_badguy():
-	for i in get_slide_count():
+	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		
@@ -92,8 +95,14 @@ func hop_upwards_if_standing_on_another_badguy():
 
 func jumpy_movement(fish = false):
 	if fish:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
-	else: move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
+	set_velocity(velocity)
+	set_up_direction(Vector2(0, -1))
+	move_and_slide()
+	else: velocity
 	grounded = is_on_floor()
 	touching_wall = is_on_wall()
 
@@ -117,7 +126,7 @@ func move_forward(turn_on_wall, turn_on_cliff, speed = move_speed):
 func hit_blocks(delta):
 	var direction = Vector2(sign(velocity.x), 0)
 	for block_raycast in block_raycasts.get_children():
-		block_raycast.cast_to = Vector2.RIGHT * velocity * delta + direction
+		block_raycast.target_position = Vector2.RIGHT * velocity * delta + direction
 		block_raycast.position.x = 16 * sign(velocity.x)
 		block_raycast.force_raycast_update()
 		if block_raycast.is_colliding():
@@ -212,8 +221,8 @@ func die(bounce = false):
 	destroy_timer.start()
 
 func disable_collision( disabled = true ):
-	set_collision_layer_bit(2, !disabled)
-	set_collision_mask_bit(2, !disabled)
+	set_collision_layer_value(2, !disabled)
+	set_collision_mask_value(2, !disabled)
 	
 	if hitbox != null:
 		for child in hitbox.get_children():
@@ -237,8 +246,8 @@ func update_sprite():
 # If true, this enemy will collide with other enemies.
 # If false, this enemy will pass through other enemies.
 func collide_with_other_enemies(colliding = true):
-	set_collision_layer_bit(2, colliding)
-	set_collision_mask_bit(2, colliding)
+	set_collision_layer_value(2, colliding)
+	set_collision_mask_value(2, colliding)
 
 # When a player (or enemy) enters our hitbox
 func _on_DamageArea_body_entered(body):
@@ -282,7 +291,7 @@ func _on_FuseTimer_timeout():
 func check_water_below(delta):
 	if state_machine.state == "squished": return
 	if water_detector == null: return
-	water_detector.cast_to.y = velocity.y * delta
+	water_detector.target_position.y = velocity.y * delta
 	water_detector.force_raycast_update()
 	if water_detector.is_colliding():
 		global_position += water_detector.get_collision_point() - water_detector.global_position

@@ -1,21 +1,21 @@
 extends Node2D
 
-onready var sprite = $AnimatedSprite
-onready var sfx = $SFX
+@onready var sprite = $AnimatedSprite2D
+@onready var sfx = $SFX
 
-export var level_file_path = "[LevelPath]"
-export var level_cleared = false setget _update_cleared_state
+@export var level_file_path = "[LevelPath]"
+@export var level_cleared = false: set = _update_cleared_state
 
-export var is_teleporter = false
-export var teleport_location = Vector2()
+@export var is_teleporter = false
+@export var teleport_location = Vector2()
 
-export var message = "" # Message that appears when standing on the level dot
+@export var message = "" # Message that appears when standing on the level dot
 
-export var invisible = false
+@export var invisible = false
 
-export var extro_level_file_path = "[LevelPath]" # Upon clearing the level, load into this level.
+@export var extro_level_file_path = "[LevelPath]" # Upon clearing the level, load into this level.
 
-export var editor_params = ["level_file_path", "message", "invisible"]
+@export var editor_params = ["level_file_path", "message", "invisible"]
 
 func _ready():
 	if Global.is_in_editor: level_cleared = true

@@ -18,17 +18,17 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-extends KinematicBody2D
+extends CharacterBody2D
 
 var velocity = Vector2()
-onready var ceiling_raycast = $CeilingRaycast
-onready var player_raycast = $PlayerRaycast
-onready var state_machine = $StateMachine
-onready var fall_timer = $FallTimer
-onready var sfx = $SFX
-onready var sprite = $AnimatedSprite
-onready var hitbox = $DamageArea
-onready var animation_player = $AnimationPlayer
+@onready var ceiling_raycast = $CeilingRaycast
+@onready var player_raycast = $PlayerRaycast
+@onready var state_machine = $StateMachine
+@onready var fall_timer = $FallTimer
+@onready var sfx = $SFX
+@onready var sprite = $AnimatedSprite2D
+@onready var hitbox = $DamageArea
+@onready var animation_player = $AnimationPlayer
 var grounded = false
 
 func _ready():
@@ -58,7 +58,10 @@ func apply_gravity(delta, grav_set = Global.gravity):
 	velocity.y += grav_set * delta
 
 func apply_movement(delta):
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	set_velocity(velocity)
+	set_up_direction(Vector2(0, -1))
+	move_and_slide()
+	velocity = velocity
 	grounded = is_on_floor()
 
 func is_player_colliding():

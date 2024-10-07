@@ -17,10 +17,10 @@
 
 extends Control
 
-export var autostart = true
-export var music = "TuxRacer - Credits"
-export var stop_music = false
-export var return_scene = ""
+@export var autostart = true
+@export var music = "TuxRacer - Credits"
+@export var stop_music = false
+@export var return_scene = ""
 
 var title_scene = "res://scenes/menus/TitleScreen.tscn"
 
@@ -32,7 +32,7 @@ var is_moving = false
 
 func _ready():
 	# I don't know why we have to do this but Godot is a silly goose
-	yield(self, "draw")
+	await self.draw
 	
 	if autostart: start()
 
@@ -44,7 +44,7 @@ func start():
 	Scoreboard.hide()
 	
 	# If we use an onready var to set this it just returns 0!! whyy!!! grah!!
-	new_position = rect_global_position.y
+	new_position = global_position.y
 	
 	is_moving = true
 
@@ -62,7 +62,7 @@ func _process(delta):
 	elif Input.is_action_just_pressed("ui_cancel"):
 		_return_to_menu()
 	
-	rect_global_position.y = lerp(rect_global_position.y, new_position, 0.5)
+	global_position.y = lerp(global_position.y, new_position, 0.5)
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if is_moving: _return_to_menu()

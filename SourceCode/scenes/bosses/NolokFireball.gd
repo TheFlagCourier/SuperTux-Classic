@@ -17,11 +17,11 @@
 
 extends Node2D
 
-export var initial_speed = 1.5
-export var acceleration = 28
-export var angle = 90
+@export var initial_speed = 1.5
+@export var acceleration = 28
+@export var angle = 90
 
-onready var speed = initial_speed * Global.TILE_SIZE
+@onready var speed = initial_speed * Global.TILE_SIZE
 
 func _ready():
 	if Global.player != null:

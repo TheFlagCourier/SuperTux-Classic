@@ -33,10 +33,10 @@ var window_resolution = null
 
 signal window_resized
 
-var enable_zoom_in = true setget _set_zoom_in
+var enable_zoom_in = true: set = _set_zoom_in
 
 func _ready():
-	get_viewport().connect("size_changed", self, "window_resized")
+	get_viewport().connect("size_changed", Callable(self, "window_resized"))
 	window_resized()
 
 func window_resized():

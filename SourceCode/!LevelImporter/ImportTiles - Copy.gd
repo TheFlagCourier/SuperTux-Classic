@@ -17,21 +17,21 @@
 
 extends Node2D
 
-export var output_directory = "IMPORTS/Level.tscn"
+@export var output_directory = "IMPORTS/Level.tscn"
 
-onready var tilemap = null
-onready var import = null
+@onready var tilemap = null
+@onready var import = null
 
-export var level_height = 15
-export var level_width = 0
-export var is_worldmap = false
+@export var level_height = 15
+@export var level_width = 0
+@export var is_worldmap = false
 
-export var ignore_tiles = [
+@export var ignore_tiles = [
 	6,7,8,9, 32,33,34, 86,87,88,89,90,91,92,
 	107, 108, 109, 110, 111, 137, 138, 139,
 	132, 133, 127, 129, 49, 51, 52, 135, 16, 17, 18]
 
-export var object_tiles = {
+@export var object_tiles = {
 	44: "ObjCoin",
 	45: "ObjCoin",
 	46: "ObjCoin",
@@ -51,7 +51,7 @@ export var object_tiles = {
 	126: "!EndGoalIgloo", # IGLOO
 }
 
-export var level_tileset = {
+@export var level_tileset = {
 	85 : "Cloud",
 	24 : "Grass1",
 	25 : "Grass2",
@@ -145,14 +145,14 @@ export var level_tileset = {
 	
 	}
 
-export var worldmap_tileset = {
-	1 : "Path",
-	2 : "Path",
-	3 : "Path",
-	4 : "Path",
-	5 : "Path",
-	6 : "Path",
-	7 : "Path",
+@export var worldmap_tileset = {
+	1 : "Path3D",
+	2 : "Path3D",
+	3 : "Path3D",
+	4 : "Path3D",
+	5 : "Path3D",
+	6 : "Path3D",
+	7 : "Path3D",
 	
 	8 : "Snow",
 	
@@ -186,18 +186,18 @@ export var worldmap_tileset = {
 	35 : "Woods",
 	36 : "Woods",
 	
-	37 : "Path",
-	38 : "Path",
-	39 : "Path",
-	40 : "Path",
-	41 : "Path",
-	42 : "Path",
-	43 : "Path",
-	44 : "Path",
-	45 : "Path",
-	46 : "Path",
-	47 : "Path",
-	48 : "Path",
+	37 : "Path3D",
+	38 : "Path3D",
+	39 : "Path3D",
+	40 : "Path3D",
+	41 : "Path3D",
+	42 : "Path3D",
+	43 : "Path3D",
+	44 : "Path3D",
+	45 : "Path3D",
+	46 : "Path3D",
+	47 : "Path3D",
+	48 : "Path3D",
 	
 	49 : "Castle",
 	
@@ -216,24 +216,24 @@ export var worldmap_tileset = {
 	
 	60: "Snowman",
 	
-	61: "Path",
+	61: "Path3D",
 	
-	62: "Path",
-	63: "Path",
-	64: "Path",
-	65: "Path",
-	66: "Path",
-	67: "Path",
-	68: "Path",
-	69: "Path",
-	70: "Path",
-	71: "Path",
-	72: "Path",
+	62: "Path3D",
+	63: "Path3D",
+	64: "Path3D",
+	65: "Path3D",
+	66: "Path3D",
+	67: "Path3D",
+	68: "Path3D",
+	69: "Path3D",
+	70: "Path3D",
+	71: "Path3D",
+	72: "Path3D",
 	
 }
 
 var tile = ""
-var default_tile = "" setget _update_default_tile
+var default_tile = "": set = _update_default_tile
 
 func _ready():
 	pass

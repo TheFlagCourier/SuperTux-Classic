@@ -24,8 +24,8 @@ var current_song_node = null
 var songs = []
 var custom_song_loop_offset = 0.0
 
-onready var pitch = create_tween()
-onready var custom_song = $Custom
+@onready var pitch = create_tween()
+@onready var custom_song = $Custom
 
 func _ready():
 	set_editor_music(false)
@@ -75,7 +75,7 @@ func is_custom_song(song : String):
 	if has_node(song): return false
 	
 	# Otherwise, check the file exists.
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	if dir.file_exists(song):
 		var song_extension = song.get_extension()
 		if !song_extension: return false

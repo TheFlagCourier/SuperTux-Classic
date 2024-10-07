@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/InvincibleStart.mp3-d79904fe4577294f9071b5464f7314e2.mp3str"
+uid="uid://4rkon4770ekp"
+path="res://.godot/imported/InvincibleStart.mp3-d79904fe4577294f9071b5464f7314e2.mp3str"
 
 [deps]
 
 source_file="res://music/InvincibleStart.mp3"
-dest_files=[ "res://.import/InvincibleStart.mp3-d79904fe4577294f9071b5464f7314e2.mp3str" ]
+dest_files=["res://.godot/imported/InvincibleStart.mp3-d79904fe4577294f9071b5464f7314e2.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

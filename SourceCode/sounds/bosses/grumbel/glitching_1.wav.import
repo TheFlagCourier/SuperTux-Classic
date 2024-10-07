@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/glitching_1.wav-0abf605d1db9f65bc377217fa44dbd16.sample"
+type="AudioStreamWAV"
+uid="uid://cgyk41x8c6ubu"
+path="res://.godot/imported/glitching_1.wav-0abf605d1db9f65bc377217fa44dbd16.sample"
 
 [deps]
 
 source_file="res://sounds/bosses/grumbel/glitching_1.wav"
-dest_files=[ "res://.import/glitching_1.wav-0abf605d1db9f65bc377217fa44dbd16.sample" ]
+dest_files=["res://.godot/imported/glitching_1.wav-0abf605d1db9f65bc377217fa44dbd16.sample"]
 
 [params]
 

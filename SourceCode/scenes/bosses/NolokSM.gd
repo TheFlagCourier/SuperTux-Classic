@@ -32,7 +32,7 @@ func _ready():
 	add_state("iceblock_kick")
 	
 	# Don't do anything until the level title card is gone
-	yield(Global, "level_ready")
+	await Global.level_ready
 	
 	call_deferred("set_state", "idle")
 
@@ -65,7 +65,7 @@ func _enter_state(new_state, old_state):
 		# IF Nolok is in an attacking state,
 		
 		# Wait until the attack completes,
-		yield( host.call(new_state), "completed" )
+		await host.call(new_state).completed
 		
 		# Then if he's still in the same state, set his state to idle again
 		if state == new_state:

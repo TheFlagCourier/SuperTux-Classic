@@ -4,8 +4,8 @@ extends ParallaxBackground
 # the bottom of the screen by default.
 
 func _ready():
-	ResolutionManager.connect("window_resized", self, "window_resized")
-	Global.connect("level_ready", self, "window_resized")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
+	Global.connect("level_ready", Callable(self, "window_resized"))
 	window_resized()
 
 func window_resized():

@@ -17,13 +17,13 @@
 
 extends Node2D
 
-export var distance_tiles = 3
-export var speed = 100
-export var starting_angle = 0
+@export var distance_tiles = 3
+@export var speed = 100
+@export var starting_angle = 0
 
-onready var pos = position
-onready var distance = distance_tiles * Global.TILE_SIZE
+@onready var pos = position
+@onready var distance = distance_tiles * Global.TILE_SIZE
 
 func _process(delta):
 	starting_angle += speed * delta
-	position = pos + Vector2(distance, 0).rotated( deg2rad( starting_angle ) )
+	position = pos + Vector2(distance, 0).rotated( deg_to_rad( starting_angle ) )

@@ -1,11 +1,11 @@
 extends CanvasLayer
 
-onready var screen_res_label = $Control/VBoxContainer/ScreenResolution
-onready var window_res_label = $Control/VBoxContainer/WindowResolution
-onready var pixel_size_label = $Control/VBoxContainer/PixelSize
+@onready var screen_res_label = $Control/VBoxContainer/ScreenResolution
+@onready var window_res_label = $Control/VBoxContainer/WindowResolution
+@onready var pixel_size_label = $Control/VBoxContainer/PixelSize
 
 func _ready():
-	ResolutionManager.connect("window_resized", self, "window_resized")
+	ResolutionManager.connect("window_resized", Callable(self, "window_resized"))
 	window_resized()
 
 func window_resized():
