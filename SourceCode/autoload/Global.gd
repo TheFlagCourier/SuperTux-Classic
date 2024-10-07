@@ -64,7 +64,7 @@ signal options_data_created
 signal player_died
 signal level_cleared
 
-signal object_clicked
+signal object_clicked(object : Node, click_type : int)
 
 signal quit_game_requested
 
@@ -124,7 +124,7 @@ func goto_scene(path, loading_level = false):
 	call_deferred("_deferred_goto_scene", path, loading_level)
 	await self.scene_loaded
 
-func _deferred_goto_scene(path, loading_level = false):
+func _deferred_goto_scene(path, _loading_level = false):
 	get_tree().paused = true
 	Engine.time_scale = 1;
 	# It is now safe to remove the current scene
@@ -250,9 +250,9 @@ func save_node_to_directory(node : Node, dir : String):
 		child.owner = node
 		for baby in child.get_children():
 			baby.owner = node
-	var packed_scene = PackedScene.new()
+	var packed_scene:PackedScene = PackedScene.new()
 	packed_scene.pack(node)
-	var err = ResourceSaver.save(dir, packed_scene)
+	var err:Error = ResourceSaver.save(packed_scene, dir)
 	if err != OK:
 		var error_msg = str("Error saving node: " + str(node) + " at directory: " + dir + " Error code: " + str(err))
 		push_error(error_msg)
@@ -268,20 +268,9 @@ func get_all_children(node, array := []):
 	return array
 
 func list_files_in_directory(path):
-	var files = []
-	var dir = DirAccess.new()
-	dir.open(path)
-	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-
-	while true:
-		var file = dir.get_next()
-		if file == "":
-			break
-		elif not file.begins_with("."):
-			files.append(file)
-
-	dir.list_dir_end()
-
+	var dir:DirAccess = DirAccess.open(path)
+	dir.set_include_hidden(false)
+	var files:PackedStringArray = dir.get_files();
 	return files
 
 # Horrible jank. Will break easily. JANK IT UP!!
@@ -306,8 +295,7 @@ func string_is_scene_path(string : String):
 	if string.ends_with(".tscn"):
 		
 		# If the file exists, return true.
-		var f = File.new()
-		return f.file_exists(string)
+		return FileAccess.file_exists(string)
 	
 	return false
 
@@ -386,8 +374,9 @@ func _cache_level_attribute(level_filepath : String, attribute_to_get : String, 
 		var attribute = {attribute_to_get : attribute_value}
 		level_attributes_cache[level_filepath] = attribute
 
-func object_clicked(object : Node, click_type : int):
-	emit_signal("object_clicked", object, click_type)
+## Old Methodology
+#func object_clicked(object : Node, click_type : int):
+#	emit_signal("object_clicked", object, click_type)
 
 func _get_is_in_editor():
 	if !current_level: return false
@@ -400,9 +389,11 @@ func get_all_scene_files_in_folder(folder_name : String):
 	if !folder_name.ends_with("/"): folder_name = folder_name + "/"
 	
 	var object_file_list = []
-	var dir = DirAccess.new()
+	var dir:DirAccess = DirAccess.open(folder_name)
 	
-	if !dir.dir_exists(folder_name): return null
+	if dir == null:
+		#var open_error:Error = dir.get_open_error() # In case anyone ever actually cares.
+		return null
 	else:
 		var object_files = Global.list_files_in_directory(folder_name)
 		
@@ -413,14 +404,16 @@ func get_all_scene_files_in_folder(folder_name : String):
 	
 	return object_file_list
 
-static func copy_directory_recursively(p_from : String, p_to : String) -> int:
-	var directory = DirAccess.new()
-	if not directory.dir_exists(p_to):
+static func copy_directory_recursively(p_from : String, p_to : String) -> Error:
+	var directory:DirAccess = DirAccess.open(p_to)
+	if directory == null:
 		directory.make_dir_recursive(p_to)
+	directory = directory.open(p_to)
 	
-	var open_status = directory.open(p_from)
+	var open_status:DirAccess = directory.open(p_from)
+	var open_status_err:Error = open_status.get_open_error()
 	
-	if open_status == OK:
+	if open_status_err == OK:
 		directory.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = directory.get_next()
 		while (file_name != "" && file_name != "." && file_name != ".."):
@@ -433,7 +426,7 @@ static func copy_directory_recursively(p_from : String, p_to : String) -> int:
 			file_name = directory.get_next()
 	else:
 		push_error("Error copying " + p_from + " to " + p_to)
-		return open_status
+		return open_status_err
 	
 	return OK
 
@@ -489,7 +482,7 @@ func _is_open_dialog(node):
 
 # Override the default quitting behaviour
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if self.is_in_editor:
 			emit_signal("quit_game_requested")
 		else:
@@ -559,14 +552,14 @@ func sort_alphabetically(a, b):
 
 # Loads in an audio file (MP3, OGG, or WAV) and converts it into an
 # Audio Stream which can be played by an AudioStreamPlayer node.
-func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : bool = true, loop_offset : float = 0.0):
-	var f = File.new()
+func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : bool = true, loop_offset : float = 0.0) -> AudioStream:
 	
-	if f.file_exists(audio_file_path):
+	if FileAccess.file_exists(audio_file_path):
+		
 		
 		# Ensure the music file has a valid file extension
-		var file_type = audio_file_path.get_extension()
-		if file_type == "":
+		var file_type:String = audio_file_path.get_extension()
+		if file_type.is_empty():
 			push_error("Error loading song from file: " + audio_file_path + " - Song file extension not found")
 			return null
 		
@@ -576,20 +569,19 @@ func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : boo
 			push_error("Error loading song from file: " + audio_file_path + " - Song file type not supported")
 			return null
 		
-		var buffer = null
+		var buffer:PackedByteArray
 		
 		# For MP3/OGG files: open the song, read the data, and then close it
 		if [".mp3", ".ogg"].has(file_type):
-			
-			f.open(audio_file_path, f.READ)
-			buffer = f.get_buffer(f.get_length())
-			f.close()
+			var file_access:FileAccess = FileAccess.open(audio_file_path, FileAccess.ModeFlags.READ)
+			buffer = file_access.get_buffer(file_access.get_length())
+			file_access.close()
 		
 			if !buffer:
 				push_error("Error loading song from file: " + audio_file_path + " - Song data (buffer) not found")
 				return null
 		
-		var stream : AudioStream = null
+		var stream:AudioStream = null
 		
 		# ADD LOOP OFFSET CODE HERE
 		match file_type:
@@ -619,3 +611,5 @@ func get_audio_stream_from_audio_file(audio_file_path : String, loop_audio : boo
 		
 		print("Loaded custom music track.")
 		return stream
+	else:
+		return null
