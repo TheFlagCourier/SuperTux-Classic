@@ -245,7 +245,7 @@ func level_completed():
 		else:
 			emit_signal("level_cleared")
 
-func save_node_to_directory(node : Node, dir : String):
+func save_node_destination_directoryectory(node : Node, dir : String):
 	for child in node.get_children():
 		child.owner = node
 		for baby in child.get_children():
@@ -405,29 +405,35 @@ func get_all_scene_files_in_folder(folder_name : String):
 	return object_file_list
 
 static func copy_directory_recursively(p_from : String, p_to : String) -> Error:
-	var directory:DirAccess = DirAccess.open(p_to)
-	if directory == null:
-		directory.make_dir_recursive(p_to)
-	directory = directory.open(p_to)
+	var destination_directory:DirAccess = DirAccess.open(p_to)
+	if destination_directory == null:
+		destination_directory.make_dir_recursive(p_to)
+	destination_directory = destination_directory.open(p_to)
 	
-	var open_status:DirAccess = directory.open(p_from)
-	var open_status_err:Error = open_status.get_open_error()
+	var source_directory:DirAccess = DirAccess.open(p_from)
+	var open_status_err:Error = source_directory.get_open_error()
 	
 	if open_status_err == OK:
-		directory.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
-		var file_name = directory.get_next()
-		while (file_name != "" && file_name != "." && file_name != ".."):
-			if directory.current_is_dir():
+		source_directory.list_dir_begin()
+		var file_name = source_directory.get_next()
+		while (not file_name.is_empty && file_name != "." && file_name != ".."):
+			if destination_directory.current_is_dir():
 				if !copy_directory_recursively(p_from + "/" + file_name, p_to + "/" + file_name) == OK:
 					push_error("Error copying recursively from " + p_from + " to " + p_to)
-					return -5
+					source_directory.close()
+					destination_directory.close()
+					return -5 ## TODO - use an Error enum, or re-write
 			else:
-				directory.copy(p_from + "/" + file_name, p_to + "/" + file_name)
-			file_name = directory.get_next()
+				source_directory.copy(p_from + "/" + file_name, p_to + "/" + file_name)
+			file_name = source_directory.get_next()
 	else:
 		push_error("Error copying " + p_from + " to " + p_to)
+		source_directory.close()
+		destination_directory.close()
 		return open_status_err
 	
+	source_directory.close()
+	destination_directory.close()
 	return OK
 
 # Converts a local reference in the project files ("res://") or user directory ("user://")
@@ -468,7 +474,6 @@ static func globalise_path(local_path : String):
 # node visible within the current scene.
 func is_popup_visible(node = current_scene):
 	
-	var popup_open = false
 	for child in node.get_children():
 		var open = is_popup_visible(child)
 		if open == true: return true
